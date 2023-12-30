@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -12,16 +13,25 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class LoginController {
+public class RegisterController {
 
     @FXML
     private TextField usernameField;
     @FXML
+    private TextField nameField;
+    @FXML
+    private TextField lastNameField;
+    @FXML
     private PasswordField passwordField;
     @FXML
+    private PasswordField repeatPasswordField;
+    @FXML
     private ComboBox<String> libraryComboBox;
+    @FXML
+    private CheckBox isWorkerCheckbox;
+    @FXML
+    private PasswordField libraryPasswordField;
 
     public void initialize() {
         //promijeniti
@@ -35,8 +45,8 @@ public class LoginController {
         libraryComboBox.setValue("");
     }
 
-    public void switchToRegister() {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("registerView.fxml"));
+    public void switchToLogin() {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("loginView.fxml"));
         Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load(), 800, 500);
@@ -48,11 +58,11 @@ public class LoginController {
         App.mainStage.show();
     }
 
-    public void loginAction() {
+    public void registerAction() {
         String username = usernameField.getText();
         String password = passwordField.getText();
         //heširanje
-        System.out.println("Login: " + username + ", " + password);
+        System.out.println("Register: " + username + ", " + password);
     }
 
 

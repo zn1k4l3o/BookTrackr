@@ -4,17 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="Napravljen project">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/model/Book.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/model/LibraryItem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/loginView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="sreden login fxml, dodan Book class">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/RegisterController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/registerView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/hello-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +22,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="FxmlFile" />
         <option value="Class" />
       </list>
     </option>
@@ -37,16 +36,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Stvari/fileovi/javaLabosi/BookTrackr/src/main/resources/tvz/hr/booktrackr"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Stvari/fileovi/javaLabosi/BookTrackr/src/main/resources&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Stvari\fileovi\javaLabosi\BookTrackr\src\main\resources" />
+      <recent name="C:\Stvari\fileovi\javaLabosi\BookTrackr" />
       <recent name="C:\Stvari\fileovi\javaLabosi\BookTrackr\src\main\resources\tvz\hr\booktrackr" />
     </key>
   </component>
@@ -87,7 +88,15 @@
       <option name="project" value="LOCAL" />
       <updated>1703858966244</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="sreden login fxml, dodan Book class">
+      <option name="closed" value="true" />
+      <created>1703877526426</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1703877526426</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -95,6 +104,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Napravljen project" />
-    <option name="LAST_COMMIT_MESSAGE" value="Napravljen project" />
+    <MESSAGE value="sreden login fxml, dodan Book class" />
+    <option name="LAST_COMMIT_MESSAGE" value="sreden login fxml, dodan Book class" />
   </component>
 </project>

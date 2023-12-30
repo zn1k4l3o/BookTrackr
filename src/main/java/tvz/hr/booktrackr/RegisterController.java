@@ -9,10 +9,13 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class RegisterController {
 
@@ -33,6 +36,7 @@ public class RegisterController {
     @FXML
     private PasswordField libraryPasswordField;
 
+    private static final Logger logger = LoggerFactory.getLogger(App.class);
     public void initialize() {
         //promijeniti
         List<String> libraryNames = new ArrayList<>();
@@ -53,7 +57,7 @@ public class RegisterController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        logger.info("Prebačeno na login");
         App.mainStage.setScene(scene);
         App.mainStage.show();
     }

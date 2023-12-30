@@ -6,6 +6,7 @@ import java.util.Date;
 public abstract class LibraryItem implements Serializable {
 
     Long id;
+    Boolean canBeBorrowed = true;
     Long borrowedById;
     Long reservedById;
     Date returnDate;
@@ -43,10 +44,20 @@ public abstract class LibraryItem implements Serializable {
         this.returnDate = returnDate;
     }
 
-    public LibraryItem(Long id, Long borrowedById, Long reservedById, Date returnDate) {
+    public Boolean getCanBeBorrowed() {
+        return canBeBorrowed;
+    }
+
+    public void setCanBeBorrowed(Boolean canBeBorrowed) {
+        this.canBeBorrowed = canBeBorrowed;
+    }
+
+
+    public LibraryItem(Long id, Long borrowedById, Long reservedById, Date returnDate, Boolean canBeBorrowed) {
         this.id = id;
         this.borrowedById = borrowedById;
         this.reservedById = reservedById;
         this.returnDate = returnDate;
+        this.canBeBorrowed = canBeBorrowed;
     }
 }

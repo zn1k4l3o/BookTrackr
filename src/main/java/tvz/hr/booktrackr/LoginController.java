@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public class LoginController {
     @FXML
     private ComboBox<String> libraryComboBox;
 
+    private static final Logger logger = LoggerFactory.getLogger(App.class);
     public void initialize() {
         //promijeniti
         List<String> libraryNames = new ArrayList<>();
@@ -43,7 +46,7 @@ public class LoginController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        logger.info("Prebačeno na register");
         App.mainStage.setScene(scene);
         App.mainStage.show();
     }
@@ -54,6 +57,5 @@ public class LoginController {
         //heširanje
         System.out.println("Login: " + username + ", " + password);
     }
-
 
 }

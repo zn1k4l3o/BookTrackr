@@ -2,15 +2,15 @@ package production.model;
 
 import java.util.Date;
 
-public class Book extends LibraryItem{
+public class Movie extends LibraryItem{
 
     String title;
-    String author;
+    String description;
 
     public static class Builder {
 
         String title;
-        String author;
+        String description;
         Long id;
         Long borrowedById;
         Long reservedById;
@@ -24,8 +24,8 @@ public class Book extends LibraryItem{
             this.reservedById = Long.valueOf(-1);
         }
 
-        public Builder withAuthor(String author) {
-            this.author = author;
+        public Builder withDescription(String description) {
+            this.description = description;
             return this;
         }
 
@@ -54,27 +54,27 @@ public class Book extends LibraryItem{
             return this;
         }
 
-        public Book build() {
-            Book book = new Book();
-            book.title = title;
-            book.author = author;
-            book.id = id;
-            book.borrowedById = borrowedById;
-            book.reservedById = reservedById;
-            book.returnDate = returnDate;
-            book.canBeBorrowed = canBeBorrowed;
-            return book;
+        public Movie build() {
+            Movie movie = new Movie();
+            movie.title = title;
+            movie.description = description;
+            movie.id = id;
+            movie.borrowedById = borrowedById;
+            movie.reservedById = reservedById;
+            movie.returnDate = returnDate;
+            movie.canBeBorrowed = canBeBorrowed;
+            return movie;
         }
 
     }
 
-    private Book() {
+    private Movie() {
         super(Long.valueOf(-1), Long.valueOf(-1), Long.valueOf(-1), null, true);
     }
-    public Book(String title, String author, Long id, Long borrowedById, Long reservedById, Date returnDate, Boolean canBeBorrowed) {
+    public Movie(String title, String description, Long id, Long borrowedById, Long reservedById, Date returnDate, Boolean canBeBorrowed) {
         super(id, borrowedById, reservedById, returnDate, canBeBorrowed);
         this.title = title;
-        this.author = author;
+        this.description = description;
     }
 
     public String getTitle() {
@@ -85,12 +85,11 @@ public class Book extends LibraryItem{
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthor(String description) {
+        this.description = description;
     }
-
 }

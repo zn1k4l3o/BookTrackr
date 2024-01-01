@@ -10,6 +10,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import production.model.User;
+import production.utility.SessionManager;
+import tvz.hr.booktrackr.App;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,7 +58,24 @@ public class LoginController {
         String username = usernameField.getText();
         String password = passwordField.getText();
         //heširanje
-        System.out.println("Login: " + username + ", " + password);
+        //System.out.println("Login: " + username + ", " + password);
+        User user = new User.Builder(username).build();
+        SessionManager.setCurrentUser(user);
+        System.out.println(SessionManager.getCurrentUser().getUsername());
+        switchToHeroPageUser();
+    }
+
+    public void switchToHeroPageUser() {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("heroPageUser.fxml"));
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load(), 800, 500);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        logger.info("Prebačeno na hero page user");
+        App.mainStage.setScene(scene);
+        App.mainStage.show();
     }
 
 }

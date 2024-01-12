@@ -2,6 +2,8 @@ package tvz.hr.booktrackr;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import production.utility.SessionManager;
 
 public class HeroPageUserController {
@@ -21,7 +23,8 @@ public class HeroPageUserController {
     @FXML
     private Label item3Date;
 
+    private static final Logger logger = LoggerFactory.getLogger(App.class);
     public void switchToInventorySearch() {
-        System.out.println("prebačeno na inventar");
+       logger.info("Prebačeno na inventorySearch");
     }
 }

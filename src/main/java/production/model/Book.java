@@ -6,11 +6,13 @@ public class Book extends LibraryItem{
 
     String title;
     String author;
+    String genre;
 
     public static class Builder {
 
         String title;
         String author;
+        String genre;
         Long id;
         Long borrowedById;
         Long reservedById;
@@ -26,6 +28,10 @@ public class Book extends LibraryItem{
 
         public Builder withAuthor(String author) {
             this.author = author;
+            return this;
+        }
+        public Builder withGenre(String genre) {
+            this.genre = genre;
             return this;
         }
 
@@ -58,6 +64,7 @@ public class Book extends LibraryItem{
             Book book = new Book();
             book.title = title;
             book.author = author;
+            book.genre = genre;
             book.id = id;
             book.borrowedById = borrowedById;
             book.reservedById = reservedById;
@@ -71,10 +78,11 @@ public class Book extends LibraryItem{
     private Book() {
         super(Long.valueOf(-1), Long.valueOf(-1), Long.valueOf(-1), null, true);
     }
-    public Book(String title, String author, Long id, Long borrowedById, Long reservedById, Date returnDate, Boolean canBeBorrowed) {
+    public Book(String title, String author, String genre, Long id, Long borrowedById, Long reservedById, Date returnDate, Boolean canBeBorrowed) {
         super(id, borrowedById, reservedById, returnDate, canBeBorrowed);
         this.title = title;
         this.author = author;
+        this.genre = genre;
     }
 
     public String getTitle() {
@@ -93,4 +101,11 @@ public class Book extends LibraryItem{
         this.author = author;
     }
 
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
 }

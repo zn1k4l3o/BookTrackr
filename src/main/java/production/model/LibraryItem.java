@@ -52,12 +52,16 @@ public abstract class LibraryItem implements Serializable {
         this.canBeBorrowed = canBeBorrowed;
     }
 
-
     public LibraryItem(Long id, Long borrowedById, Long reservedById, Date returnDate, Boolean canBeBorrowed) {
         this.id = id;
         this.borrowedById = borrowedById;
         this.reservedById = reservedById;
         this.returnDate = returnDate;
         this.canBeBorrowed = canBeBorrowed;
+    }
+
+    public String getStatus() {
+        String status = "TREBA SLOŽITI";
+        return status;
     }
 }

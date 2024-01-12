@@ -16,6 +16,7 @@ import tvz.hr.booktrackr.App;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.mindrot.jbcrypt.BCrypt;
 
 
 public class RegisterController {
@@ -67,7 +68,9 @@ public class RegisterController {
         String username = usernameField.getText();
         String password = passwordField.getText();
         //heširanje
-        System.out.println("Register: " + username + ", " + password);
+        String hashedPass = BCrypt.hashpw(password, BCrypt.gensalt());
+        System.out.println("Register: " + username + ", " + password + ", " + hashedPass);
+        logger.info("Registriran novi korisnik");
     }
 
 

@@ -11,12 +11,17 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import production.exception.DifferentPasswordException;
+import production.exception.ExistingUserException;
+import production.utility.UserChecking;
 import tvz.hr.booktrackr.App;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
+
+import static production.utility.FileUtils.writeUserToFile;
 
 
 public class RegisterController {
@@ -65,12 +70,26 @@ public class RegisterController {
     }
 
     public void registerAction() {
+        String name = nameField.getText();
+        String lastName = lastNameField.getText();
         String username = usernameField.getText();
         String password = passwordField.getText();
-        //heširanje
-        String hashedPass = BCrypt.hashpw(password, BCrypt.gensalt());
-        System.out.println("Register: " + username + ", " + password + ", " + hashedPass);
-        logger.info("Registriran novi korisnik");
+        String checkPassword = repeatPasswordField.getText();
+        String library = libraryComboBox.getValue();
+        Boolean isWorker = isWorkerCheckbox.isSelected();
+        String libraryPassword = libraryPasswordField.getText();
+        try {
+            UserChecking.checkPasswords(password, checkPassword);
+            UserChecking.checkExistingUser(username);
+            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+            writeUserToFile(username, hashedPassword);
+            logger.info("Registriran novi korisnik");
+        }
+        catch (DifferentPasswordException | ExistingUserException e) {
+            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
+        }
+
     }
 
 

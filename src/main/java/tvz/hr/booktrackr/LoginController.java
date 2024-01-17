@@ -8,15 +8,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import production.model.User;
+import production.utility.FileUtils;
 import production.utility.SessionManager;
+import production.utility.UserChecking;
 import tvz.hr.booktrackr.App;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class LoginController {
@@ -57,12 +62,23 @@ public class LoginController {
     public void loginAction() {
         String username = usernameField.getText();
         String password = passwordField.getText();
-        //heširanje
-        //System.out.println("Login: " + username + ", " + password);
-        User user = new User.Builder(username).build();
-        SessionManager.setCurrentUser(user);
-        System.out.println(SessionManager.getCurrentUser().getUsername());
-        switchToHeroPageUser();
+
+        if (UserChecking.doesUsernameExist(username)) {
+
+            User user;
+            Optional<User> userOptional = FileUtils.getUserByUsernameFromFile(username);
+            if (userOptional.isPresent()) {
+                user = userOptional.get();
+                if (BCrypt.checkpw(password, user.getHashedPassword())) {
+                    System.out.println("Uspjelo");
+                    SessionManager.setCurrentUser(user);
+                    switchToHeroPageUser();
+                }
+            }
+        }
+        else {
+            ///napisi nes
+        }
     }
 
     public void switchToHeroPageUser() {

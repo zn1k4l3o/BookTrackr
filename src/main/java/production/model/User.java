@@ -1,13 +1,24 @@
 package production.model;
 
-public class User {
+import java.io.Serializable;
 
-    private String username;
-    private Long id;
-    private String name;
-    private String lastName;
-    private String libraryName;
-    private Boolean isWorker;
+public class User implements Serializable {
+
+    String username;
+    Long id;
+    String name;
+    String lastName;
+    String libraryName;
+
+    public String getHashedPassword() {
+        return hashedPassword;
+    }
+
+    public void setHashedPassword(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
+    }
+
+    String hashedPassword;
 
     public static class Builder {
 
@@ -16,7 +27,8 @@ public class User {
         private String name;
         private String lastName;
         private String libraryName;
-        private Boolean isWorker;
+        private String hashedPassword;
+
 
         public Builder(String username) {
             this.username= username;
@@ -41,8 +53,9 @@ public class User {
             this.libraryName = libraryName;
             return this;
         }
-        public Builder withIsWorker(Boolean isWorker) {
-            this.isWorker = isWorker;
+
+        public Builder withHashedPassword(String hashedPassword) {
+            this.hashedPassword = hashedPassword;
             return this;
         }
 
@@ -53,21 +66,21 @@ public class User {
             user.name = name;
             user.lastName = lastName;
             user.libraryName = libraryName;
-            user.isWorker = isWorker;
+            user.hashedPassword = hashedPassword;
 
             return user;
         }
     }
 
-    private User() {}
+    public User() {}
 
-    public User(String username, Long id, String name, String lastName, String libraryName, Boolean isWorker) {
+    public User(String username, Long id, String name, String lastName, String libraryName, String hashedPassword) {
         this.username = username;
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.libraryName = libraryName;
-        this.isWorker = isWorker;
+        this.hashedPassword = hashedPassword;
     }
 
     public String getUsername() {
@@ -110,12 +123,5 @@ public class User {
         this.libraryName = libraryName;
     }
 
-    public Boolean getWorker() {
-        return isWorker;
-    }
-
-    public void setWorker(Boolean worker) {
-        isWorker = worker;
-    }
 
 }

@@ -78,16 +78,21 @@ public class RegisterController {
         String library = libraryComboBox.getValue();
         Boolean isWorker = isWorkerCheckbox.isSelected();
         String libraryPassword = libraryPasswordField.getText();
-        try {
-            UserChecking.checkPasswords(password, checkPassword);
-            UserChecking.checkExistingUser(username);
-            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-            writeUserToFile(username, hashedPassword);
-            logger.info("Registriran novi korisnik");
+        if (!name.isBlank() && !lastName.isBlank() && !username.isBlank() && !password.isBlank() && !checkPassword.isBlank() && !library.isBlank()) {
+            try {
+                UserChecking.checkPasswords(password, checkPassword);
+                UserChecking.checkExistingUser(username);
+                String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+                writeUserToFile(username, hashedPassword, 0L);
+                logger.info("Registriran novi korisnik");
+            }
+            catch (DifferentPasswordException | ExistingUserException e) {
+                System.out.println(e.getMessage());
+                logger.info(e.getMessage());
+            }
         }
-        catch (DifferentPasswordException | ExistingUserException e) {
-            System.out.println(e.getMessage());
-            logger.info(e.getMessage());
+        else {
+
         }
 
     }

@@ -34,12 +34,14 @@ public class FileUtils {
             System.out.println("IOException is caught");
         }
     }
-    public static void writeUserToFile(String username, String hashedPassword) {
+    public static void writeUserToFile(String username, String hashedPassword, Long id) {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(USERS_TEXT_FILE_NAME, true))) {
             writer.write(username);
             writer.newLine();
             writer.write(hashedPassword);
+            writer.newLine();
+            writer.write(String.valueOf(id));
             writer.newLine();
             logger.info("User dodan u file.");
 
@@ -51,15 +53,7 @@ public class FileUtils {
     public static <T extends User> void writeFullUserToFile(T user) {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(USERS_FULL_TEXT_FILE_NAME, true))) {
-            /*
-            String username = userOptional.get();
-                Long id = Long.parseLong(reader.readLine());
-                String name = reader.readLine();
-                String lastName = reader.readLine();
-                String library = reader.readLine();
-                Boolean isWorker = Boolean.getBoolean(reader.readLine());
-                String hashedPassword = reader.readLine();
-             */
+
             writer.write(user.getUsername());
             writer.newLine();
             writer.write(String.valueOf(user.getId()));

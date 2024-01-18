@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import production.model.Book;
 
-public class BookSearchView {
+public class BookSearchViewController {
 
     @FXML
     TextField bookNameField;

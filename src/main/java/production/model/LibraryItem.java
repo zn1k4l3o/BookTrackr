@@ -5,6 +5,7 @@ import java.util.Date;
 
 public abstract class LibraryItem implements Serializable {
 
+    /*
     Long id;
     Boolean canBeBorrowed = true;
     Long borrowedById;
@@ -64,4 +65,27 @@ public abstract class LibraryItem implements Serializable {
         String status = "TREBA SLOŽITI";
         return status;
     }
+
+    */
+
+
+    Long id;
+    String title;
+    Float rating;
+
+
+    public LibraryItem(Long id, String title, Float rating) {
+        this.id = id;
+        this.title = title;
+        this.rating = rating;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 }

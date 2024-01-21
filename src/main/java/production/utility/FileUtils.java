@@ -12,7 +12,7 @@ import java.util.*;
 public class FileUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(App.class);
-    private static final String USERS_FULL_TEXT_FILE_NAME = "dat/usersFull.txt";
+    private static final String USERS_FULL_TEXT_FILE_NAME = "dat/SQLcommands.txt";
     private static final String USERS_TEXT_FILE_NAME = "dat/users.txt";
 
     //*******************************************

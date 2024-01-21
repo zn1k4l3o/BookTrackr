@@ -11,7 +11,9 @@ import javafx.scene.control.TextField;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import production.model.Library;
 import production.model.User;
+import production.utility.DatabaseUtils;
 import production.utility.FileUtils;
 import production.utility.SessionManager;
 import production.utility.UserChecking;
@@ -35,11 +37,8 @@ public class LoginController {
 
     private static final Logger logger = LoggerFactory.getLogger(App.class);
     public void initialize() {
-        //promijeniti
         List<String> libraryNames = new ArrayList<>();
-        libraryNames.add("knjiznica1");
-        libraryNames.add("knjiznica2");
-        libraryNames.add("knjiznica3");
+        libraryNames = DatabaseUtils.getAllLibrariesFromDatabase().stream().map(Library::getName).collect(Collectors.toList());
         ObservableList observableLibraryList =
                 FXCollections.observableArrayList(libraryNames);
         libraryComboBox.setItems(observableLibraryList);
@@ -62,9 +61,19 @@ public class LoginController {
     public void loginAction() {
         String username = usernameField.getText();
         String password = passwordField.getText();
-
-        if (UserChecking.doesUsernameExist(username)) {
-
+        if (username.equals("admin")) {
+            User user;
+            Optional<User> userOptional = FileUtils.getUserByUsernameFromFile(username);
+            if (userOptional.isPresent()) {
+                user = userOptional.get();
+                if (BCrypt.checkpw(password, user.getHashedPassword())) {
+                    System.out.println("Uspjelo admin");
+                    SessionManager.setCurrentUser(user);
+                    switchToHeroPageAdmin();
+                }
+            }
+        }
+        else if (UserChecking.doesUsernameExist(username)) {
             User user;
             Optional<User> userOptional = FileUtils.getUserByUsernameFromFile(username);
             if (userOptional.isPresent()) {
@@ -83,6 +92,19 @@ public class LoginController {
 
     public void switchToHeroPageUser() {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("heroPageUser.fxml"));
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load(), 800, 500);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        logger.info("Prebačeno na hero page user");
+        App.mainStage.setScene(scene);
+        App.mainStage.show();
+    }
+
+    public void switchToHeroPageAdmin() {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("heroPageAdmin.fxml"));
         Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load(), 800, 500);

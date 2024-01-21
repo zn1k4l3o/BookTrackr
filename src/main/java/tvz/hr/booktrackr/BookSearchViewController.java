@@ -2,12 +2,20 @@ package tvz.hr.booktrackr;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import production.model.Book;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BookSearchViewController {
 
@@ -51,5 +59,29 @@ public class BookSearchViewController {
         });
     }
 
+    public void search() {
+        List<Book> bookList = new ArrayList<>();
+        /*
+        GetCategoriesThread cats2 = new GetCategoriesThread();
+        Thread thread = new Thread(cats2);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        bookList = cats2.getCats();
+         */
 
+        String bookNameInput = bookNameField.getText();
+        List<Book> filteredBookList;
+        filteredBookList = bookList.stream()
+                .filter(c -> c.getTitle().toLowerCase().contains(bookNameInput.toLowerCase()))
+                .collect(Collectors.toList());
+
+        ObservableList observableBookList =
+                FXCollections.observableArrayList(filteredBookList);
+
+        bookTable.setItems(observableBookList);
+    }
 }

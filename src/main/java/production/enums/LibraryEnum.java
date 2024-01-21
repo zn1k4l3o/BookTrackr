@@ -1,6 +1,6 @@
 package production.enums;
 
-public enum Library {
+public enum LibraryEnum {
 
     KUTINA("Knjižnica Kutina", "www.kutinaKnjiznica.hr"),
 
@@ -9,7 +9,7 @@ public enum Library {
     public final String name;
     public final String webAddress;
 
-    private Library(String name, String webAddress) {
+    private LibraryEnum(String name, String webAddress) {
         this.name = name;
         this.webAddress = webAddress;
     }

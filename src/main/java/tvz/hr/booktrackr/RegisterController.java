@@ -13,12 +13,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import production.exception.DifferentPasswordException;
 import production.exception.ExistingUserException;
+import production.model.Library;
+import production.utility.DatabaseUtils;
 import production.utility.UserChecking;
 import tvz.hr.booktrackr.App;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 import static production.utility.FileUtils.writeUserToFile;
@@ -45,11 +49,8 @@ public class RegisterController {
 
     private static final Logger logger = LoggerFactory.getLogger(App.class);
     public void initialize() {
-        //promijeniti
         List<String> libraryNames = new ArrayList<>();
-        libraryNames.add("knjiznica1");
-        libraryNames.add("knjiznica2");
-        libraryNames.add("knjiznica3");
+        libraryNames = DatabaseUtils.getAllLibrariesFromDatabase().stream().map(Library::getName).collect(Collectors.toList());
         ObservableList observableLibraryList =
                 FXCollections.observableArrayList(libraryNames);
         libraryComboBox.setItems(observableLibraryList);

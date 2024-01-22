@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import production.exception.DifferentPasswordException;
 import production.exception.ExistingUserException;
 import production.model.Library;
+import production.model.User;
 import production.utility.DatabaseUtils;
 import production.utility.UserChecking;
 import tvz.hr.booktrackr.App;
@@ -21,10 +22,12 @@ import tvz.hr.booktrackr.App;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import static production.utility.DatabaseUtils.*;
 import static production.utility.FileUtils.writeUserToFile;
 
 
@@ -75,27 +78,77 @@ public class RegisterController {
         String lastName = lastNameField.getText();
         String username = usernameField.getText();
         String password = passwordField.getText();
-        String checkPassword = repeatPasswordField.getText();
-        String library = libraryComboBox.getValue();
+        String repeatPassword = repeatPasswordField.getText();
+        String libraryName = libraryComboBox.getValue();
         Boolean isWorker = isWorkerCheckbox.isSelected();
         String libraryPassword = libraryPasswordField.getText();
-        if (!name.isBlank() && !lastName.isBlank() && !username.isBlank() && !password.isBlank() && !checkPassword.isBlank() && !library.isBlank()) {
-            try {
-                UserChecking.checkPasswords(password, checkPassword);
-                UserChecking.checkExistingUser(username);
-                String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-                writeUserToFile(username, hashedPassword, 0L);
-                logger.info("Registriran novi korisnik");
+        Library library = findLibraryByName(libraryName).get();
+
+        if (!name.isBlank() && !lastName.isBlank() && !username.isBlank() && !password.isBlank() && !repeatPassword.isBlank() && !libraryName.isBlank()) {
+            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+            if (!isWorker) {
+                try {
+                    UserChecking.checkPasswords(password, repeatPassword);
+                    UserChecking.checkExistingUser(username);
+                    addUserToDatabase(username, hashedPassword, name, lastName, library.getId(), Boolean.FALSE);
+                    Long id = getUserIdByUsername(username);
+                    writeUserToFile(username, hashedPassword, id);
+                    logger.info("Registriran novi korisnik - " + username);
+                    switchToLogin();
+                }
+                catch (DifferentPasswordException | ExistingUserException e) {
+                    System.out.println(e.getMessage());
+                    logger.info(e.getMessage());
+                }
             }
-            catch (DifferentPasswordException | ExistingUserException e) {
-                System.out.println(e.getMessage());
-                logger.info(e.getMessage());
+            else if (!libraryPassword.isBlank()) {
+                try {
+                    if (BCrypt.checkpw(libraryPassword, library.getHashedPassword())) {
+                        UserChecking.checkPasswords(password, repeatPassword);
+                        UserChecking.checkExistingUser(username);
+                        addUserToDatabase(username, hashedPassword, name, lastName, library.getId(), Boolean.TRUE);
+                        Long id = getUserIdByUsername(username);
+                        writeUserToFile(username, hashedPassword, id);
+                        logger.info("Registriran novi radnik - " + username);
+                        switchToLogin();
+                    }
+                    else System.out.println("Unesi ispravnu šifru knjižnice!");
+                }
+                catch (DifferentPasswordException | ExistingUserException e) {
+                    logger.info(e.getMessage());
+                    System.out.println(e.getMessage());
+                }
+            }
+            else {
+                System.out.println("Unesi šifru knjiznice");
             }
         }
         else {
-
+            System.out.println("Nije sve ispunjeno");
         }
 
+    }
+
+    private Long getUserIdByUsername(String username) {
+        Long id = -1L;
+        List<User> userList = getAllUsersFromDatabase();
+        id = userList.stream()
+                .filter(user -> user.getUsername().equals(username))
+                .findFirst()
+                .map(User::getId)
+                .orElse(-1L);
+        return id;
+    }
+
+    private Optional<Library> findLibraryByName(String libraryName) {
+        Optional<Library> optionalLibrary = Optional.empty();
+        List<Library> libraryList = DatabaseUtils.getAllLibrariesFromDatabase();
+        for (Library lib : libraryList) {
+            if (lib.getName().equals(libraryName)) {
+                optionalLibrary = Optional.of(lib);
+            }
+        }
+        return optionalLibrary;
     }
 
 

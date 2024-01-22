@@ -43,9 +43,52 @@ public class DatabaseUtils {
         return userList;
     }
 
+    public static Optional<User> getUserByIdFromDatabase(Long id)
+    {
+        Optional<User> userOptional = Optional.empty();
+        try {
+            Connection connection = connectToDatabase();
+            Statement sqlStatement = connection.createStatement();
+            ResultSet userResultSet = sqlStatement.executeQuery(
+                    "SELECT * FROM ALL_USERS WHERE ID = " + id);
+            if (userResultSet.next()) {
+                userOptional = Optional.of(getUserFromResultSet(userResultSet));
+            }
+            connection.close();
+        }
+        catch (IOException | SQLException e) {
+            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
+        }
+        return userOptional;
+    }
+
+
+    public static void addUserToDatabase(String username, String hashedPassword, String name, String lastName, Long libraryId, Boolean isWorker) {
+        String query = "INSERT INTO ALL_USERS (USERNAME, PASSWORD, NAME, LASTNAME, LIBRARY_ID, IS_WORKER) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = connectToDatabase();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, hashedPassword);
+            preparedStatement.setString(3, name);
+            preparedStatement.setString(4, lastName);
+            preparedStatement.setLong(5, libraryId);
+            preparedStatement.setBoolean(6, isWorker);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException | IOException e) {
+            logger.info(e.getMessage());
+            System.out.println(e.getMessage());
+        }
+    }
+
     private static User getUserFromResultSet(ResultSet usersResultSet) throws SQLException {
         Long id = usersResultSet.getLong("ID");
         String username = usersResultSet.getString("USERNAME");
+        String hashedPassword = usersResultSet.getString("PASSWORD");
         String name = usersResultSet.getString("NAME");
         String lastName = usersResultSet.getString("LASTNAME");
         Long libraryId = usersResultSet.getLong("LIBRARY_ID");
@@ -53,8 +96,8 @@ public class DatabaseUtils {
 
         Library library = getLibraryByIdFromDatabase(libraryId).get();
 
-        if (isWorker) return new Worker.Builder(username).withId(id).withName(name).withLastName(lastName).withLibraryName(library.getName()).withIsWorker(isWorker).build();
-        else return new User.Builder(username).withId(id).withName(name).withLastName(lastName).withLibraryName(library.getName()).build();
+        if (isWorker) return new Worker.Builder(username).withId(id).withHashedPassword(hashedPassword).withName(name).withLastName(lastName).withLibraryName(library.getName()).withIsWorker(isWorker).build();
+        else return new User.Builder(username).withId(id).withHashedPassword(hashedPassword).withName(name).withLastName(lastName).withLibraryName(library.getName()).build();
     }
 
     public static Optional<Library> getLibraryByIdFromDatabase(Long id)

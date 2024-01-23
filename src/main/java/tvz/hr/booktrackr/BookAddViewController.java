@@ -5,41 +5,53 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
+import production.enums.Genre;
 import production.model.Book;
+import production.model.Library;
+import production.utility.DatabaseUtils;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static production.utility.DatabaseUtils.addBookToDatabase;
 import static production.utility.DatabaseUtils.getAllBooksFromDatabase;
 
-public class BookSearchViewController {
+public class BookAddViewController {
 
     @FXML
-    TextField bookNameField;
+    private TextField bookTitleField;
     @FXML
-    TextField bookAuthorField;
+    private TextField bookAuthorField;
     @FXML
-    TextField bookGenreField;
+    private ComboBox<String> bookGenreCombobox;
     @FXML
-    TableView<Book> bookTable;
+    private TextField publisherField;
     @FXML
-    TableColumn<Book, String> bookNameColumn;
+    private TableView<Book> tableView;
     @FXML
-    TableColumn<Book, String> bookAuthorColumn;
+    private TableColumn<Book,String> bookIdColumn;
     @FXML
-    TableColumn<Book, String> bookGenreColumn;
+    private TableColumn<Book,String> bookTitleColumn;
     @FXML
-    TableColumn<Book, String> bookStatusColumn;
+    private TableColumn<Book,String> bookAuthorColumn;
+    @FXML
+    private TableColumn<Book,String> bookGenreColumn;
+
 
     public void initialize() {
-        bookNameColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Book,String>, ObservableValue<String>>() {
+        bookIdColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Book,String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Book, String> param) {
+                return new ReadOnlyStringWrapper(String.valueOf(param.getValue().getId()));
+            }
+        });
+        bookTitleColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Book,String>, ObservableValue<String>>() {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Book, String> param) {
                 return new ReadOnlyStringWrapper(param.getValue().getTitle());
             }
@@ -54,31 +66,21 @@ public class BookSearchViewController {
                 return new ReadOnlyStringWrapper(param.getValue().getGenre());
             }
         });
-        bookStatusColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Book,String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Book, String> param) {
-                return new ReadOnlyStringWrapper(param.getValue().getStatus());
-            }
-        });
+
+        List<String> genreList = new ArrayList<>();
+        genreList = Arrays.stream(Genre.values()).toList().stream().map(Genre::name).collect(Collectors.toList());
+        ObservableList observableGenreList =
+                FXCollections.observableArrayList(genreList);
+        bookGenreCombobox.setItems(observableGenreList);
+        bookGenreCombobox.setValue("");
 
         search();
     }
 
     public void search() {
         List<Book> bookList = new ArrayList<>();
-        /*
-        GetCategoriesThread cats2 = new GetCategoriesThread();
-        Thread thread = new Thread(cats2);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        bookList = cats2.getCats();
-         */
         bookList = getAllBooksFromDatabase();
-
-        String bookNameInput = bookNameField.getText();
+        String bookNameInput = bookTitleField.getText();
         List<Book> filteredBookList;
         filteredBookList = bookList.stream()
                 .filter(c -> c.getTitle().toLowerCase().contains(bookNameInput.toLowerCase()))
@@ -87,6 +89,16 @@ public class BookSearchViewController {
         ObservableList observableBookList =
                 FXCollections.observableArrayList(filteredBookList);
 
-        bookTable.setItems(observableBookList);
+        tableView.setItems(observableBookList);
+    }
+
+    public void addBook() {
+        String bookTitle = bookTitleField.getText();
+        String bookAuthor = bookAuthorField.getText();
+        String bookGenre = bookGenreCombobox.getValue();
+        String bookPublisher = publisherField.getText();
+
+        addBookToDatabase(bookTitle, bookGenre, bookPublisher, bookAuthor, 0f);
+        System.out.println("khm");
     }
 }

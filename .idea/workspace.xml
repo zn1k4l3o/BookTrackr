@@ -4,14 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="dodan admin page&#10;moze se dodavati Library&#10;napravljen DatabaseUtils">
-      <change afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageWorkerController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageWorker.fxml" afterDir="false" />
+    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="radi login i register&#10;uspjesno dodaje u bazu i file ljude i library">
+      <change afterPath="$PROJECT_DIR$/src/main/java/production/enums/Genre.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookAddViewController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchWorkerViewController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MenuBarWorkerController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/bookAddView.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/bookSearchWorkerView.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/menuBarWorker.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dat/SQLcommands" beforeDir="false" afterPath="$PROJECT_DIR$/dat/SQLcommands" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/LibraryItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/LibraryItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/DatabaseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/DatabaseUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/UserChecking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/UserChecking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/RegisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageAdmin.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageAdmin.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageWorker.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageWorker.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,9 +28,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="FxmlFile" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -155,7 +162,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705847566020</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="radi login i register&#10;uspjesno dodaje u bazu i file ljude i library">
+      <option name="closed" value="true" />
+      <created>1705882504790</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1705882504790</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -182,6 +197,7 @@
     <MESSAGE value="rjesen login i register&#10;rjeseno spremanje usernamea i hashanih passworda u txt file&#10;dodana dva exceptiona&#10;dodana apstraktna klasa koja provjerava user info i baca exceptione" />
     <MESSAGE value="pripreme za bazu&#10;promijenjen LibraryItem Book Movie" />
     <MESSAGE value="dodan admin page&#10;moze se dodavati Library&#10;napravljen DatabaseUtils" />
-    <option name="LAST_COMMIT_MESSAGE" value="dodan admin page&#10;moze se dodavati Library&#10;napravljen DatabaseUtils" />
+    <MESSAGE value="radi login i register&#10;uspjesno dodaje u bazu i file ljude i library" />
+    <option name="LAST_COMMIT_MESSAGE" value="radi login i register&#10;uspjesno dodaje u bazu i file ljude i library" />
   </component>
 </project>

@@ -11,15 +11,13 @@ import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import production.model.Book;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static production.utility.DatabaseUtils.getAllBooksFromDatabase;
 
-public class BookSearchViewController {
+public class BookSearchWorkerViewController {
 
     @FXML
     TextField bookNameField;
@@ -65,19 +63,7 @@ public class BookSearchViewController {
 
     public void search() {
         List<Book> bookList = new ArrayList<>();
-        /*
-        GetCategoriesThread cats2 = new GetCategoriesThread();
-        Thread thread = new Thread(cats2);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        bookList = cats2.getCats();
-         */
         bookList = getAllBooksFromDatabase();
-
         String bookNameInput = bookNameField.getText();
         List<Book> filteredBookList;
         filteredBookList = bookList.stream()
@@ -89,4 +75,5 @@ public class BookSearchViewController {
 
         bookTable.setItems(observableBookList);
     }
+
 }

@@ -1,5 +1,7 @@
 package production.model;
 
+import org.controlsfx.control.PropertySheet;
+
 import java.io.Serializable;
 import java.util.Date;
 

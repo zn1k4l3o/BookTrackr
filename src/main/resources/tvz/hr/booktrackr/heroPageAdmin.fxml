@@ -31,15 +31,15 @@
          <children>
             <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.columnSpan="2" GridPane.halignment="CENTER">
               <tabs>
-                <Tab text="Libraries">
+                <Tab text="Knjižnice">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="179.0" prefWidth="600.0">
                            <children>
                               <TableView fx:id="libraryTable" layoutX="14.0" layoutY="13.0" prefHeight="386.0" prefWidth="365.0">
                                 <columns>
                                   <TableColumn fx:id="libraryIdColumn" prefWidth="75.0" text="ID" />
-                                  <TableColumn fx:id="libraryNameColumn" prefWidth="117.0" text="Name" />
-                                    <TableColumn fx:id="libraryWebAddressColumn" prefWidth="172.0" text="Web Address" />
+                                  <TableColumn fx:id="libraryNameColumn" prefWidth="117.0" text="Naziv" />
+                                    <TableColumn fx:id="libraryWebAddressColumn" prefWidth="172.0" text="Web adresa" />
                                 </columns>
                               </TableView>
                               <Separator layoutX="390.0" layoutY="-80.0" orientation="VERTICAL" prefHeight="517.0" prefWidth="10.0" />
@@ -96,11 +96,36 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                <Tab text="Borrowing History">
+                <Tab text="Genres">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Separator layoutX="352.0" layoutY="-38.0" orientation="VERTICAL" prefHeight="471.0" prefWidth="10.0" />
+                              <TableView layoutX="14.0" layoutY="14.0" prefHeight="391.0" prefWidth="330.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="ID" />
+                                  <TableColumn prefWidth="254.0" text="Žanr" />
+                                </columns>
+                              </TableView>
+                              <GridPane layoutX="471.0" layoutY="41.0" prefHeight="202.0" prefWidth="363.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                              </GridPane>
+                           </children></AnchorPane>
                   </content>
                 </Tab>
+                  <Tab text="Borrowing History">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                     </content>
+                  </Tab>
               </tabs>
             </TabPane>
             <Button mnemonicParsing="false" onAction="#switchToLogin" text="Povratak na login" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />

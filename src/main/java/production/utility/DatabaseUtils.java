@@ -2,19 +2,15 @@ package production.utility;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import production.enums.Genre;
 import production.enums.LibraryEnum;
-import production.model.Library;
-import production.model.User;
-import production.model.Worker;
+import production.model.*;
 import tvz.hr.booktrackr.App;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
+import java.util.*;
 
 public class DatabaseUtils {
 
@@ -62,7 +58,6 @@ public class DatabaseUtils {
         }
         return userOptional;
     }
-
 
     public static void addUserToDatabase(String username, String hashedPassword, String name, String lastName, Long libraryId, Boolean isWorker) {
         String query = "INSERT INTO ALL_USERS (USERNAME, PASSWORD, NAME, LASTNAME, LIBRARY_ID, IS_WORKER) VALUES (?, ?, ?, ?, ?, ?)";
@@ -166,6 +161,98 @@ public class DatabaseUtils {
             logger.info(e.getMessage());
             System.out.println(e.getMessage());
         }
+    }
+
+    public static void addBookToDatabase(String title, String genre, String publisher, String author, Float rating) {
+        String query = "INSERT INTO BOOK (AUTHOR, GENRE_ID, PUBLISHER) VALUES (?, ?, ?)";
+
+        Long genreId = findGenreId(genre);
+        Long childId = -1L;
+        try (Connection connection = connectToDatabase();
+             PreparedStatement preparedStatement1 = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+            preparedStatement1.setString(1, author);
+            preparedStatement1.setLong(2, genreId);
+            preparedStatement1.setString(3, publisher);
+
+            Integer affectedRows = preparedStatement1.executeUpdate();
+
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = preparedStatement1.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        childId = generatedKeys.getLong(1);
+                        System.out.println("Generated Item ID: " + childId);
+                    } else {
+                        System.out.println("Failed to get generated keys");
+                    }
+                }
+            }
+
+        } catch (SQLException | IOException e) {
+            logger.info(e.getMessage());
+            System.out.println(e.getMessage());
+        }
+
+        query = "INSERT INTO ITEM (TITLE, RATING, CATEGORY, CHILD_ID) VALUES (?, ?, ?, ?)";
+        try (Connection connection = connectToDatabase();
+             PreparedStatement preparedStatement2 = connection.prepareStatement(query)) {
+
+            preparedStatement2.setString(1, title);
+            preparedStatement2.setFloat(2, rating);
+            preparedStatement2.setString(3, "Book");
+            preparedStatement2.setLong(4, childId);
+
+            preparedStatement2.executeUpdate();
+
+        } catch (SQLException | IOException e) {
+            logger.info(e.getMessage());
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static List<Book> getAllBooksFromDatabase()
+    {
+        List<Book> bookList = new ArrayList<>();
+        try {
+            Connection connection = connectToDatabase();
+            Statement sqlStatement = connection.createStatement();
+            ResultSet bookResultSet = sqlStatement.executeQuery(
+                    "SELECT * FROM BOOK");
+            Statement sqlStatement2 = connection.createStatement();
+            ResultSet itemResultSet = sqlStatement2.executeQuery(
+                    "SELECT * FROM ITEM WHERE CATEGORY='Book'");
+            while(itemResultSet.next() && bookResultSet.next()) {
+                Book newBook = getBookFromResultSet(bookResultSet, itemResultSet);
+                bookList.add(newBook);
+            }
+            connection.close();
+        }
+        catch (IOException | SQLException e) {
+            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
+        }
+        return bookList;
+    }
+
+    private static Book getBookFromResultSet(ResultSet bookResultSet, ResultSet itemResultSet) throws SQLException {
+        Long id = itemResultSet.getLong("ID");
+        String title = itemResultSet.getString("TITLE");
+        Float rating = itemResultSet.getFloat("RATING");
+        String author = bookResultSet.getString("AUTHOR");
+        long genreId = bookResultSet.getLong("GENRE_ID");
+        String publisher = bookResultSet.getString("PUBLISHER");
+        String genre = Genre.values()[(int) (genreId-1)].name();
+
+        return new Book.Builder(title).withId(id).withRating(rating).withAuthor(author).withGenre(genre).withPublisher(publisher).build();
+    }
+
+    private static Long findGenreId(String genre) {
+        Long genreId = -1L;
+        List<Genre> genres = Arrays.stream(Genre.values()).toList();
+        for (int i = 0; i < genres.size(); i++) {
+            if (genres.get(i).name().equals(genre)) genreId = Long.valueOf(i+1);
+        }
+        return genreId;
     }
 
     public synchronized static Connection connectToDatabase() throws SQLException, IOException {

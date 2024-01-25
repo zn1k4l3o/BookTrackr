@@ -4,6 +4,11 @@ import java.util.Date;
 
 public class Movie extends LibraryItem{
 
+    String director;
+    Integer releaseYear;
+    String filmRatingSystem;
+    String description;
+
     public static class Builder {
 
         String title;
@@ -106,10 +111,12 @@ public class Movie extends LibraryItem{
         super(0L, "", 0.0f);
     }
 
-    String director;
-    Integer releaseYear;
-    String filmRatingSystem;
-    String description;
+    public Movie(String state) {
+        super(0L, state, 0.0f);
+        this.director = state;
+        this.releaseYear = 0;
+        this.filmRatingSystem = state;
+    }
 
     /*
     String title;

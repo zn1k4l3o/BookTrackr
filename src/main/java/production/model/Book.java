@@ -109,6 +109,15 @@ public class Book extends LibraryItem{
     public Book() {
         super(0L, "", 0.0f);
     }
+
+    public Book(String state) {
+        super(0L, state, 0.0f);
+        this.publisher = state;
+        this.pageCount = 0;
+        this.genre = state;
+        this.author = state;
+    }
+
     /*
     String title;
     String author;

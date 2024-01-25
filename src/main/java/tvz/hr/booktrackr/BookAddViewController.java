@@ -14,6 +14,7 @@ import production.enums.Genre;
 import production.model.Book;
 import production.model.Library;
 import production.utility.DatabaseUtils;
+import production.utility.SessionManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,8 +79,8 @@ public class BookAddViewController {
     }
 
     public void search() {
-        List<Book> bookList = new ArrayList<>();
-        bookList = getAllBooksFromDatabase();
+        List<Book> bookList;
+        bookList = DatabaseUtils.itemsInChosenLibrary(SessionManager.getCurrentLibrary(), "Book");
         String bookNameInput = bookTitleField.getText();
         List<Book> filteredBookList;
         filteredBookList = bookList.stream()

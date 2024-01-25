@@ -72,6 +72,7 @@ public class LoginController {
                 user = userOptional.get();
                 if (BCrypt.checkpw(password, user.getHashedPassword())) {
                     SessionManager.setCurrentUser(user);
+                    SessionManager.setCurrentLibrary(libraryName);
                     switchToHeroPageAdmin();
                 }
             }
@@ -85,9 +86,11 @@ public class LoginController {
                 if (libraryName.equals(user.getLibraryName())) {
                     if (BCrypt.checkpw(password, user.getHashedPassword())) {
                         SessionManager.setCurrentUser(user);
+                        SessionManager.setCurrentLibrary(libraryName);
                         if (user instanceof Worker) switchToHeroPageWorker();
                         else switchToHeroPageUser();
                     }
+                    else System.out.println("Kriva lozinka");
                 }
             }
         }

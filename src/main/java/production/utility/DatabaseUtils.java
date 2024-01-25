@@ -163,10 +163,116 @@ public class DatabaseUtils {
         }
     }
 
+    public static <T extends LibraryItem> List<T> itemsInChosenLibrary(Library library, String category) {
+        List<T> itemsInLibrary = new ArrayList<>();
+        List<Long> itemIdList = getItemIdsInLibraryFromDatabase(library);
+        if (category.equals("Book")) {
+            List<Book> bookList = getAllBooksFromDatabase();
+            for (Book book : bookList) {
+                Long bookId = book.getId();
+                for (Long itemId : itemIdList) {
+                    if (itemId.equals(bookId)) itemsInLibrary.add((T) book);
+                }
+            }
+        }
+        else if(category.equals("Movie")) {
+
+        }
+        else {
+
+        }
+        return itemsInLibrary;
+    }
+
+    private static List<Long> getItemIdsInLibraryFromDatabase(Library library) {
+        List<Long> itemIdsInLibrary = new ArrayList<>();
+        try {
+            Connection connection = connectToDatabase();
+            Statement sqlStatement = connection.createStatement();
+            ResultSet libraryItemIdResultSet = sqlStatement.executeQuery(
+                    "SELECT * FROM LIBRARY_ITEM");
+            while(libraryItemIdResultSet.next()) {
+                Long libraryId = libraryItemIdResultSet.getLong("LIBRARY_ID");
+                Long itemId = libraryItemIdResultSet.getLong("ITEM_ID");
+                if (libraryId.equals(library.getId())) itemIdsInLibrary.add(itemId);
+            }
+            connection.close();
+        }
+        catch (IOException | SQLException e) {
+            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
+        }
+        return itemIdsInLibrary;
+    }
+
     public static void addBookToDatabase(String title, String genre, String publisher, String author, Float rating) {
-        String query = "INSERT INTO BOOK (AUTHOR, GENRE_ID, PUBLISHER) VALUES (?, ?, ?)";
 
         Long genreId = findGenreId(genre);
+        Long childId = -1L;
+        Long itemId = -1L;
+
+        childId = addToBookTable(publisher, author, genreId);
+
+        itemId = addToItemTable(title, rating, childId, "Book");
+
+        addRelationToLibraryItemTable(itemId);
+    }
+
+    private static void addRelationToLibraryItemTable(Long itemId) {
+        String query;
+        query = "INSERT INTO LIBRARY_ITEM (LIBRARY_ID, ITEM_ID) VALUES (?, ?)";
+        try (Connection connection = connectToDatabase();
+             PreparedStatement preparedStatement3 = connection.prepareStatement(query)) {
+
+            String libraryName = SessionManager.getCurrentUser().getLibraryName();
+            ///////////Zamijeniti sa SessionManagerom
+            List<Library> libraryList = getAllLibrariesFromDatabase();
+            Long libraryId = libraryList.stream()
+                    .filter(lib -> lib.getName().equals(libraryName))
+                    .findFirst()
+                    .map(Library::getId).get();
+            //////////////////////////
+            preparedStatement3.setLong(1, libraryId);
+            preparedStatement3.setLong(2, itemId);
+
+            preparedStatement3.executeUpdate();
+
+        } catch (SQLException | IOException e) {
+            logger.info(e.getMessage());
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static Long addToItemTable(String title, Float rating, Long childId, String category) {
+        String query;
+        Long itemId = -1L;
+        query = "INSERT INTO ITEM (TITLE, RATING, CATEGORY, CHILD_ID) VALUES (?, ?, ?, ?)";
+        try (Connection connection = connectToDatabase();
+             PreparedStatement preparedStatement2 = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+            preparedStatement2.setString(1, title);
+            preparedStatement2.setFloat(2, rating);
+            preparedStatement2.setString(3, category);
+            preparedStatement2.setLong(4, childId);
+
+            Integer affectedRows = preparedStatement2.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = preparedStatement2.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        itemId = generatedKeys.getLong(1);
+                    }
+                }
+            }
+
+        } catch (SQLException | IOException e) {
+            logger.info(e.getMessage());
+            System.out.println(e.getMessage());
+        }
+        return itemId;
+    }
+
+    private static Long addToBookTable(String publisher, String author, Long genreId) {
+        String query = "INSERT INTO BOOK (AUTHOR, GENRE_ID, PUBLISHER) VALUES (?, ?, ?)";
         Long childId = -1L;
         try (Connection connection = connectToDatabase();
              PreparedStatement preparedStatement1 = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -176,14 +282,10 @@ public class DatabaseUtils {
             preparedStatement1.setString(3, publisher);
 
             Integer affectedRows = preparedStatement1.executeUpdate();
-
             if (affectedRows > 0) {
                 try (ResultSet generatedKeys = preparedStatement1.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         childId = generatedKeys.getLong(1);
-                        System.out.println("Generated Item ID: " + childId);
-                    } else {
-                        System.out.println("Failed to get generated keys");
                     }
                 }
             }
@@ -192,26 +294,12 @@ public class DatabaseUtils {
             logger.info(e.getMessage());
             System.out.println(e.getMessage());
         }
-
-        query = "INSERT INTO ITEM (TITLE, RATING, CATEGORY, CHILD_ID) VALUES (?, ?, ?, ?)";
-        try (Connection connection = connectToDatabase();
-             PreparedStatement preparedStatement2 = connection.prepareStatement(query)) {
-
-            preparedStatement2.setString(1, title);
-            preparedStatement2.setFloat(2, rating);
-            preparedStatement2.setString(3, "Book");
-            preparedStatement2.setLong(4, childId);
-
-            preparedStatement2.executeUpdate();
-
-        } catch (SQLException | IOException e) {
-            logger.info(e.getMessage());
-            System.out.println(e.getMessage());
-        }
+        return childId;
     }
 
     public static List<Book> getAllBooksFromDatabase()
     {
+        /*
         List<Book> bookList = new ArrayList<>();
         try {
             Connection connection = connectToDatabase();
@@ -223,6 +311,29 @@ public class DatabaseUtils {
                     "SELECT * FROM ITEM WHERE CATEGORY='Book'");
             while(itemResultSet.next() && bookResultSet.next()) {
                 Book newBook = getBookFromResultSet(bookResultSet, itemResultSet);
+                bookList.add(newBook);
+            }
+            connection.close();
+        }
+        catch (IOException | SQLException e) {
+            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
+        }
+        return bookList;
+        */
+        List<Book> bookList = new ArrayList<>();
+        try {
+            Connection connection = connectToDatabase();
+            Statement sqlStatement = connection.createStatement();
+            ResultSet itemResultSet = sqlStatement.executeQuery(
+                    "SELECT * FROM ITEM WHERE CATEGORY='Book'");
+            Statement sqlStatement2 = connection.createStatement();
+            while(itemResultSet.next()) {
+                Long childId = getItemChildIdFromResultSet(itemResultSet);
+                Book newBook = new Book("CORRUPTED");
+                ResultSet bookResultSet = sqlStatement2.executeQuery(
+                        "SELECT * FROM BOOK WHERE ID=" + childId);
+                if (bookResultSet.next()) newBook = getBookFromResultSet(bookResultSet, itemResultSet);
                 bookList.add(newBook);
             }
             connection.close();
@@ -253,6 +364,93 @@ public class DatabaseUtils {
             if (genres.get(i).name().equals(genre)) genreId = Long.valueOf(i+1);
         }
         return genreId;
+    }
+
+    public static void addMovieToDatabase(String title, String description, String director, String filmRatingSystem, Float rating, Integer releaseYear) {
+
+        Long childId = -1L;
+        Long itemId = -1L;
+
+        childId = addToMovieTable(description, director, filmRatingSystem, releaseYear);
+
+        itemId = addToItemTable(title, rating, childId, "Movie");
+
+        addRelationToLibraryItemTable(itemId);
+    }
+
+    private static Long addToMovieTable(String description, String director, String filmRatingSystem, Integer releaseYear) {
+        Long childId = -1L;
+        String query = "INSERT INTO MOVIE (DESCRIPTION, DIRECTOR, FILM_RATING_SYSTEM, RELEASE_YEAR) VALUES (?, ?, ?, ?)";
+        try (Connection connection = connectToDatabase();
+             PreparedStatement preparedStatement1 = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+            preparedStatement1.setString(1, description);
+            preparedStatement1.setString(2, director);
+            preparedStatement1.setString(3, filmRatingSystem);
+            preparedStatement1.setInt(4, releaseYear);
+
+            Integer affectedRows = preparedStatement1.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = preparedStatement1.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        childId = generatedKeys.getLong(1);
+                    }
+                }
+            }
+
+        } catch (SQLException | IOException e) {
+            logger.info(e.getMessage());
+            System.out.println(e.getMessage());
+        }
+        return childId;
+    }
+
+    public static List<Movie> getAllMoviesFromDatabase()
+    {
+        List<Movie> movieList = new ArrayList<>();
+        try {
+            Connection connection = connectToDatabase();
+            Statement sqlStatement = connection.createStatement();
+            ResultSet itemResultSet = sqlStatement.executeQuery(
+                    "SELECT * FROM ITEM WHERE CATEGORY='Movie'");
+            Statement sqlStatement2 = connection.createStatement();
+            while(itemResultSet.next()) {
+                Long childId = getItemChildIdFromResultSet(itemResultSet);
+                Movie newMovie = new Movie("CORRUPTED");
+                ResultSet movieResultSet = sqlStatement2.executeQuery(
+                        "SELECT * FROM MOVIE WHERE ID=" + childId);
+                if (movieResultSet.next()) newMovie = getMovieFromResultSet(movieResultSet, itemResultSet);
+                movieList.add(newMovie);
+            }
+            connection.close();
+        }
+        catch (IOException | SQLException e) {
+            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
+        }
+        return movieList;
+    }
+
+    private static Long getItemChildIdFromResultSet(ResultSet itemResultSet) throws SQLException {
+        return itemResultSet.getLong("CHILD_ID");
+    }
+
+    private static Movie getMovieFromResultSet(ResultSet movieResultSet, ResultSet itemResultSet) throws SQLException {
+        Long id = itemResultSet.getLong("ID");
+        String title = itemResultSet.getString("TITLE");
+        Float rating = itemResultSet.getFloat("RATING");
+        String director = movieResultSet.getString("DIRECTOR");
+        String description = movieResultSet.getString("DESCRIPTION");
+        String filmRatingSystem = movieResultSet.getString("FILM_RATING_SYSTEM");
+        Integer releaseYear = movieResultSet.getInt("RELEASE_YEAR");
+
+        return new Movie.Builder(title)
+                .withId(id)
+                .withRating(rating)
+                .withDirector(director)
+                .withReleaseYear(releaseYear)
+                .withFilmRatingSystem(filmRatingSystem)
+                .withDescription(description).build();
     }
 
     public synchronized static Connection connectToDatabase() throws SQLException, IOException {

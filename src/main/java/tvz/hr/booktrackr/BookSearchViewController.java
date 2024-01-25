@@ -10,6 +10,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import production.model.Book;
+import production.utility.DatabaseUtils;
+import production.utility.SessionManager;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -76,7 +78,7 @@ public class BookSearchViewController {
         }
         bookList = cats2.getCats();
          */
-        bookList = getAllBooksFromDatabase();
+        bookList = DatabaseUtils.itemsInChosenLibrary(SessionManager.getCurrentLibrary(), "Book");
 
         String bookNameInput = bookNameField.getText();
         List<Book> filteredBookList;

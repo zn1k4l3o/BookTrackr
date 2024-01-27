@@ -12,7 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import production.enums.Genre;
 import production.model.Book;
-import production.model.Library;
 import production.utility.DatabaseUtils;
 import production.utility.SessionManager;
 
@@ -22,7 +21,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static production.utility.DatabaseUtils.addBookToDatabase;
-import static production.utility.DatabaseUtils.getAllBooksFromDatabase;
 
 public class BookAddViewController {
 
@@ -80,7 +78,7 @@ public class BookAddViewController {
 
     public void search() {
         List<Book> bookList;
-        bookList = DatabaseUtils.itemsInChosenLibrary(SessionManager.getCurrentLibrary(), "Book");
+        bookList = DatabaseUtils.getItemsInChosenLibrary(SessionManager.getCurrentLibrary(), "Book");
         String bookNameInput = bookTitleField.getText();
         List<Book> filteredBookList;
         filteredBookList = bookList.stream()

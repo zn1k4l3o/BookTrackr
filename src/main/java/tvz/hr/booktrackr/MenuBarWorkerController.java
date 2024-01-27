@@ -23,7 +23,7 @@ public class MenuBarWorkerController {
     }
 
     public void switchToMovieInventoryScreen() {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("movieSearchWorkerView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("movieSearchView.fxml"));
         Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load(), 800, 500);

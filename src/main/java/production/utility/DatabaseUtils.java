@@ -3,13 +3,13 @@ package production.utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import production.enums.Genre;
-import production.enums.LibraryEnum;
 import production.model.*;
 import tvz.hr.booktrackr.App;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 
 public class DatabaseUtils {
@@ -115,6 +115,26 @@ public class DatabaseUtils {
         return libraryOptional;
     }
 
+    public static Optional<Library> getLibraryByNameFromDatabase(String name)
+    {
+        Optional<Library> libraryOptional = Optional.empty();
+        try {
+            Connection connection = connectToDatabase();
+            Statement sqlStatement = connection.createStatement();
+            ResultSet libraryResultSet = sqlStatement.executeQuery(
+                    "SELECT * FROM LIBRARY WHERE NAME = " + name);
+            if (libraryResultSet.next()) {
+                libraryOptional = Optional.of(getLibraryFromResultSet(libraryResultSet));
+            }
+            connection.close();
+        }
+        catch (IOException | SQLException e) {
+            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
+        }
+        return libraryOptional;
+    }
+
     public static List<Library> getAllLibrariesFromDatabase()
     {
         List<Library> libraryList = new ArrayList<>();
@@ -163,7 +183,7 @@ public class DatabaseUtils {
         }
     }
 
-    public static <T extends LibraryItem> List<T> itemsInChosenLibrary(Library library, String category) {
+    public static <T extends LibraryItem> List<T> getItemsInChosenLibrary(Library library, String category) {
         List<T> itemsInLibrary = new ArrayList<>();
         List<Long> itemIdList = getItemIdsInLibraryFromDatabase(library);
         if (category.equals("Book")) {
@@ -176,10 +196,16 @@ public class DatabaseUtils {
             }
         }
         else if(category.equals("Movie")) {
-
+            List<Movie> movieList = getAllMoviesFromDatabase();
+            for (Movie movie : movieList) {
+                Long movieId = movie.getId();
+                for (Long itemId : itemIdList) {
+                    if (itemId.equals(movieId)) itemsInLibrary.add((T) movie);
+                }
+            }
         }
         else {
-
+            System.out.println("Nez koji to category");
         }
         return itemsInLibrary;
     }
@@ -299,28 +325,6 @@ public class DatabaseUtils {
 
     public static List<Book> getAllBooksFromDatabase()
     {
-        /*
-        List<Book> bookList = new ArrayList<>();
-        try {
-            Connection connection = connectToDatabase();
-            Statement sqlStatement = connection.createStatement();
-            ResultSet bookResultSet = sqlStatement.executeQuery(
-                    "SELECT * FROM BOOK");
-            Statement sqlStatement2 = connection.createStatement();
-            ResultSet itemResultSet = sqlStatement2.executeQuery(
-                    "SELECT * FROM ITEM WHERE CATEGORY='Book'");
-            while(itemResultSet.next() && bookResultSet.next()) {
-                Book newBook = getBookFromResultSet(bookResultSet, itemResultSet);
-                bookList.add(newBook);
-            }
-            connection.close();
-        }
-        catch (IOException | SQLException e) {
-            System.out.println(e.getMessage());
-            logger.info(e.getMessage());
-        }
-        return bookList;
-        */
         List<Book> bookList = new ArrayList<>();
         try {
             Connection connection = connectToDatabase();
@@ -343,6 +347,75 @@ public class DatabaseUtils {
             logger.info(e.getMessage());
         }
         return bookList;
+    }
+
+    public static String getItemCategory(Long itemId) {
+        String category = "None";
+        try {
+            Connection connection = connectToDatabase();
+            Statement sqlStatement = connection.createStatement();
+            ResultSet itemResultSet = sqlStatement.executeQuery(
+                    "SELECT * FROM ITEM WHERE ID=" + itemId);
+            if(itemResultSet.next()) category = itemResultSet.getString("CATEGORY");
+            connection.close();
+        }
+        catch (IOException | SQLException e) {
+            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
+        }
+        return category;
+    }
+
+    public static Optional<Book> getBookByIdFromDatabase(Long itemId)
+    {
+        Optional<Book> book = Optional.empty();
+        try {
+            Connection connection = connectToDatabase();
+            Statement sqlStatement = connection.createStatement();
+            ResultSet itemResultSet = sqlStatement.executeQuery(
+                    "SELECT * FROM ITEM WHERE ID=" + itemId);
+            Statement sqlStatement2 = connection.createStatement();
+            if(itemResultSet.next()) {
+                Long childId = getItemChildIdFromResultSet(itemResultSet);
+                ResultSet bookResultSet = sqlStatement2.executeQuery(
+                        "SELECT * FROM BOOK WHERE ID=" + childId);
+                Book newBook = new Book("CORRUPTED");
+                if (bookResultSet.next()) newBook = getBookFromResultSet(bookResultSet, itemResultSet);
+                book = Optional.of(newBook);
+            }
+            connection.close();
+        }
+        catch (IOException | SQLException e) {
+            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
+        }
+        return book;
+    }
+
+    public static Optional<Movie> getMovieByIdFromDatabase(Long itemId)
+    {
+        Optional<Movie> movie = Optional.empty();
+        try {
+            Connection connection = connectToDatabase();
+            Statement sqlStatement = connection.createStatement();
+            ResultSet itemResultSet = sqlStatement.executeQuery(
+                    "SELECT * FROM ITEM WHERE ID=" + itemId);
+            Statement sqlStatement2 = connection.createStatement();
+            if(itemResultSet.next()) {
+                Long childId = getItemChildIdFromResultSet(itemResultSet);
+                ResultSet bookResultSet = sqlStatement2.executeQuery(
+                        "SELECT * FROM MOVIE WHERE ID=" + childId);
+                Movie newMovie = new Movie("CORRUPTED");
+                if (bookResultSet.next()) newMovie = getMovieFromResultSet(bookResultSet, itemResultSet);
+                movie = Optional.of(newMovie);
+            }
+            connection.close();
+        }
+        catch (IOException | SQLException e) {
+            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
+        }
+        return movie;
     }
 
     private static Book getBookFromResultSet(ResultSet bookResultSet, ResultSet itemResultSet) throws SQLException {
@@ -451,6 +524,85 @@ public class DatabaseUtils {
                 .withReleaseYear(releaseYear)
                 .withFilmRatingSystem(filmRatingSystem)
                 .withDescription(description).build();
+    }
+
+    public static Optional<BorrowInfo> getBorrowingInfoForItemIdFromDatabase(Long itemId) {
+        Optional<BorrowInfo> borrowInfoOptional = Optional.empty();
+        try {
+            Connection connection = connectToDatabase();
+            Statement sqlStatement = connection.createStatement();
+            ResultSet borrowInfoResultSet = sqlStatement.executeQuery(
+                    "SELECT * FROM BORROWED WHERE ITEM_ID=" + itemId);
+            if(borrowInfoResultSet.next()) {
+                BorrowInfo newBorrowInfo = getBorrowInfoFromResultSet(borrowInfoResultSet);
+                borrowInfoOptional = Optional.of(newBorrowInfo);
+            }
+            connection.close();
+        }
+        catch (IOException | SQLException e) {
+            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
+        }
+        return borrowInfoOptional;
+    }
+
+    public static Optional<ReservedInfo> getReservedInfoForItemIdFromDatabase(Long itemId) {
+        Optional<ReservedInfo> reservedInfoOptional = Optional.empty();
+        try {
+            Connection connection = connectToDatabase();
+            Statement sqlStatement = connection.createStatement();
+            ResultSet reservedInfoResultSet = sqlStatement.executeQuery(
+                    "SELECT * FROM RESERVED WHERE ITEM_ID=" + itemId);
+            if(reservedInfoResultSet.next()) {
+                ReservedInfo newReservedInfo = getReservedInfoFromResultSet(reservedInfoResultSet);
+                reservedInfoOptional = Optional.of(newReservedInfo);
+            }
+            connection.close();
+        }
+        catch (IOException | SQLException e) {
+            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
+        }
+        return reservedInfoOptional;
+    }
+
+    public static List<BorrowInfo> getBorrowingInfoForUserIdFromDatabase(Long userId) {
+        List<BorrowInfo> borrowInfoList = new ArrayList<>();
+        try {
+            Connection connection = connectToDatabase();
+            Statement sqlStatement = connection.createStatement();
+            ResultSet borrowInfoResultSet = sqlStatement.executeQuery(
+                    "SELECT * FROM BORROWED WHERE USER_ID=" + userId);
+            if(borrowInfoResultSet.next()) {
+                BorrowInfo newBorrowInfo = getBorrowInfoFromResultSet(borrowInfoResultSet);
+                borrowInfoList.add(newBorrowInfo);
+            }
+            connection.close();
+        }
+        catch (IOException | SQLException e) {
+            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
+        }
+        return borrowInfoList;
+    }
+
+    private static BorrowInfo getBorrowInfoFromResultSet(ResultSet borrowInfoResultSet) throws SQLException {
+        Long id = borrowInfoResultSet.getLong("ID");
+        Long itemId = borrowInfoResultSet.getLong("ITEM_ID");
+        Long userId = borrowInfoResultSet.getLong("USER_ID");
+        Date borrowDate = borrowInfoResultSet.getDate("BORROW_DATE");
+        Date returnDate = borrowInfoResultSet.getDate("RETURN_DATE");
+
+        return new BorrowInfo(id, itemId, userId, borrowDate, returnDate);
+    }
+
+    private static ReservedInfo getReservedInfoFromResultSet(ResultSet reservedInfoResultSet) throws SQLException {
+        Long id = reservedInfoResultSet.getLong("ID");
+        Long itemId = reservedInfoResultSet.getLong("ITEM_ID");
+        Long userId = reservedInfoResultSet.getLong("USER_ID");
+        Date reservedDate = reservedInfoResultSet.getDate("RESERVED_DATE");
+
+        return new ReservedInfo(id, itemId, userId, reservedDate);
     }
 
     public synchronized static Connection connectToDatabase() throws SQLException, IOException {

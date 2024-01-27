@@ -7,7 +7,7 @@ import java.util.List;
 
 import static production.utility.DatabaseUtils.getAllLibrariesFromDatabase;
 
-public class SessionManager {
+public abstract class SessionManager {
 
     private static User currentUser;
 

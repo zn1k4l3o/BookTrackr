@@ -5,21 +5,23 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import production.model.Book;
 import production.utility.DatabaseUtils;
+import production.utility.ItemMemory;
 import production.utility.SessionManager;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static production.utility.DatabaseUtils.getAllBooksFromDatabase;
 
 public class BookSearchViewController {
 
@@ -39,6 +41,8 @@ public class BookSearchViewController {
     TableColumn<Book, String> bookGenreColumn;
     @FXML
     TableColumn<Book, String> bookStatusColumn;
+
+    private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     public void initialize() {
         bookNameColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Book,String>, ObservableValue<String>>() {
@@ -78,7 +82,7 @@ public class BookSearchViewController {
         }
         bookList = cats2.getCats();
          */
-        bookList = DatabaseUtils.itemsInChosenLibrary(SessionManager.getCurrentLibrary(), "Book");
+        bookList = DatabaseUtils.getItemsInChosenLibrary(SessionManager.getCurrentLibrary(), "Book");
 
         String bookNameInput = bookNameField.getText();
         List<Book> filteredBookList;
@@ -90,5 +94,24 @@ public class BookSearchViewController {
                 FXCollections.observableArrayList(filteredBookList);
 
         bookTable.setItems(observableBookList);
+    }
+
+    public void bookReserveInfo() {
+        Book chosenBook = bookTable.getSelectionModel().getSelectedItem();
+        ItemMemory.setRememberedBook(chosenBook);
+        switchToBookReservePage();
+    }
+
+    public void switchToBookReservePage() {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("bookReservePage.fxml"));
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load(), 800, 500);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        logger.info("Prebačeno na book reserve view user");
+        App.mainStage.setScene(scene);
+        App.mainStage.show();
     }
 }

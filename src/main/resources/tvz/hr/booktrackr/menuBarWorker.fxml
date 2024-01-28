@@ -19,6 +19,12 @@
                 <MenuItem mnemonicParsing="false" onAction="#addNewMovieScreen" text="Film" />
             </items>
         </Menu>
+      <Menu mnemonicParsing="false" text="Posuđivanje">
+         <items>
+            <MenuItem mnemonicParsing="false" onAction="#borrowBookPage" text="Knjiga" />
+            <MenuItem mnemonicParsing="false" onAction="#borrowMoviePage" text="Film" />
+         </items>
+      </Menu>
       <Menu mnemonicParsing="false" text="O meni">
          <items>
             <MenuItem mnemonicParsing="false" onAction="#logOutUser" text="Log out" />

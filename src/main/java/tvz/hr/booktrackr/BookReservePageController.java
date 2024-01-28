@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import production.model.Book;
 import production.utility.DatabaseUtils;
 import production.utility.ItemMemory;
+import production.utility.SessionManager;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -49,10 +50,10 @@ public class BookReservePageController {
 
     public void reserveBook() {
         if (actionButton.getText().equals("REZERVIRAJ")) {
-            reserveItem(book.getId());
+            reserveItem(book.getId(), SessionManager.getCurrentUser().getId());
         }
         else if (actionButton.getText().equals("OTKAŽI")) {
-            cancelReservationForItem(book.getId());
+            cancelReservationForItem(book.getId(), SessionManager.getCurrentUser().getId());
         }
         bookStatus.setText(book.getStatus());
         checkActionButton();

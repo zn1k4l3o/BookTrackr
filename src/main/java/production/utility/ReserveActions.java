@@ -10,7 +10,7 @@ import static production.utility.DatabaseUtils.*;
 
 public interface ReserveActions {
 
-    static void reserveItem(Long itemId) {
+    static void reserveItem(Long itemId, Long userId) {
         Optional<BorrowInfo> borrowInfoOptional = DatabaseUtils.getBorrowingInfoForItemIdFromDatabase(itemId);
         Optional<ReservedInfo> reservedInfoOptional = DatabaseUtils.getReservedInfoForItemIdFromDatabase(itemId);
         if (borrowInfoOptional.isPresent()) {
@@ -22,17 +22,20 @@ public interface ReserveActions {
         else {
             long millis=System.currentTimeMillis();
             Date dateCurrent = new java.sql.Date(millis);
-            addReservedItemToDatabase(new ReservedInfo(-1L, itemId, SessionManager.getCurrentUser().getId(), dateCurrent), Boolean.FALSE);
+            addReservedItemToDatabase(new ReservedInfo(-1L, itemId, userId, dateCurrent), Boolean.FALSE);
         }
     }
 
-    static void cancelReservationForItem(Long itemId) {
+    static void cancelReservationForItem(Long itemId, Long userId) {
         Optional<ReservedInfo> reservedInfoOptional = getReservedInfoForItemIdFromDatabase(itemId);
         if (reservedInfoOptional.isPresent()) {
             System.out.println("Bilo je rezervirano");
             ReservedInfo reservedInfo = reservedInfoOptional.get();
-            deleteReservedInfoFromDatabase(itemId);
-            addReservedItemToDatabase( reservedInfo, Boolean.TRUE);
+            if (reservedInfo.userId().equals(userId)) {
+                deleteReservedInfoFromDatabase(itemId);
+                addReservedItemToDatabase( reservedInfo, Boolean.TRUE);
+            }
+
         }
     }
 }

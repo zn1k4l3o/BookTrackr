@@ -1,13 +1,11 @@
 package production.model;
 
-import org.controlsfx.control.PropertySheet;
-import production.utility.BorrowActions;
 import production.utility.SessionManager;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import static production.utility.BorrowActions.checkBorrowedStatus;
+import static production.utility.BorrowActions.checkBorrowedStatusWithId;
 
 public abstract class LibraryItem implements Serializable {
 
@@ -121,6 +119,20 @@ public abstract class LibraryItem implements Serializable {
         else if (userId.equals(SessionManager.getCurrentUser().getId())) {
             return "POSUĐENO";
         }
-        else return "NEDOSTUPNO " + userId;
+        else return "NEDOSTUPNO";
+    }
+
+    public String getStatusWithUserId(Long userId) {
+        Long returnedUserId = checkBorrowedStatusWithId(id, userId);
+        if (returnedUserId.equals(-1L)) {
+            return "DOSTUPNO";
+        }
+        else if (returnedUserId.equals(-2L)) {
+            return "REZERVIRANO";
+        }
+        else if (returnedUserId.equals(userId)) {
+            return "POSUĐENO";
+        }
+        else return "NEDOSTUPNO";
     }
 }

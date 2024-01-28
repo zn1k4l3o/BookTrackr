@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tvz.hr.booktrackr.BookBorrowPageWorkerController">
+   <children>
+      <GridPane prefHeight="540.0" prefWidth="600.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="429.0" minWidth="250.0" prefWidth="253.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="324.0" minWidth="1.0" prefWidth="160.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="172.0" minWidth="10.0" prefWidth="163.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="62.0" minHeight="10.0" prefHeight="57.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="107.0" minHeight="10.0" prefHeight="77.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+             <fx:include fx:id="menuBarWorker" prefHeight="40.0" source="menuBarWorker.fxml" GridPane.columnSpan="3" />
+             <TableView fx:id="userTable" onMouseClicked="#updateChoice" prefHeight="169.0" prefWidth="282.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
+              <columns>
+                <TableColumn fx:id="userIdColumn" prefWidth="61.0" text="ID" />
+                <TableColumn fx:id="userUsernameColumn" prefWidth="199.0" text="Korisničko ime" />
+              </columns>
+            </TableView>
+            <TableView fx:id="bookTable" onMouseClicked="#updateChoice" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" GridPane.rowSpan="3">
+              <columns>
+                <TableColumn fx:id="bookIdColumn" prefWidth="46.0" text="ID" />
+                <TableColumn fx:id="bookTitleColumn" prefWidth="166.0" text="Naslov" />
+                  <TableColumn fx:id="bookAuthorColumn" prefWidth="48.0" text="Autor" />
+              </columns>
+            </TableView>
+            <Label text="Posuđivanje knjiga" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <Label text="Korisničko ime" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Naslov" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Status" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="statusLabel" text="DOSTUPNO" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <TextField fx:id="usernameField" onKeyReleased="#searchUsers" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="titleField" onKeyReleased="#searchBooks" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </TextField>
+            <Button fx:id="reserveButton" mnemonicParsing="false" onAction="#reserveBook" text="REZERVIRAJ" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="borrowButton" mnemonicParsing="false" onAction="#borrowBook" text="POSUDI" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+         </children>
+      </GridPane>
+   </children>
+</VBox>

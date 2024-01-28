@@ -624,8 +624,9 @@ public class DatabaseUtils {
         }
     }
 
-    public static void addBorrowedItemToDatabase(BorrowInfo borrowInfo) {
+    public static void addBorrowedItemToDatabase(BorrowInfo borrowInfo, Boolean isHistory) {
         String query = "INSERT INTO BORROWED (ITEM_ID, USER_ID, BORROW_DATE, RETURN_DATE) VALUES (?, ?, ?, ?)";
+        if (isHistory) query = "INSERT INTO BORROWED_HISTORY (ITEM_ID, USER_ID, BORROW_DATE, RETURN_DATE) VALUES (?, ?, ?, ?)";
         try (Connection connection = connectToDatabase();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -637,6 +638,22 @@ public class DatabaseUtils {
             preparedStatement.executeUpdate();
 
         } catch (SQLException | IOException e) {
+            logger.info(e.getMessage());
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void deleteBorrowedInfoFromDatabase(Long itemId)
+    {
+        String query = "DELETE FROM BORROWED WHERE ITEM_ID = ?";
+        try (Connection connection = connectToDatabase();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setLong(1, itemId);
+            preparedStatement.executeUpdate();
+            connection.close();
+        }
+        catch (SQLException | IOException e) {
             logger.info(e.getMessage());
             System.out.println(e.getMessage());
         }
@@ -657,7 +674,6 @@ public class DatabaseUtils {
         System.out.println(e.getMessage());
         }
     }
-
 
     public synchronized static Connection connectToDatabase() throws SQLException, IOException {
         Properties svojstva = new Properties();

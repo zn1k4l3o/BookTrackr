@@ -50,6 +50,34 @@ public class MenuBarWorkerController {
 
     }
 
+    public void borrowBookPage () {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("bookBorrowPageWorker.fxml"));
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load(), 800, 500);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        App.mainStage.setScene(scene);
+        App.mainStage.show();
+
+    }
+
+    public void borrowMoviePage () {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("movieBorrowPageWorker.fxml"));
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load(), 800, 500);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        App.mainStage.setScene(scene);
+        App.mainStage.show();
+
+    }
+
     public void addNewMovieScreen () {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("movieAddView.fxml"));
         Scene scene = null;

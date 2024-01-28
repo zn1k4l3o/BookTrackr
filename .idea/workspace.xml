@@ -4,21 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="slozeno searchanje bookova i baze u konkretnim libraryima">
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/model/BorrowInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/model/ReservedInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/utility/BorrowActions.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/utility/ItemMemory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookReservePageController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/bookReservePage.fxml" afterDir="false" />
+    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="započeo posuđivanje i rezerviranje">
+      <change afterPath="$PROJECT_DIR$/src/main/java/production/utility/ReserveActions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MovieReservePageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/movieReservePage.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/LibraryItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/LibraryItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/ReservedInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/ReservedInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/DatabaseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/DatabaseUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/SessionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookAddViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookAddViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MenuBarWorkerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MenuBarWorkerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/bookSearchView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/bookSearchView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookReservePageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookReservePageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MovieSearchViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MovieSearchViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/movieSearchView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/movieSearchView.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,9 +25,9 @@
       <list>
         <option value="Enum" />
         <option value="Record" />
-        <option value="FxmlFile" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -188,7 +183,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706226269435</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="započeo posuđivanje i rezerviranje">
+      <option name="closed" value="true" />
+      <created>1706395031634</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1706395031634</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -218,6 +221,7 @@
     <MESSAGE value="radi login i register&#10;uspjesno dodaje u bazu i file ljude i library" />
     <MESSAGE value="rjeseno pregledavanje knjiga i dodavanje u bazu&#10;dodana stranica za radnike" />
     <MESSAGE value="slozeno searchanje bookova i baze u konkretnim libraryima" />
-    <option name="LAST_COMMIT_MESSAGE" value="slozeno searchanje bookova i baze u konkretnim libraryima" />
+    <MESSAGE value="započeo posuđivanje i rezerviranje" />
+    <option name="LAST_COMMIT_MESSAGE" value="započeo posuđivanje i rezerviranje" />
   </component>
 </project>

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class DatabaseUtils {
 
@@ -604,6 +605,59 @@ public class DatabaseUtils {
 
         return new ReservedInfo(id, itemId, userId, reservedDate);
     }
+
+    public static void addReservedItemToDatabase(ReservedInfo reservedInfo, Boolean isHistory) {
+        String query = "INSERT INTO RESERVED (ITEM_ID, USER_ID, RESERVED_DATE) VALUES (?, ?, ?)";
+        if (isHistory) query = "INSERT INTO RESERVED_HISTORY (ITEM_ID, USER_ID, RESERVED_DATE) VALUES (?, ?, ?)";
+        try (Connection connection = connectToDatabase();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setLong(1, reservedInfo.itemId());
+            preparedStatement.setLong(2, reservedInfo.userId());
+            preparedStatement.setDate(3, reservedInfo.reservedDate());
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException | IOException e) {
+            logger.info(e.getMessage());
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void addBorrowedItemToDatabase(BorrowInfo borrowInfo) {
+        String query = "INSERT INTO BORROWED (ITEM_ID, USER_ID, BORROW_DATE, RETURN_DATE) VALUES (?, ?, ?, ?)";
+        try (Connection connection = connectToDatabase();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setLong(1, borrowInfo.itemId());
+            preparedStatement.setLong(2, borrowInfo.userId());
+            preparedStatement.setDate(3, borrowInfo.borrowDate());
+            preparedStatement.setDate(4, borrowInfo.returnDate());
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException | IOException e) {
+            logger.info(e.getMessage());
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void deleteReservedInfoFromDatabase(Long itemId)
+    {
+        String query = "DELETE FROM RESERVED WHERE ITEM_ID = ?";
+        try (Connection connection = connectToDatabase();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setLong(1, itemId);
+            preparedStatement.executeUpdate();
+            connection.close();
+        }
+        catch (SQLException | IOException e) {
+        logger.info(e.getMessage());
+        System.out.println(e.getMessage());
+        }
+    }
+
 
     public synchronized static Connection connectToDatabase() throws SQLException, IOException {
         Properties svojstva = new Properties();

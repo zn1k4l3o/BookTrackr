@@ -5,13 +5,19 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import production.model.Book;
 import production.model.Movie;
+import production.utility.ItemMemory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +37,8 @@ public class MovieSearchViewController {
     TableColumn<Movie, String> movieDescriptionColumn;
     @FXML
     TableColumn<Movie, String> movieStatusColumn;
+
+    private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     public void initialize() {
         movieNameColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movie,String>, ObservableValue<String>>() {
@@ -66,6 +74,25 @@ public class MovieSearchViewController {
                 FXCollections.observableArrayList(filteredMovieList);
 
         movieTable.setItems(observableMovieList);
+    }
+
+    public void bookReserveInfo() {
+        Movie chosenMovie = movieTable.getSelectionModel().getSelectedItem();
+        ItemMemory.setRememberedMovie(chosenMovie);
+        switchToMovieReservePage();
+    }
+
+    public void switchToMovieReservePage() {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("movieReservePage.fxml"));
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load(), 800, 500);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        logger.info("Prebačeno na movie reserve view user");
+        App.mainStage.setScene(scene);
+        App.mainStage.show();
     }
 
 }

@@ -8,58 +8,60 @@ import javafx.scene.control.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import production.model.Book;
-import production.utility.DatabaseUtils;
+import production.model.Movie;
 import production.utility.ItemMemory;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import static production.utility.ReserveActions.cancelReservationForItem;
 import static production.utility.ReserveActions.reserveItem;
 
-public class BookReservePageController {
+public class MovieReservePageController {
 
     @FXML
-    private Label bookTitle;
+    private Label movieTitle;
     @FXML
-    private Label bookAuthor;
+    private Label movieDirector;
     @FXML
-    private Label bookGenre;
+    private Label movieDescription;
     @FXML
-    private Label bookPublisher;
+    private Label movieReleaseYear;
     @FXML
-    private Label bookStatus;
+    private Label movieFilmRatingSystem;
+    @FXML
+    private Label movieStatus;
     @FXML
     private Button actionButton;
 
-    private Book book;
+    private Movie movie;
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     public void initialize() {
-        book = ItemMemory.getRememberedBook();
+        movie = ItemMemory.getRememberedMovie();
 
-        bookTitle.setText(book.getTitle());
-        bookAuthor.setText(book.getAuthor());
-        bookGenre.setText(book.getGenre());
-        bookPublisher.setText(book.getPublisher());
-        bookStatus.setText(book.getStatus());
+        movieTitle.setText(movie.getTitle());
+        movieDirector.setText(movie.getDirector());
+        movieDescription.setText(movie.getDescription());
+        movieReleaseYear.setText(String.valueOf(movie.getReleaseYear()));
+        movieFilmRatingSystem.setText(movie.getFilmRatingSystem());
+        movieStatus.setText(movie.getStatus());
 
         checkActionButton();
     }
 
-    public void reserveBook() {
+    public void reserveMovie() {
         if (actionButton.getText().equals("REZERVIRAJ")) {
-            reserveItem(book.getId());
+            reserveItem(movie.getId());
         }
         else if (actionButton.getText().equals("OTKAŽI")) {
-            cancelReservationForItem(book.getId());
+            cancelReservationForItem(movie.getId());
         }
-        bookStatus.setText(book.getStatus());
+        movieStatus.setText(movie.getStatus());
         checkActionButton();
     }
 
-    public void switchToBookSearchView() {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("bookSearchView.fxml"));
+    public void switchToMovieSearchView() {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("movieSearchView.fxml"));
         Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load(), 800, 500);
@@ -72,13 +74,13 @@ public class BookReservePageController {
     }
 
     private void checkActionButton() {
-        if (book.getStatus().equals("DOSTUPNO")) {
+        if (movie.getStatus().equals("DOSTUPNO")) {
             actionButton.setText("REZERVIRAJ");
         }
-        else if (book.getStatus().equals("REZERVIRANO")) {
+        else if (movie.getStatus().equals("REZERVIRANO")) {
             actionButton.setText("OTKAŽI");
         }
-        else if (book.getStatus().equals("NEDOSTUPNO") || book.getStatus().equals("POSUĐENO")) {
+        else if (movie.getStatus().equals("NEDOSTUPNO") || movie.getStatus().equals("POSUĐENO")) {
             actionButton.setText("REZERVIRAJ");
             actionButton.setDisable(true);
         }

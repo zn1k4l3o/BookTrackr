@@ -123,7 +123,7 @@ public class DatabaseUtils {
             Connection connection = connectToDatabase();
             Statement sqlStatement = connection.createStatement();
             ResultSet libraryResultSet = sqlStatement.executeQuery(
-                    "SELECT * FROM LIBRARY WHERE NAME = " + name);
+                    "SELECT * FROM LIBRARY WHERE NAME = '" + name + "'");
             if (libraryResultSet.next()) {
                 libraryOptional = Optional.of(getLibraryFromResultSet(libraryResultSet));
             }
@@ -574,7 +574,7 @@ public class DatabaseUtils {
             Statement sqlStatement = connection.createStatement();
             ResultSet borrowInfoResultSet = sqlStatement.executeQuery(
                     "SELECT * FROM BORROWED WHERE USER_ID=" + userId);
-            if(borrowInfoResultSet.next()) {
+            while(borrowInfoResultSet.next()) {
                 BorrowInfo newBorrowInfo = getBorrowInfoFromResultSet(borrowInfoResultSet);
                 borrowInfoList.add(newBorrowInfo);
             }

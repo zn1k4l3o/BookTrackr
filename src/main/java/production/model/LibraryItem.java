@@ -1,77 +1,15 @@
 package production.model;
 
+import production.utility.DatabaseUtils;
 import production.utility.SessionManager;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import static production.utility.BorrowActions.checkBorrowedStatus;
 import static production.utility.BorrowActions.checkBorrowedStatusWithId;
 
-public abstract class LibraryItem implements Serializable {
-
-    /*
-    Long id;
-    Boolean canBeBorrowed = true;
-    Long borrowedById;
-    Long reservedById;
-    Date returnDate;
-
-
-    public Long getBorrowedById() {
-        return borrowedById;
-    }
-
-    public void setBorrowedById(Long borrowedById) {
-        this.borrowedById = borrowedById;
-    }
-
-    public Long getReservedById() {
-        return reservedById;
-    }
-
-    public void setReservedById(Long reservedById) {
-        this.reservedById = reservedById;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Date getReturnDate() {
-        return returnDate;
-    }
-
-    public void setReturnDate(Date returnDate) {
-        this.returnDate = returnDate;
-    }
-
-    public Boolean getCanBeBorrowed() {
-        return canBeBorrowed;
-    }
-
-    public void setCanBeBorrowed(Boolean canBeBorrowed) {
-        this.canBeBorrowed = canBeBorrowed;
-    }
-
-    public LibraryItem(Long id, Long borrowedById, Long reservedById, Date returnDate, Boolean canBeBorrowed) {
-        this.id = id;
-        this.borrowedById = borrowedById;
-        this.reservedById = reservedById;
-        this.returnDate = returnDate;
-        this.canBeBorrowed = canBeBorrowed;
-    }
-
-    public String getStatus() {
-        String status = "TREBA SLOŽITI";
-        return status;
-    }
-
-    */
-
+public abstract sealed class LibraryItem implements Serializable permits Book, Movie  {
 
     Long id;
     String title;
@@ -134,5 +72,15 @@ public abstract class LibraryItem implements Serializable {
             return "POSUĐENO";
         }
         else return "NEDOSTUPNO";
+    }
+
+    public String getReturnDate() {
+        Optional<BorrowInfo> borrowInfoOptional = DatabaseUtils.getBorrowingInfoForItemIdFromDatabase(id);
+        if (borrowInfoOptional.isPresent()) {
+            BorrowInfo borrowInfo = borrowInfoOptional.get();
+            String returnDate = borrowInfo.returnDate().toString();
+            return returnDate;
+        }
+        return "NIJE POSUĐENO!";
     }
 }

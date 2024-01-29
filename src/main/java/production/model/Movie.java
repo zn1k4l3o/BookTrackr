@@ -2,7 +2,7 @@ package production.model;
 
 import java.util.Date;
 
-public class Movie extends LibraryItem{
+public non-sealed class Movie extends LibraryItem{
 
     String director;
     Integer releaseYear;

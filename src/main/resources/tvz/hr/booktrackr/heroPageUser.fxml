@@ -34,24 +34,24 @@
             </Label>
             <Button mnemonicParsing="false" onAction="#switchToInventorySearch" text="Pretraga kataloga" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
             <Label text="Aktivne posudbe" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-            <Label fx:id="item1Name" text="..." GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+            <Label fx:id="item1Name" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="item1Date" text="xx/xx/xxxx" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label fx:id="item2Name" text="..." GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+            <Label fx:id="item1Date" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="item2Name" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="item2Date" text="xx/xx/xxxx" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label fx:id="item3Name" text="..." GridPane.halignment="RIGHT" GridPane.rowIndex="5">
+            <Label fx:id="item2Date" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="item3Name" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="item3Date" text="xx/xx/xxxx" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="item3Date" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
       </GridPane>
    </children>

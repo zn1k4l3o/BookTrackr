@@ -7,7 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Callback;
-import production.model.Book;
+import production.model.Movie;
 import production.model.User;
 import production.model.Worker;
 import production.utility.AlertWindow;
@@ -24,7 +24,7 @@ import static production.utility.BorrowActions.returnItem;
 import static production.utility.ReserveActions.cancelReservationForItem;
 import static production.utility.ReserveActions.reserveItem;
 
-public class BookBorrowPageWorkerController {
+public class MovieBorrowPageWorkerController {
 
     @FXML
     private TextField usernameField;
@@ -43,16 +43,16 @@ public class BookBorrowPageWorkerController {
     @FXML
     private TableColumn<User, String> userUsernameColumn;
     @FXML
-    private TableView<Book> bookTable;
+    private TableView<Movie> movieTable;
     @FXML
-    private TableColumn<Book, String> bookIdColumn;
+    private TableColumn<Movie, String> movieIdColumn;
     @FXML
-    private TableColumn<Book, String> bookTitleColumn;
+    private TableColumn<Movie, String> movieTitleColumn;
     @FXML
-    private TableColumn<Book, String> bookAuthorColumn;
+    private TableColumn<Movie, String> movieDirectorColumn;
 
     private User user;
-    private Book book;
+    private Movie movie;
 
     public void initialize() {
         userIdColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User,String>, ObservableValue<String>>() {
@@ -65,50 +65,50 @@ public class BookBorrowPageWorkerController {
                 return new ReadOnlyStringWrapper(param.getValue().getUsername());
             }
         });
-        bookIdColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Book,String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Book, String> param) {
+        movieIdColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movie,String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Movie, String> param) {
                 return new ReadOnlyStringWrapper(String.valueOf(param.getValue().getId()));
             }
         });
-        bookTitleColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Book,String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Book, String> param) {
+        movieTitleColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movie,String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Movie, String> param) {
                 return new ReadOnlyStringWrapper(param.getValue().getTitle());
             }
         });
-        bookAuthorColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Book,String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Book, String> param) {
-                return new ReadOnlyStringWrapper(param.getValue().getAuthor());
+        movieDirectorColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movie,String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Movie, String> param) {
+                return new ReadOnlyStringWrapper(param.getValue().getDirector());
             }
         });
 
         searchUsers();
-        searchBooks();
+        searchMovies();
 
         borrowButton.setDisable(true);
         reserveButton.setDisable(true);
     }
 
-    public void searchBooks() {
-        List<Book> bookList = new ArrayList<>();
-        bookList = DatabaseUtils.getItemsInChosenLibrary(SessionManager.getCurrentLibrary(), "Book");
+    public void searchMovies() {
+        List<Movie> movieList = new ArrayList<>();
+        movieList = DatabaseUtils.getItemsInChosenLibrary(SessionManager.getCurrentLibrary(), "Movie");
 
-        String bookNameInput = titleField.getText();
-        List<Book> filteredBookList;
-        filteredBookList = bookList.stream()
-                .filter(c -> c.getTitle().toLowerCase().contains(bookNameInput.toLowerCase()))
+        String movieNameInput = titleField.getText();
+        List<Movie> filteredMovieList;
+        filteredMovieList = movieList.stream()
+                .filter(c -> c.getTitle().toLowerCase().contains(movieNameInput.toLowerCase()))
                 .collect(Collectors.toList());
 
-        ObservableList observableBookList =
-                FXCollections.observableArrayList(filteredBookList);
+        ObservableList observableMovieList =
+                FXCollections.observableArrayList(filteredMovieList);
 
-        bookTable.setItems(observableBookList);
+        movieTable.setItems(observableMovieList);
     }
 
     public void searchUsers() {
         List<User> userList = new ArrayList<>();
         userList = DatabaseUtils.getAllUsersFromDatabase();
         userList = userList.stream().filter(lib -> lib.getLibraryName()
-                .equals(SessionManager.getCurrentLibrary().getName()))
+                        .equals(SessionManager.getCurrentLibrary().getName()))
                 .collect(Collectors.toList());
 
         String userUsernameInput = usernameField.getText();
@@ -127,29 +127,29 @@ public class BookBorrowPageWorkerController {
     }
 
 
-    public void reserveBook() {
+    public void reserveMovie() {
         updateChoice();
         if (reserveButton.getText().equals("REZERVIRAJ")) {
-            reserveItem(book.getId(), user.getId());
+            reserveItem(movie.getId(), user.getId());
         }
         else if (reserveButton.getText().equals("OTKAŽI")) {
-            cancelReservationForItem(book.getId(), user.getId());
+            cancelReservationForItem(movie.getId(), user.getId());
         }
-        statusLabel.setText(book.getStatus());
+        statusLabel.setText(movie.getStatus());
         checkActionButton();
     }
 
-    public void borrowBook() {
+    public void borrowMovie() {
         updateChoice();
         user = userTable.getSelectionModel().getSelectedItem();
-        book = bookTable.getSelectionModel().getSelectedItem();
+        movie = movieTable.getSelectionModel().getSelectedItem();
         if (borrowButton.getText().equals("VRATI")) {
-            BigDecimal returnPenalty = returnItem(book.getId());
+            BigDecimal returnPenalty = returnItem(movie.getId());
             if (returnPenalty.compareTo(BigDecimal.ZERO) > 0) AlertWindow.showNotificationDialog("Zakašnjelo vraćanje","Korisnik duguje " + String.valueOf(returnPenalty) + "eur. ");
-            else AlertWindow.showNotificationDialog("Uspješno vraćeno","Knjiga je uspješno vraćena!");
+            else AlertWindow.showNotificationDialog("Uspješno vraćeno","Film je uspješno vraćen!");
         }
         else if (borrowButton.getText().equals("POSUDI")) {
-            borrowItem(book.getId(), user.getId());
+            borrowItem(movie.getId(), user.getId());
         }
         checkActionButton();
     }
@@ -158,25 +158,25 @@ public class BookBorrowPageWorkerController {
     private void checkActionButton() {
         reserveButton.setDisable(false);
         borrowButton.setDisable(false);
-        statusLabel.setText(book.getStatusWithUserId(user.getId()));
+        statusLabel.setText(movie.getStatusWithUserId(user.getId()));
         if (user == null) {
             System.out.println("Nije odabran user");
         }
-        else if (book.getStatusWithUserId(user.getId()).equals("DOSTUPNO")) {
+        else if (movie.getStatusWithUserId(user.getId()).equals("DOSTUPNO")) {
             reserveButton.setText("REZERVIRAJ");
             borrowButton.setText("POSUDI");
         }
-        else if (book.getStatusWithUserId(user.getId()).equals("REZERVIRANO")) {
+        else if (movie.getStatusWithUserId(user.getId()).equals("REZERVIRANO")) {
             reserveButton.setText("OTKAŽI");
             borrowButton.setText("POSUDI");
         }
-        else if (book.getStatusWithUserId(user.getId()).equals("NEDOSTUPNO")) {
+        else if (movie.getStatusWithUserId(user.getId()).equals("NEDOSTUPNO")) {
             reserveButton.setText("REZERVIRAJ");
             borrowButton.setText("POSUDI");
             reserveButton.setDisable(true);
             borrowButton.setDisable(true);
         }
-        else if (book.getStatusWithUserId(user.getId()).equals("POSUĐENO")) {
+        else if (movie.getStatusWithUserId(user.getId()).equals("POSUĐENO")) {
             reserveButton.setText("REZERVIRAJ");
             borrowButton.setText("VRATI");
             reserveButton.setDisable(true);
@@ -185,8 +185,8 @@ public class BookBorrowPageWorkerController {
 
     public void updateChoice() {
         user = userTable.getSelectionModel().getSelectedItem();
-        book = bookTable.getSelectionModel().getSelectedItem();
-        if (book != null && user != null) {
+        movie = movieTable.getSelectionModel().getSelectedItem();
+        if (movie != null && user != null) {
             checkActionButton();
         }
     }

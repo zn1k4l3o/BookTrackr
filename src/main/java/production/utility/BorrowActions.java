@@ -1,9 +1,13 @@
 package production.utility;
 
+import org.controlsfx.control.PropertySheet;
+import production.enums.Prices;
 import production.model.*;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +51,7 @@ public interface BorrowActions {
 
     static List<LibraryItem> getAllBorrowedItemsByUser(User user) {
         List<LibraryItem> itemsInCurrentLibrary = new ArrayList<>();
+        System.out.println(user.getLibraryName());
         Optional<Library> libraryOptional = getLibraryByNameFromDatabase(user.getLibraryName());
         if (libraryOptional.isEmpty()) {
             System.out.println("Problemi s knjiznicom kod usera " + user.getUsername());
@@ -78,14 +83,34 @@ public interface BorrowActions {
 
     }
 
-    static void returnItem(Long itemId) {
+    static BigDecimal returnItem(Long itemId) {
         Optional<BorrowInfo> borrowInfoOptional = getBorrowingInfoForItemIdFromDatabase(itemId);
+        BigDecimal lateReturnPenalty = BigDecimal.ZERO;
         if (borrowInfoOptional.isPresent()) {
             long millis=System.currentTimeMillis();
             Date dateCurrent = new java.sql.Date(millis);
             BorrowInfo b = borrowInfoOptional.get();
+            lateReturnPenalty = getBorrowDifference(b);
             addBorrowedItemToDatabase(new BorrowInfo(-1L, b.itemId(), b.userId(), b.borrowDate(), dateCurrent), Boolean.TRUE);
             deleteBorrowedInfoFromDatabase(itemId);
         }
+        return lateReturnPenalty;
+    }
+
+    static BigDecimal getBorrowDifference(BorrowInfo borrowInfo) {
+        String category = getItemCategory(borrowInfo.itemId());
+        long millis=System.currentTimeMillis();
+        Date dateCurrent = new java.sql.Date(millis);
+        Date supposedReturnDate = borrowInfo.returnDate();
+        LocalDate localDate1 = dateCurrent.toLocalDate();
+        LocalDate localDate2 = supposedReturnDate.toLocalDate();
+        long daysDifference = ChronoUnit.DAYS.between(localDate2, localDate1);
+        System.out.println(daysDifference);
+        if (daysDifference <= 0) return BigDecimal.ZERO;
+        else  {
+            if (category.equals("Book")) return (Prices.DAY_LATE_FEE_BOOK.getAmount().multiply(BigDecimal.valueOf(daysDifference)));
+            else if (category.equals("Movie")) return (Prices.DAY_LATE_FEE_MOVIE.getAmount().multiply(BigDecimal.valueOf(daysDifference)));
+        }
+        return BigDecimal.ZERO;
     }
 }

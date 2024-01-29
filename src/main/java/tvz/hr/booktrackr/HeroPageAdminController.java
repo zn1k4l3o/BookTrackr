@@ -7,10 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.util.Callback;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
@@ -21,14 +18,15 @@ import production.utility.DatabaseUtils;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-import static production.utility.DatabaseUtils.addLibraryToDatabase;
-import static production.utility.DatabaseUtils.getAllLibrariesFromDatabase;
+import static production.utility.DatabaseUtils.*;
 import static production.utility.UserChecking.checkPasswords;
 
 public class HeroPageAdminController {
 
-    private static final Logger logger = LoggerFactory.getLogger(App.class);
+    //Dodavanje knjižnice
     @FXML
     TextField newLibraryNameField;
     @FXML
@@ -45,6 +43,15 @@ public class HeroPageAdminController {
     TableColumn<Library, String> libraryNameColumn;
     @FXML
     TableColumn<Library, String> libraryWebAddressColumn;
+    //Izvoz bin datoteke
+    @FXML
+    ComboBox<String> libraryComboBox;
+    @FXML
+    CheckBox includeUsers;
+    @FXML
+    CheckBox includeLibraryItems;
+
+    private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     public void initialize() {
         libraryIdColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Library, String>, ObservableValue<String>>() {
@@ -67,6 +74,11 @@ public class HeroPageAdminController {
         });
 
         refreshLibraryTable();
+
+        List<Library> libraryList = DatabaseUtils.getAllLibrariesFromDatabase();
+        ObservableList<String> observableLibraryList = FXCollections.observableArrayList(libraryList.stream().map(Library::getName).collect(Collectors.toList()));
+        libraryComboBox.setItems(observableLibraryList);
+        libraryComboBox.setValue(libraryList.get(0).getName());
     }
 
     public void refreshLibraryTable() {
@@ -92,6 +104,16 @@ public class HeroPageAdminController {
             System.out.println(e.getMessage());
         }
         refreshLibraryTable();
+    }
+
+    public void exportLibraryInfo() {
+        String libraryName = libraryComboBox.getValue();
+        Optional<Library> libraryOptional = getLibraryByNameFromDatabase(libraryName);
+        if (libraryOptional.isPresent()) {
+            Library library = libraryOptional.get();
+
+        }
+
     }
 
     public void switchToLogin() {

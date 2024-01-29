@@ -1,6 +1,8 @@
 package production.model;
 
-public class Library {
+import java.io.Serializable;
+
+public class Library implements Serializable {
 
     Long id;
     String name;

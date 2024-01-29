@@ -64,7 +64,6 @@ public class LoginController {
     public void loginAction() {
         String username = usernameField.getText();
         String password = passwordField.getText();
-        String libraryName = libraryComboBox.getValue();
         if (username.equals("admin")) {
             User user;
             Optional<User> userOptional = FileUtils.getUserByUsernameFromFile(username);
@@ -72,12 +71,13 @@ public class LoginController {
                 user = userOptional.get();
                 if (BCrypt.checkpw(password, user.getHashedPassword())) {
                     SessionManager.setCurrentUser(user);
-                    SessionManager.setCurrentLibrary(libraryName);
+                    //SessionManager.setCurrentLibrary(libraryName);
                     switchToHeroPageAdmin();
                 }
             }
         }
         else if (UserChecking.doesUsernameExist(username)) {
+            String libraryName = libraryComboBox.getValue();
             User user;
             Optional<User> userOptional = FileUtils.getUserByUsernameFromFile(username);
             if (userOptional.isPresent()) {

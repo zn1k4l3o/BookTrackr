@@ -29,7 +29,7 @@ public abstract class SessionManager {
         currentLibrary = library;
     }
 
-    public static void setCurrentLibrary(String libraryName) {
+    public static void setCurrentLibraryByName(String libraryName) {
         List<Library> libraryList = getAllLibrariesFromDatabase();
         currentLibrary = libraryList.stream()
                 .filter(lib -> lib.getName().equals(libraryName))

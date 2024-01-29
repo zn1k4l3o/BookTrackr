@@ -13,15 +13,18 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import production.exception.DifferentPasswordException;
-import production.model.Library;
+import production.model.*;
+import production.utility.DataWrapper;
 import production.utility.DatabaseUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static production.utility.DatabaseUtils.*;
+import static production.utility.FileUtils.writeDataToFile;
 import static production.utility.UserChecking.checkPasswords;
 
 public class HeroPageAdminController {
@@ -108,10 +111,31 @@ public class HeroPageAdminController {
 
     public void exportLibraryInfo() {
         String libraryName = libraryComboBox.getValue();
+        Boolean includeUsersOption = includeUsers.isSelected();
+        Boolean includeLibraryItemsOption = includeLibraryItems.isSelected();
         Optional<Library> libraryOptional = getLibraryByNameFromDatabase(libraryName);
         if (libraryOptional.isPresent()) {
             Library library = libraryOptional.get();
-
+            DataWrapper dataWrapper = new DataWrapper(library);
+            if (includeUsersOption) {
+                List<User> allUserList = getAllUsersFromDatabase();
+                allUserList = allUserList.stream().filter(u -> u.getLibraryName().equals(libraryName)).collect(Collectors.toList());
+                List<User> userList = new ArrayList<>();
+                List<Worker> workerList = new ArrayList<>();
+                for (User user : allUserList) {
+                    if (user instanceof Worker) workerList.add((Worker) user);
+                    else userList.add(user);
+                }
+                dataWrapper.setUserList(userList);
+                dataWrapper.setWorkerList(workerList);
+            }
+            if (includeLibraryItemsOption) {
+                List<Book> bookList = getItemsInChosenLibrary(library, "Book");
+                List<Movie> movieList = getItemsInChosenLibrary(library, "Movie");
+                dataWrapper.setBookList(bookList);
+                dataWrapper.setMovieList(movieList);
+            }
+            writeDataToFile(dataWrapper);
         }
 
     }

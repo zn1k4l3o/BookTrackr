@@ -14,6 +14,7 @@ public class FileUtils {
     private static final Logger logger = LoggerFactory.getLogger(App.class);
     private static final String USERS_FULL_TEXT_FILE_NAME = "dat/SQLcommands.txt";
     private static final String USERS_TEXT_FILE_NAME = "dat/users.txt";
+    private static final String DATA_BIN_FILE_NAME = "dat/data.bin";
 
     //*******************************************
     public static <T extends User> void writeSerializedList(List<T> lista, String location) {
@@ -34,6 +35,49 @@ public class FileUtils {
             System.out.println("IOException is caught");
         }
     }
+
+    public static void writeDataToFile(DataWrapper dataWrapper) {
+        try
+        {
+            FileOutputStream file = new FileOutputStream(DATA_BIN_FILE_NAME);
+            ObjectOutputStream out = new ObjectOutputStream(file);
+
+            out.writeObject(dataWrapper);
+            out.close();
+            file.close();
+            System.out.println("Serijalizacija uspjela DataWrapper");
+
+        }
+        catch(IOException ex)
+        {
+            System.out.println("IOException is caught");
+        }
+    }
+
+    public static Optional<DataWrapper> readDataFromFile() {
+        Optional<DataWrapper> dataWrapperOptional = Optional.empty();
+        try
+        {
+            FileInputStream file = new FileInputStream(DATA_BIN_FILE_NAME);
+            ObjectInputStream in = new ObjectInputStream(file);
+
+            DataWrapper dataWrapper;
+            dataWrapper = (DataWrapper) in.readObject();
+            dataWrapperOptional = Optional.of(dataWrapper);
+            in.close();
+            file.close();
+            System.out.println("DeSerijalizacija uspjela DataWrapper");
+
+        }
+        catch(IOException ex)
+        {
+            System.out.println("IOException is caught");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return dataWrapperOptional;
+    }
+
     public static void writeUserToFile(String username, String hashedPassword, Long id) {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(USERS_TEXT_FILE_NAME, true))) {

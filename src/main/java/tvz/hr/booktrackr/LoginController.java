@@ -86,7 +86,7 @@ public class LoginController {
                 if (libraryName.equals(user.getLibraryName())) {
                     if (BCrypt.checkpw(password, user.getHashedPassword())) {
                         SessionManager.setCurrentUser(user);
-                        SessionManager.setCurrentLibrary(libraryName);
+                        SessionManager.setCurrentLibraryByName(libraryName);
                         if (user instanceof Worker) switchToHeroPageWorker();
                         else switchToHeroPageUser();
                     }

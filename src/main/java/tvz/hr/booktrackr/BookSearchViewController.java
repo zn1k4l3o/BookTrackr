@@ -14,6 +14,7 @@ import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import production.model.Book;
+import production.threads.GetBooksThread;
 import production.utility.DatabaseUtils;
 import production.utility.ItemMemory;
 import production.utility.SessionManager;
@@ -21,6 +22,9 @@ import production.utility.SessionManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class BookSearchViewController {
@@ -71,18 +75,22 @@ public class BookSearchViewController {
 
     public void search() {
         List<Book> bookList = new ArrayList<>();
-        /*
-        GetCategoriesThread cats2 = new GetCategoriesThread();
-        Thread thread = new Thread(cats2);
+
+        GetBooksThread booksThread = new GetBooksThread();
+        Thread thread = new Thread(booksThread);
         thread.start();
         try {
             thread.join();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        bookList = cats2.getCats();
+        /*
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        executor.scheduleAtFixedRate(() -> executor.submit(booksThread), 0, 500, TimeUnit.MILLISECONDS);
          */
-        bookList = DatabaseUtils.getItemsInChosenLibrary(SessionManager.getCurrentLibrary(), "Book");
+        bookList = booksThread.getBooks();
+
+        //bookList = DatabaseUtils.getItemsInChosenLibrary(SessionManager.getCurrentLibrary(), "Book");
 
         String bookNameInput = bookNameField.getText();
         List<Book> filteredBookList;

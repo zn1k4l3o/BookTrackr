@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import production.enums.Genre;
 import production.model.*;
+import production.threads.ConnectThread;
 import tvz.hr.booktrackr.App;
 
 import java.io.FileReader;
@@ -11,7 +12,6 @@ import java.io.IOException;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class DatabaseUtils {
 
@@ -22,18 +22,26 @@ public class DatabaseUtils {
     public static List<User> getAllUsersFromDatabase()
     {
         List<User> userList = new ArrayList<>();
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
         try {
-            Connection connection = connectToDatabase();
-            Statement sqlStatement = connection.createStatement();
-            ResultSet usersResultSet = sqlStatement.executeQuery(
-                    "SELECT * FROM ALL_USERS");
-            while(usersResultSet.next()) {
-                User newUser = getUserFromResultSet(usersResultSet);
-                userList.add(newUser);
+            thread.join();
+            try {
+                Connection connection =  connectThread.getConnection();
+                Statement sqlStatement = connection.createStatement();
+                ResultSet usersResultSet = sqlStatement.executeQuery(
+                        "SELECT * FROM ALL_USERS");
+                while (usersResultSet.next()) {
+                    User newUser = getUserFromResultSet(usersResultSet);
+                    userList.add(newUser);
+                }
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                logger.info(e.getMessage());
             }
-            connection.close();
-        }
-        catch (IOException | SQLException e) {
+        } catch (InterruptedException e) {
             System.out.println(e.getMessage());
             logger.info(e.getMessage());
         }
@@ -43,17 +51,26 @@ public class DatabaseUtils {
     public static Optional<User> getUserByIdFromDatabase(Long id)
     {
         Optional<User> userOptional = Optional.empty();
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
         try {
-            Connection connection = connectToDatabase();
-            Statement sqlStatement = connection.createStatement();
-            ResultSet userResultSet = sqlStatement.executeQuery(
-                    "SELECT * FROM ALL_USERS WHERE ID = " + id);
-            if (userResultSet.next()) {
-                userOptional = Optional.of(getUserFromResultSet(userResultSet));
+            thread.join();
+            try {
+                Connection connection = connectThread.getConnection();
+                Statement sqlStatement = connection.createStatement();
+                ResultSet userResultSet = sqlStatement.executeQuery(
+                        "SELECT * FROM ALL_USERS WHERE ID = " + id);
+                if (userResultSet.next()) {
+                    userOptional = Optional.of(getUserFromResultSet(userResultSet));
+                }
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                logger.info(e.getMessage());
             }
-            connection.close();
         }
-        catch (IOException | SQLException e) {
+        catch (InterruptedException e) {
             System.out.println(e.getMessage());
             logger.info(e.getMessage());
         }
@@ -63,7 +80,12 @@ public class DatabaseUtils {
     public static void addUserToDatabase(String username, String hashedPassword, String name, String lastName, Long libraryId, Boolean isWorker) {
         String query = "INSERT INTO ALL_USERS (USERNAME, PASSWORD, NAME, LASTNAME, LIBRARY_ID, IS_WORKER) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection connection = connectToDatabase();
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
+        try {
+            thread.join();
+        try (Connection connection = connectThread.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setString(1, username);
@@ -74,8 +96,8 @@ public class DatabaseUtils {
             preparedStatement.setBoolean(6, isWorker);
 
             preparedStatement.executeUpdate();
-
-        } catch (SQLException | IOException e) {
+            }
+        } catch (SQLException | InterruptedException e) {
             logger.info(e.getMessage());
             System.out.println(e.getMessage());
         }
@@ -99,17 +121,26 @@ public class DatabaseUtils {
     public static Optional<Library> getLibraryByIdFromDatabase(Long id)
     {
         Optional<Library> libraryOptional = Optional.empty();
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
         try {
-            Connection connection = connectToDatabase();
-            Statement sqlStatement = connection.createStatement();
-            ResultSet libraryResultSet = sqlStatement.executeQuery(
-                    "SELECT * FROM LIBRARY WHERE ID = " + id);
-            if (libraryResultSet.next()) {
-                libraryOptional = Optional.of(getLibraryFromResultSet(libraryResultSet));
+            thread.join();
+            try {
+                Connection connection = connectThread.getConnection();
+                Statement sqlStatement = connection.createStatement();
+                ResultSet libraryResultSet = sqlStatement.executeQuery(
+                        "SELECT * FROM LIBRARY WHERE ID = " + id);
+                if (libraryResultSet.next()) {
+                    libraryOptional = Optional.of(getLibraryFromResultSet(libraryResultSet));
+                }
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                logger.info(e.getMessage());
             }
-            connection.close();
         }
-        catch (IOException | SQLException e) {
+        catch (InterruptedException e) {
             System.out.println(e.getMessage());
             logger.info(e.getMessage());
         }
@@ -119,17 +150,26 @@ public class DatabaseUtils {
     public static Optional<Library> getLibraryByNameFromDatabase(String name)
     {
         Optional<Library> libraryOptional = Optional.empty();
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
         try {
-            Connection connection = connectToDatabase();
-            Statement sqlStatement = connection.createStatement();
-            ResultSet libraryResultSet = sqlStatement.executeQuery(
-                    "SELECT * FROM LIBRARY WHERE NAME = '" + name + "'");
-            if (libraryResultSet.next()) {
-                libraryOptional = Optional.of(getLibraryFromResultSet(libraryResultSet));
+            thread.join();
+            try {
+                Connection connection = connectThread.getConnection();
+                Statement sqlStatement = connection.createStatement();
+                ResultSet libraryResultSet = sqlStatement.executeQuery(
+                        "SELECT * FROM LIBRARY WHERE NAME = '" + name + "'");
+                if (libraryResultSet.next()) {
+                    libraryOptional = Optional.of(getLibraryFromResultSet(libraryResultSet));
+                }
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                logger.info(e.getMessage());
             }
-            connection.close();
         }
-        catch (IOException | SQLException e) {
+        catch (InterruptedException e) {
             System.out.println(e.getMessage());
             logger.info(e.getMessage());
         }
@@ -139,18 +179,26 @@ public class DatabaseUtils {
     public static List<Library> getAllLibrariesFromDatabase()
     {
         List<Library> libraryList = new ArrayList<>();
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
         try {
-            Connection connection = connectToDatabase();
-            Statement sqlStatement = connection.createStatement();
-            ResultSet libraryResultSet = sqlStatement.executeQuery(
-                    "SELECT * FROM LIBRARY");
-            while(libraryResultSet.next()) {
-                Library newLibrary = getLibraryFromResultSet(libraryResultSet);
-                libraryList.add(newLibrary);
-            }
-            connection.close();
+            thread.join();
+            try {
+                Connection connection = connectThread.getConnection();
+                Statement sqlStatement = connection.createStatement();
+                ResultSet libraryResultSet = sqlStatement.executeQuery(
+                        "SELECT * FROM LIBRARY");
+                while (libraryResultSet.next()) {
+                    Library newLibrary = getLibraryFromResultSet(libraryResultSet);
+                    libraryList.add(newLibrary);
+                }
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                logger.info(e.getMessage());            }
         }
-        catch (IOException | SQLException e) {
+        catch (InterruptedException e) {
             System.out.println(e.getMessage());
             logger.info(e.getMessage());
         }
@@ -168,17 +216,22 @@ public class DatabaseUtils {
 
     public static void addLibraryToDatabase(String name, String webAddress, String hashedPassword) {
         String query = "INSERT INTO LIBRARY (NAME, WEB_ADDRESS, PASSWORD) VALUES (?, ?, ?)";
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
+        try {
+            thread.join();
+            try (Connection connection = connectThread.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-        try (Connection connection = connectToDatabase();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, name);
+                preparedStatement.setString(2, webAddress);
+                preparedStatement.setString(3, hashedPassword);
 
-            preparedStatement.setString(1, name);
-            preparedStatement.setString(2, webAddress);
-            preparedStatement.setString(3, hashedPassword);
-
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException | IOException e) {
+                preparedStatement.executeUpdate();
+            }
+        }
+        catch (SQLException | InterruptedException e) {
             logger.info(e.getMessage());
             System.out.println(e.getMessage());
         }
@@ -327,23 +380,33 @@ public class DatabaseUtils {
     public static List<Book> getAllBooksFromDatabase()
     {
         List<Book> bookList = new ArrayList<>();
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
         try {
-            Connection connection = connectToDatabase();
-            Statement sqlStatement = connection.createStatement();
-            ResultSet itemResultSet = sqlStatement.executeQuery(
-                    "SELECT * FROM ITEM WHERE CATEGORY='Book'");
-            Statement sqlStatement2 = connection.createStatement();
-            while(itemResultSet.next()) {
-                Long childId = getItemChildIdFromResultSet(itemResultSet);
-                Book newBook = new Book("CORRUPTED");
-                ResultSet bookResultSet = sqlStatement2.executeQuery(
-                        "SELECT * FROM BOOK WHERE ID=" + childId);
-                if (bookResultSet.next()) newBook = getBookFromResultSet(bookResultSet, itemResultSet);
-                bookList.add(newBook);
+            thread.join();
+            try {
+                Connection connection = connectThread.getConnection();
+                Statement sqlStatement = connection.createStatement();
+                ResultSet itemResultSet = sqlStatement.executeQuery(
+                        "SELECT * FROM ITEM WHERE CATEGORY='Book'");
+                Statement sqlStatement2 = connection.createStatement();
+                while (itemResultSet.next()) {
+                    Long childId = getItemChildIdFromResultSet(itemResultSet);
+                    Book newBook = new Book("CORRUPTED");
+                    ResultSet bookResultSet = sqlStatement2.executeQuery(
+                            "SELECT * FROM BOOK WHERE ID=" + childId);
+                    if (bookResultSet.next()) newBook = getBookFromResultSet(bookResultSet, itemResultSet);
+                    bookList.add(newBook);
+                }
+                connection.close();
             }
-            connection.close();
+            catch (SQLException e) {
+                System.out.println(e.getMessage());
+                logger.info(e.getMessage());
+            }
         }
-        catch (IOException | SQLException e) {
+        catch (InterruptedException e) {
             System.out.println(e.getMessage());
             logger.info(e.getMessage());
         }
@@ -352,15 +415,24 @@ public class DatabaseUtils {
 
     public static String getItemCategory(Long itemId) {
         String category = "None";
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
         try {
-            Connection connection = connectToDatabase();
-            Statement sqlStatement = connection.createStatement();
-            ResultSet itemResultSet = sqlStatement.executeQuery(
-                    "SELECT * FROM ITEM WHERE ID=" + itemId);
-            if(itemResultSet.next()) category = itemResultSet.getString("CATEGORY");
-            connection.close();
+            thread.join();
+            try {
+                Connection connection = connectThread.getConnection();
+                Statement sqlStatement = connection.createStatement();
+                ResultSet itemResultSet = sqlStatement.executeQuery(
+                        "SELECT * FROM ITEM WHERE ID=" + itemId);
+                if (itemResultSet.next()) category = itemResultSet.getString("CATEGORY");
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                logger.info(e.getMessage());
+            }
         }
-        catch (IOException | SQLException e) {
+        catch (InterruptedException e) {
             System.out.println(e.getMessage());
             logger.info(e.getMessage());
         }
@@ -370,23 +442,32 @@ public class DatabaseUtils {
     public static Optional<Book> getBookByIdFromDatabase(Long itemId)
     {
         Optional<Book> book = Optional.empty();
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
         try {
-            Connection connection = connectToDatabase();
-            Statement sqlStatement = connection.createStatement();
-            ResultSet itemResultSet = sqlStatement.executeQuery(
-                    "SELECT * FROM ITEM WHERE ID=" + itemId);
-            Statement sqlStatement2 = connection.createStatement();
-            if(itemResultSet.next()) {
-                Long childId = getItemChildIdFromResultSet(itemResultSet);
-                ResultSet bookResultSet = sqlStatement2.executeQuery(
-                        "SELECT * FROM BOOK WHERE ID=" + childId);
-                Book newBook = new Book("CORRUPTED");
-                if (bookResultSet.next()) newBook = getBookFromResultSet(bookResultSet, itemResultSet);
-                book = Optional.of(newBook);
+            thread.join();
+            try {
+                Connection connection = connectThread.getConnection();
+                Statement sqlStatement = connection.createStatement();
+                ResultSet itemResultSet = sqlStatement.executeQuery(
+                        "SELECT * FROM ITEM WHERE ID=" + itemId);
+                Statement sqlStatement2 = connection.createStatement();
+                if (itemResultSet.next()) {
+                    Long childId = getItemChildIdFromResultSet(itemResultSet);
+                    ResultSet bookResultSet = sqlStatement2.executeQuery(
+                            "SELECT * FROM BOOK WHERE ID=" + childId);
+                    Book newBook = new Book("CORRUPTED");
+                    if (bookResultSet.next()) newBook = getBookFromResultSet(bookResultSet, itemResultSet);
+                    book = Optional.of(newBook);
+                }
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                logger.info(e.getMessage());
             }
-            connection.close();
         }
-        catch (IOException | SQLException e) {
+        catch (InterruptedException e) {
             System.out.println(e.getMessage());
             logger.info(e.getMessage());
         }
@@ -396,23 +477,32 @@ public class DatabaseUtils {
     public static Optional<Movie> getMovieByIdFromDatabase(Long itemId)
     {
         Optional<Movie> movie = Optional.empty();
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
         try {
-            Connection connection = connectToDatabase();
-            Statement sqlStatement = connection.createStatement();
-            ResultSet itemResultSet = sqlStatement.executeQuery(
-                    "SELECT * FROM ITEM WHERE ID=" + itemId);
-            Statement sqlStatement2 = connection.createStatement();
-            if(itemResultSet.next()) {
-                Long childId = getItemChildIdFromResultSet(itemResultSet);
-                ResultSet bookResultSet = sqlStatement2.executeQuery(
-                        "SELECT * FROM MOVIE WHERE ID=" + childId);
-                Movie newMovie = new Movie("CORRUPTED");
-                if (bookResultSet.next()) newMovie = getMovieFromResultSet(bookResultSet, itemResultSet);
-                movie = Optional.of(newMovie);
+            thread.join();
+            try {
+                Connection connection = connectThread.getConnection();
+                Statement sqlStatement = connection.createStatement();
+                ResultSet itemResultSet = sqlStatement.executeQuery(
+                        "SELECT * FROM ITEM WHERE ID=" + itemId);
+                Statement sqlStatement2 = connection.createStatement();
+                if (itemResultSet.next()) {
+                    Long childId = getItemChildIdFromResultSet(itemResultSet);
+                    ResultSet bookResultSet = sqlStatement2.executeQuery(
+                            "SELECT * FROM MOVIE WHERE ID=" + childId);
+                    Movie newMovie = new Movie("CORRUPTED");
+                    if (bookResultSet.next()) newMovie = getMovieFromResultSet(bookResultSet, itemResultSet);
+                    movie = Optional.of(newMovie);
+                }
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                logger.info(e.getMessage());
             }
-            connection.close();
         }
-        catch (IOException | SQLException e) {
+        catch (InterruptedException e) {
             System.out.println(e.getMessage());
             logger.info(e.getMessage());
         }
@@ -482,23 +572,32 @@ public class DatabaseUtils {
     public static List<Movie> getAllMoviesFromDatabase()
     {
         List<Movie> movieList = new ArrayList<>();
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
         try {
-            Connection connection = connectToDatabase();
-            Statement sqlStatement = connection.createStatement();
-            ResultSet itemResultSet = sqlStatement.executeQuery(
-                    "SELECT * FROM ITEM WHERE CATEGORY='Movie'");
-            Statement sqlStatement2 = connection.createStatement();
-            while(itemResultSet.next()) {
-                Long childId = getItemChildIdFromResultSet(itemResultSet);
-                Movie newMovie = new Movie("CORRUPTED");
-                ResultSet movieResultSet = sqlStatement2.executeQuery(
-                        "SELECT * FROM MOVIE WHERE ID=" + childId);
-                if (movieResultSet.next()) newMovie = getMovieFromResultSet(movieResultSet, itemResultSet);
-                movieList.add(newMovie);
+            thread.join();
+            try {
+                Connection connection = connectThread.getConnection();
+                Statement sqlStatement = connection.createStatement();
+                ResultSet itemResultSet = sqlStatement.executeQuery(
+                        "SELECT * FROM ITEM WHERE CATEGORY='Movie'");
+                Statement sqlStatement2 = connection.createStatement();
+                while (itemResultSet.next()) {
+                    Long childId = getItemChildIdFromResultSet(itemResultSet);
+                    Movie newMovie = new Movie("CORRUPTED");
+                    ResultSet movieResultSet = sqlStatement2.executeQuery(
+                            "SELECT * FROM MOVIE WHERE ID=" + childId);
+                    if (movieResultSet.next()) newMovie = getMovieFromResultSet(movieResultSet, itemResultSet);
+                    movieList.add(newMovie);
+                }
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                logger.info(e.getMessage());
             }
-            connection.close();
         }
-        catch (IOException | SQLException e) {
+        catch (InterruptedException e) {
             System.out.println(e.getMessage());
             logger.info(e.getMessage());
         }
@@ -529,18 +628,27 @@ public class DatabaseUtils {
 
     public static Optional<BorrowInfo> getBorrowingInfoForItemIdFromDatabase(Long itemId) {
         Optional<BorrowInfo> borrowInfoOptional = Optional.empty();
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
         try {
-            Connection connection = connectToDatabase();
-            Statement sqlStatement = connection.createStatement();
-            ResultSet borrowInfoResultSet = sqlStatement.executeQuery(
-                    "SELECT * FROM BORROWED WHERE ITEM_ID=" + itemId);
-            if(borrowInfoResultSet.next()) {
-                BorrowInfo newBorrowInfo = getBorrowInfoFromResultSet(borrowInfoResultSet);
-                borrowInfoOptional = Optional.of(newBorrowInfo);
+            thread.join();
+            try {
+                Connection connection = connectThread.getConnection();
+                Statement sqlStatement = connection.createStatement();
+                ResultSet borrowInfoResultSet = sqlStatement.executeQuery(
+                        "SELECT * FROM BORROWED WHERE ITEM_ID=" + itemId);
+                if (borrowInfoResultSet.next()) {
+                    BorrowInfo newBorrowInfo = getBorrowInfoFromResultSet(borrowInfoResultSet);
+                    borrowInfoOptional = Optional.of(newBorrowInfo);
+                }
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                logger.info(e.getMessage());
             }
-            connection.close();
         }
-        catch (IOException | SQLException e) {
+        catch (InterruptedException e) {
             System.out.println(e.getMessage());
             logger.info(e.getMessage());
         }
@@ -549,18 +657,27 @@ public class DatabaseUtils {
 
     public static Optional<ReservedInfo> getReservedInfoForItemIdFromDatabase(Long itemId) {
         Optional<ReservedInfo> reservedInfoOptional = Optional.empty();
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
         try {
-            Connection connection = connectToDatabase();
-            Statement sqlStatement = connection.createStatement();
-            ResultSet reservedInfoResultSet = sqlStatement.executeQuery(
-                    "SELECT * FROM RESERVED WHERE ITEM_ID=" + itemId);
-            if(reservedInfoResultSet.next()) {
-                ReservedInfo newReservedInfo = getReservedInfoFromResultSet(reservedInfoResultSet);
-                reservedInfoOptional = Optional.of(newReservedInfo);
+            thread.join();
+            try {
+                Connection connection = connectThread.getConnection();
+                Statement sqlStatement = connection.createStatement();
+                ResultSet reservedInfoResultSet = sqlStatement.executeQuery(
+                        "SELECT * FROM RESERVED WHERE ITEM_ID=" + itemId);
+                if (reservedInfoResultSet.next()) {
+                    ReservedInfo newReservedInfo = getReservedInfoFromResultSet(reservedInfoResultSet);
+                    reservedInfoOptional = Optional.of(newReservedInfo);
+                }
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                logger.info(e.getMessage());
             }
-            connection.close();
         }
-        catch (IOException | SQLException e) {
+        catch (InterruptedException e) {
             System.out.println(e.getMessage());
             logger.info(e.getMessage());
         }
@@ -569,18 +686,27 @@ public class DatabaseUtils {
 
     public static List<BorrowInfo> getBorrowingInfoForUserIdFromDatabase(Long userId) {
         List<BorrowInfo> borrowInfoList = new ArrayList<>();
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
         try {
-            Connection connection = connectToDatabase();
-            Statement sqlStatement = connection.createStatement();
-            ResultSet borrowInfoResultSet = sqlStatement.executeQuery(
-                    "SELECT * FROM BORROWED WHERE USER_ID=" + userId);
-            while(borrowInfoResultSet.next()) {
-                BorrowInfo newBorrowInfo = getBorrowInfoFromResultSet(borrowInfoResultSet);
-                borrowInfoList.add(newBorrowInfo);
+            thread.join();
+            try {
+                Connection connection = connectThread.getConnection();
+                Statement sqlStatement = connection.createStatement();
+                ResultSet borrowInfoResultSet = sqlStatement.executeQuery(
+                        "SELECT * FROM BORROWED WHERE USER_ID=" + userId);
+                while (borrowInfoResultSet.next()) {
+                    BorrowInfo newBorrowInfo = getBorrowInfoFromResultSet(borrowInfoResultSet);
+                    borrowInfoList.add(newBorrowInfo);
+                }
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                logger.info(e.getMessage());
             }
-            connection.close();
         }
-        catch (IOException | SQLException e) {
+        catch (InterruptedException e) {
             System.out.println(e.getMessage());
             logger.info(e.getMessage());
         }
@@ -609,7 +735,12 @@ public class DatabaseUtils {
     public static void addReservedItemToDatabase(ReservedInfo reservedInfo, Boolean isHistory) {
         String query = "INSERT INTO RESERVED (ITEM_ID, USER_ID, RESERVED_DATE) VALUES (?, ?, ?)";
         if (isHistory) query = "INSERT INTO RESERVED_HISTORY (ITEM_ID, USER_ID, RESERVED_DATE) VALUES (?, ?, ?)";
-        try (Connection connection = connectToDatabase();
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
+        try {
+            thread.join();
+        try (Connection connection = connectThread.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setLong(1, reservedInfo.itemId());
@@ -617,43 +748,58 @@ public class DatabaseUtils {
             preparedStatement.setDate(3, reservedInfo.reservedDate());
 
             preparedStatement.executeUpdate();
-
-        } catch (SQLException | IOException e) {
+            }
+        } catch (SQLException e) {
             logger.info(e.getMessage());
             System.out.println(e.getMessage());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public static void addBorrowedItemToDatabase(BorrowInfo borrowInfo, Boolean isHistory) {
         String query = "INSERT INTO BORROWED (ITEM_ID, USER_ID, BORROW_DATE, RETURN_DATE) VALUES (?, ?, ?, ?)";
         if (isHistory) query = "INSERT INTO BORROWED_HISTORY (ITEM_ID, USER_ID, BORROW_DATE, RETURN_DATE) VALUES (?, ?, ?, ?)";
-        try (Connection connection = connectToDatabase();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
+        try {
+            thread.join();
+            try (Connection connection = connectThread.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setLong(1, borrowInfo.itemId());
-            preparedStatement.setLong(2, borrowInfo.userId());
-            preparedStatement.setDate(3, borrowInfo.borrowDate());
-            preparedStatement.setDate(4, borrowInfo.returnDate());
+                preparedStatement.setLong(1, borrowInfo.itemId());
+                preparedStatement.setLong(2, borrowInfo.userId());
+                preparedStatement.setDate(3, borrowInfo.borrowDate());
+                preparedStatement.setDate(4, borrowInfo.returnDate());
 
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException | IOException e) {
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
             logger.info(e.getMessage());
             System.out.println(e.getMessage());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public static void deleteBorrowedInfoFromDatabase(Long itemId)
     {
-        String query = "DELETE FROM BORROWED WHERE ITEM_ID = ?";
-        try (Connection connection = connectToDatabase();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
+        try {
+            thread.join();
+            String query = "DELETE FROM BORROWED WHERE ITEM_ID = ?";
+            try (Connection connection = connectThread.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setLong(1, itemId);
-            preparedStatement.executeUpdate();
-            connection.close();
+                preparedStatement.setLong(1, itemId);
+                preparedStatement.executeUpdate();
+                connection.close();
+            }
         }
-        catch (SQLException | IOException e) {
+        catch (SQLException | InterruptedException e) {
             logger.info(e.getMessage());
             System.out.println(e.getMessage());
         }
@@ -661,19 +807,87 @@ public class DatabaseUtils {
 
     public static void deleteReservedInfoFromDatabase(Long itemId)
     {
-        String query = "DELETE FROM RESERVED WHERE ITEM_ID = ?";
-        try (Connection connection = connectToDatabase();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
+        try {
+            thread.join();
+            String query = "DELETE FROM RESERVED WHERE ITEM_ID = ?";
+            try (Connection connection = connectThread.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setLong(1, itemId);
-            preparedStatement.executeUpdate();
-            connection.close();
+                preparedStatement.setLong(1, itemId);
+                preparedStatement.executeUpdate();
+                connection.close();
+            }
         }
-        catch (SQLException | IOException e) {
+        catch (SQLException e) {
         logger.info(e.getMessage());
         System.out.println(e.getMessage());
         }
+        catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+        /*
+    TODO Ubit se
+    public static void saveItem(String itemName,String numberOfCategory,String width, String height,String length, String productionCost, String sellingPrice){
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
+        try{
+            thread.join();
+            try (Connection connection = connectThread.getConnection()) {
+                String insertCarSql = "INSERT INTO ITEM(CATEGORY_ID,NAME,WIDTH,HEIGHT,LENGTH,PRODUCTION_COST,SELLING_PRICE) VALUES(?, ?, ?, ?, ?, ?, ?);";
+                PreparedStatement pstmt = connection.prepareStatement(insertCarSql);
+
+                pstmt.setLong(1, Long.parseLong(numberOfCategory));
+                pstmt.setString(2, itemName);
+                pstmt.setDouble(3, Double.parseDouble(width));
+                pstmt.setDouble(4, Double.parseDouble(height));
+                pstmt.setDouble(5, Double.parseDouble(length));
+                pstmt.setDouble(6, Double.parseDouble(productionCost));
+                pstmt.setDouble(7, Double.parseDouble(sellingPrice));
+
+                pstmt.execute();
+            } catch (SQLException ex) {
+                String message = "Dogodila se pogreška kod spremanja podataka u bazu!";
+                //logger.error(message, ex);
+                System.out.println(message);
+            }
+        }catch (Exception e){
+
+        }
+
+    }
+    public static List<Address> getAddress() {
+        List<Address> adds = new ArrayList<>();
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
+        try{
+            thread.join();
+            try (Connection connection = connectThread.getConnection()) {
+                String sqlQuery = "SELECT * FROM ADDRESS";
+                Statement stmt = connection.createStatement();
+                stmt.execute(sqlQuery);
+                ResultSet rs = stmt.getResultSet();
+                mapResultSetToAddressList(rs, adds);
+            } catch (SQLException ex) {
+                String message = "Dogodila se pogreška kod dohvaćanja podataka iz baze!";
+                //logger.error(message, ex);
+                System.out.println(ex);
+                System.out.println(message);
+            }
+        }catch (Exception e){
+
+        }
+
+
+        return adds;
+    }
+    */
 
     public synchronized static Connection connectToDatabase() throws SQLException, IOException {
         Properties svojstva = new Properties();

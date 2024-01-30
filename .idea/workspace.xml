@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="fix">
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/utility/DataCompare.java" afterDir="false" />
+    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="sređena komparacija podataka">
+      <change afterPath="$PROJECT_DIR$/src/main/java/production/exception/DatabaseNotStarted.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/production/threads/ConnectThread.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/production/threads/DatabaseThread.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/production/threads/GetBooksThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/LibraryItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/LibraryItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/DataWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/DataWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageAdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageAdmin.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageAdmin.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/DatabaseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/DatabaseUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchViewController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,7 +229,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706569306475</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="sređena komparacija podataka">
+      <option name="closed" value="true" />
+      <created>1706615242462</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1706615242462</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -265,6 +273,7 @@
     <MESSAGE value="sređen prikaz posuđivanja&#10;dodano sealed na LibraryItem" />
     <MESSAGE value="dodan DataWrapper za serijalizaciju" />
     <MESSAGE value="fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix" />
+    <MESSAGE value="sređena komparacija podataka" />
+    <option name="LAST_COMMIT_MESSAGE" value="sređena komparacija podataka" />
   </component>
 </project>

@@ -15,7 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import production.model.Book;
 import production.model.Movie;
+import production.threads.GetBooksInLibraryThread;
+import production.threads.GetMoviesInLibraryThread;
 import production.utility.ItemMemory;
+import production.utility.SessionManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,8 +66,15 @@ public class MovieSearchViewController {
     public void search() {
         String movieName = movieNameField.getText();
         List<Movie> movieList;
-        movieList = getAllMoviesFromDatabase();
-
+        GetMoviesInLibraryThread moviesThread = new GetMoviesInLibraryThread(SessionManager.getCurrentLibrary());
+        Thread thread = new Thread(moviesThread);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        movieList = moviesThread.getMovieList();
         List<Movie> filteredMovieList;
         filteredMovieList = movieList.stream()
                 .filter(c -> c.getTitle().toLowerCase().contains(movieName.toLowerCase()))

@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import production.model.Library;
 import production.model.User;
 import production.model.Worker;
+import production.threads.GetAllLibrariesThread;
 import production.utility.DatabaseUtils;
 import production.utility.FileUtils;
 import production.utility.SessionManager;
@@ -41,7 +42,16 @@ public class LoginController {
     private static final Logger logger = LoggerFactory.getLogger(App.class);
     public void initialize() {
         List<String> libraryNames = new ArrayList<>();
-        libraryNames = DatabaseUtils.getAllLibrariesFromDatabase().stream().map(Library::getName).collect(Collectors.toList());
+        GetAllLibrariesThread librariesThread = new GetAllLibrariesThread();
+        Thread thread = new Thread(librariesThread);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        List<Library> libraryList = librariesThread.getLibraryList();
+        libraryNames = libraryList.stream().map(Library::getName).collect(Collectors.toList());
         ObservableList observableLibraryList =
                 FXCollections.observableArrayList(libraryNames);
         libraryComboBox.setItems(observableLibraryList);

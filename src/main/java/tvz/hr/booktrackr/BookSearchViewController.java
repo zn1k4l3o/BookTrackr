@@ -14,6 +14,7 @@ import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import production.model.Book;
+import production.threads.GetBooksInLibraryThread;
 import production.threads.GetBooksThread;
 import production.utility.DatabaseUtils;
 import production.utility.ItemMemory;
@@ -76,7 +77,7 @@ public class BookSearchViewController {
     public void search() {
         List<Book> bookList = new ArrayList<>();
 
-        GetBooksThread booksThread = new GetBooksThread();
+        GetBooksInLibraryThread booksThread = new GetBooksInLibraryThread(SessionManager.getCurrentLibrary());
         Thread thread = new Thread(booksThread);
         thread.start();
         try {
@@ -84,11 +85,7 @@ public class BookSearchViewController {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        /*
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        executor.scheduleAtFixedRate(() -> executor.submit(booksThread), 0, 500, TimeUnit.MILLISECONDS);
-         */
-        bookList = booksThread.getBooks();
+        bookList = booksThread.getBookList();
 
         //bookList = DatabaseUtils.getItemsInChosenLibrary(SessionManager.getCurrentLibrary(), "Book");
 

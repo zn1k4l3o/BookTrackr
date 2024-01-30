@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import production.enums.Genre;
 import production.model.Book;
+import production.threads.AddBookThread;
 import production.utility.DatabaseUtils;
 import production.utility.SessionManager;
 
@@ -19,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static production.utility.DatabaseUtils.addBookToDatabase;
 
 public class BookAddViewController {
 
@@ -97,7 +96,15 @@ public class BookAddViewController {
         String bookGenre = bookGenreCombobox.getValue();
         String bookPublisher = publisherField.getText();
 
-        addBookToDatabase(bookTitle, bookGenre, bookPublisher, bookAuthor, 0f);
+        //addBookToDatabase(bookTitle, bookGenre, bookPublisher, bookAuthor, 0f);
+        AddBookThread moviesThread = new AddBookThread(bookTitle, bookGenre, bookPublisher, bookAuthor, 0f);
+        Thread thread = new Thread(moviesThread);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println("khm");
     }
 }

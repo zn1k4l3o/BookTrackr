@@ -15,7 +15,11 @@ import production.exception.DifferentPasswordException;
 import production.exception.ExistingUserException;
 import production.model.Library;
 import production.model.User;
+import production.threads.AddUserThread;
+import production.threads.GetAllLibrariesThread;
+import production.threads.GetMoviesInLibraryThread;
 import production.utility.DatabaseUtils;
+import production.utility.SessionManager;
 import production.utility.UserChecking;
 import tvz.hr.booktrackr.App;
 
@@ -53,7 +57,16 @@ public class RegisterController {
     private static final Logger logger = LoggerFactory.getLogger(App.class);
     public void initialize() {
         List<String> libraryNames = new ArrayList<>();
-        libraryNames = DatabaseUtils.getAllLibrariesFromDatabase().stream().map(Library::getName).collect(Collectors.toList());
+        GetAllLibrariesThread librariesThread = new GetAllLibrariesThread();
+        Thread thread = new Thread(librariesThread);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        List<Library> libraryList = librariesThread.getLibraryList();
+        libraryNames = libraryList.stream().map(Library::getName).collect(Collectors.toList());
         ObservableList observableLibraryList =
                 FXCollections.observableArrayList(libraryNames);
         libraryComboBox.setItems(observableLibraryList);
@@ -90,7 +103,15 @@ public class RegisterController {
                 try {
                     UserChecking.checkPasswords(password, repeatPassword);
                     UserChecking.checkExistingUser(username);
-                    addUserToDatabase(username, hashedPassword, name, lastName, library.getId(), Boolean.FALSE);
+                    //addUserToDatabase(username, hashedPassword, name, lastName, library.getId(), Boolean.FALSE);
+                    AddUserThread addUserThread = new AddUserThread(username, hashedPassword, name, lastName, library.getId(), Boolean.FALSE);
+                    Thread thread = new Thread(addUserThread);
+                    thread.start();
+                    try {
+                        thread.join();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                     Long id = getUserIdByUsername(username);
                     writeUserToFile(username, hashedPassword, id);
                     logger.info("Registriran novi korisnik - " + username);
@@ -106,7 +127,14 @@ public class RegisterController {
                     if (BCrypt.checkpw(libraryPassword, library.getHashedPassword())) {
                         UserChecking.checkPasswords(password, repeatPassword);
                         UserChecking.checkExistingUser(username);
-                        addUserToDatabase(username, hashedPassword, name, lastName, library.getId(), Boolean.TRUE);
+                        AddUserThread addUserThread = new AddUserThread(username, hashedPassword, name, lastName, library.getId(), Boolean.TRUE);
+                        Thread thread = new Thread(addUserThread);
+                        thread.start();
+                        try {
+                            thread.join();
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
                         Long id = getUserIdByUsername(username);
                         writeUserToFile(username, hashedPassword, id);
                         logger.info("Registriran novi radnik - " + username);
@@ -142,7 +170,16 @@ public class RegisterController {
 
     private Optional<Library> findLibraryByName(String libraryName) {
         Optional<Library> optionalLibrary = Optional.empty();
-        List<Library> libraryList = DatabaseUtils.getAllLibrariesFromDatabase();
+        //List<Library> libraryList = DatabaseUtils.getAllLibrariesFromDatabase();
+        GetAllLibrariesThread librariesThread = new GetAllLibrariesThread();
+        Thread thread = new Thread(librariesThread);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        List<Library> libraryList = librariesThread.getLibraryList();
         for (Library lib : libraryList) {
             if (lib.getName().equals(libraryName)) {
                 optionalLibrary = Optional.of(lib);

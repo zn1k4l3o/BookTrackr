@@ -2,10 +2,10 @@ package production.utility;
 
 import production.model.Library;
 import production.model.User;
+import production.threads.GetAllLibrariesThread;
 
 import java.util.List;
 
-import static production.utility.DatabaseUtils.getAllLibrariesFromDatabase;
 
 public abstract class SessionManager {
 
@@ -30,7 +30,16 @@ public abstract class SessionManager {
     }
 
     public static void setCurrentLibraryByName(String libraryName) {
-        List<Library> libraryList = getAllLibrariesFromDatabase();
+        //List<Library> libraryList = getAllLibrariesFromDatabase();
+        GetAllLibrariesThread librariesThread = new GetAllLibrariesThread();
+        Thread thread = new Thread(librariesThread);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        List<Library> libraryList = librariesThread.getLibraryList();
         currentLibrary = libraryList.stream()
                 .filter(lib -> lib.getName().equals(libraryName))
                 .findFirst().get();

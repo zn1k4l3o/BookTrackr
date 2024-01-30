@@ -3,6 +3,7 @@ package production.utility;
 import org.controlsfx.control.PropertySheet;
 import production.enums.Prices;
 import production.model.*;
+import production.threads.GetLibraryByNameThread;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -52,7 +53,16 @@ public interface BorrowActions {
     static List<LibraryItem> getAllBorrowedItemsByUser(User user) {
         List<LibraryItem> itemsInCurrentLibrary = new ArrayList<>();
         System.out.println(user.getLibraryName());
-        Optional<Library> libraryOptional = getLibraryByNameFromDatabase(user.getLibraryName());
+        //Optional<Library> libraryOptional = getLibraryByNameFromDatabase(user.getLibraryName());
+        GetLibraryByNameThread libraryThread = new GetLibraryByNameThread(user.getLibraryName());
+        Thread thread = new Thread(libraryThread);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        Optional<Library> libraryOptional = libraryThread.getLibrary();
         if (libraryOptional.isEmpty()) {
             System.out.println("Problemi s knjiznicom kod usera " + user.getUsername());
             return itemsInCurrentLibrary;

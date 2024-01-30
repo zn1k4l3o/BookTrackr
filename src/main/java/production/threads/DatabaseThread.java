@@ -121,7 +121,7 @@ public class DatabaseThread {
         return libraryOptional;
     }
 
-    public synchronized List<Library> getAllLibrariesFromDatabase() {
+    public synchronized List<Library> getAllLibrariesFromDB() {
         while(activeConnectionWithDatabase) {
             try {
                 wait();

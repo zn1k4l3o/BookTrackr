@@ -14,9 +14,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import production.exception.DifferentPasswordException;
 import production.model.*;
+import production.threads.GetAllLibrariesThread;
+import production.threads.GetLibraryByNameThread;
+import production.threads.GetMoviesInLibraryThread;
 import production.utility.DataCompare;
 import production.utility.DataWrapper;
 import production.utility.DatabaseUtils;
+import production.utility.SessionManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -156,7 +160,16 @@ public class HeroPageAdminController {
 
         refreshLibraryTable();
 
-        List<Library> libraryList = DatabaseUtils.getAllLibrariesFromDatabase();
+        //List<Library> libraryList = DatabaseUtils.getAllLibrariesFromDatabase();
+        GetAllLibrariesThread librariesThread = new GetAllLibrariesThread();
+        Thread thread = new Thread(librariesThread);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        List<Library> libraryList = librariesThread.getLibraryList();
         ObservableList<String> observableLibraryList = FXCollections.observableArrayList(libraryList.stream().map(Library::getName).collect(Collectors.toList()));
         libraryComboBox.setItems(observableLibraryList);
         libraryComboBox.setValue(libraryList.get(0).getName());
@@ -166,7 +179,16 @@ public class HeroPageAdminController {
     }
 
     public void refreshLibraryTable() {
-        List<Library> libraryList = getAllLibrariesFromDatabase();
+        //List<Library> libraryList = getAllLibrariesFromDatabase();
+        GetAllLibrariesThread librariesThread = new GetAllLibrariesThread();
+        Thread thread = new Thread(librariesThread);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        List<Library> libraryList = librariesThread.getLibraryList();
         ObservableList observableLibraryList = FXCollections.observableArrayList(libraryList);
         libraryTable.setItems(observableLibraryList);
     }
@@ -194,7 +216,16 @@ public class HeroPageAdminController {
         String libraryName = libraryComboBox.getValue();
         Boolean includeUsersOption = includeUsers.isSelected();
         Boolean includeLibraryItemsOption = includeLibraryItems.isSelected();
-        Optional<Library> libraryOptional = getLibraryByNameFromDatabase(libraryName);
+        GetLibraryByNameThread libraryThread = new GetLibraryByNameThread(libraryName);
+        Thread thread = new Thread(libraryThread);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        Optional<Library> libraryOptional = libraryThread.getLibrary();
+        //Optional<Library> libraryOptional = getLibraryByNameFromDatabase(libraryName);
         if (libraryOptional.isPresent()) {
             Library library = libraryOptional.get();
             DataWrapper dataWrapper = new DataWrapper(library);

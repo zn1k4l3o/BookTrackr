@@ -304,15 +304,18 @@ public class DatabaseUtils {
         try (Connection connection = connectToDatabase();
              PreparedStatement preparedStatement3 = connection.prepareStatement(query)) {
 
-            String libraryName = SessionManager.getCurrentUser().getLibraryName();
+            //String libraryName = SessionManager.getCurrentUser().getLibraryName();
             ///////////Zamijeniti sa SessionManagerom
+            /*
             List<Library> libraryList = getAllLibrariesFromDatabase();
             Long libraryId = libraryList.stream()
                     .filter(lib -> lib.getName().equals(libraryName))
                     .findFirst()
                     .map(Library::getId).get();
+
+             */
             //////////////////////////
-            preparedStatement3.setLong(1, libraryId);
+            preparedStatement3.setLong(1, SessionManager.getCurrentLibrary().getId());
             preparedStatement3.setLong(2, itemId);
 
             preparedStatement3.executeUpdate();

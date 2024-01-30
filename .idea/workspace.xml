@@ -4,15 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="sređen prikaz posuđivanja&#10;dodano sealed na LibraryItem">
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/utility/DataWrapper.java" afterDir="false" />
+    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="fix">
+      <change afterPath="$PROJECT_DIR$/src/main/java/production/utility/DataCompare.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/Library.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/FileUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/SessionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/LibraryItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/LibraryItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/DataWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/DataWrapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageAdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MenuBarUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MenuBarUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageAdmin.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageAdmin.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -214,7 +213,23 @@
       <option name="project" value="LOCAL" />
       <updated>1706560223864</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="dodan DataWrapper za serijalizaciju">
+      <option name="closed" value="true" />
+      <created>1706569282323</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1706569282323</updated>
+    </task>
+    <task id="LOCAL-00018" summary="fix">
+      <option name="closed" value="true" />
+      <created>1706569306475</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1706569306475</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -248,6 +263,8 @@
     <MESSAGE value="rjeseno posuđivanje" />
     <MESSAGE value="rjeseno posuđivanje sad za pravo" />
     <MESSAGE value="sređen prikaz posuđivanja&#10;dodano sealed na LibraryItem" />
-    <option name="LAST_COMMIT_MESSAGE" value="sređen prikaz posuđivanja&#10;dodano sealed na LibraryItem" />
+    <MESSAGE value="dodan DataWrapper za serijalizaciju" />
+    <MESSAGE value="fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix" />
   </component>
 </project>

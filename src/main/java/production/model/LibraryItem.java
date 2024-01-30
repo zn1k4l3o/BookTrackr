@@ -38,6 +38,10 @@ public abstract sealed class LibraryItem implements Serializable permits Book, M
         this.title = title;
     }
 
+    public void addNewToTitle() {
+        title = "***-" + title + "-NEW";
+    }
+
     public Float getRating() {
         return rating;
     }

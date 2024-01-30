@@ -91,6 +91,10 @@ public class User implements Serializable {
         this.username = username;
     }
 
+    public void addNewToUsername() {
+        username = "***-" + username + "-NEW";
+    }
+
     public Long getId() {
         return id;
     }

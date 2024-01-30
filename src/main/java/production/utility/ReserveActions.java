@@ -2,6 +2,7 @@ package production.utility;
 
 import production.model.BorrowInfo;
 import production.model.ReservedInfo;
+import production.threads.GetBorrowinInfoThread;
 
 import java.sql.Date;
 import java.util.Optional;
@@ -11,7 +12,16 @@ import static production.utility.DatabaseUtils.*;
 public interface ReserveActions {
 
     static void reserveItem(Long itemId, Long userId) {
-        Optional<BorrowInfo> borrowInfoOptional = DatabaseUtils.getBorrowingInfoForItemIdFromDatabase(itemId);
+        GetBorrowinInfoThread borrowingInfoThread = new GetBorrowinInfoThread(itemId);
+        Thread thread = new Thread(borrowingInfoThread);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        Optional<BorrowInfo> borrowInfoOptional = borrowingInfoThread.getBorrowInfo();
+        //Optional<BorrowInfo> borrowInfoOptional = DatabaseUtils.getBorrowingInfoForItemIdFromDatabase(itemId);
         Optional<ReservedInfo> reservedInfoOptional = DatabaseUtils.getReservedInfoForItemIdFromDatabase(itemId);
         if (borrowInfoOptional.isPresent()) {
             System.out.println("Nemože se rezervirati jer je posuđeno");

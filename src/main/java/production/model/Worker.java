@@ -78,4 +78,9 @@ public class Worker extends User {
             return worker;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Worker - " + username + " - ID " + id;
+    }
 }

@@ -1,9 +1,10 @@
 package production.utility;
 
-import org.controlsfx.control.PropertySheet;
 import production.enums.Prices;
 import production.model.*;
+import production.threads.GetBorrowinInfoThread;
 import production.threads.GetLibraryByNameThread;
+import production.threads.GetReservedInfoThread;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -19,8 +20,26 @@ import static production.utility.ReserveActions.cancelReservationForItem;
 public interface BorrowActions {
 
     static Long checkBorrowedStatus(Long itemId) {
-        Optional<BorrowInfo> borrowInfoOptional = getBorrowingInfoForItemIdFromDatabase(itemId);
-        Optional<ReservedInfo> reservedInfoOptional = getReservedInfoForItemIdFromDatabase(itemId);
+        GetBorrowinInfoThread borrowingInfoThread = new GetBorrowinInfoThread(itemId);
+        Thread thread = new Thread(borrowingInfoThread);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        GetReservedInfoThread reservedInfoThread = new GetReservedInfoThread(itemId);
+        Thread thread2 = new Thread(reservedInfoThread);
+        thread2.start();
+        try {
+            thread2.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        Optional<BorrowInfo> borrowInfoOptional = borrowingInfoThread.getBorrowInfo();
+        Optional<ReservedInfo> reservedInfoOptional = reservedInfoThread.getReservedInfo();
+        //Optional<BorrowInfo> borrowInfoOptional = getBorrowingInfoForItemIdFromDatabase(itemId);
+        //Optional<ReservedInfo> reservedInfoOptional = getReservedInfoForItemIdFromDatabase(itemId);
         //ako je rezervirano vraća -2L
         if (borrowInfoOptional.isPresent()) {
             BorrowInfo borrowInfo = borrowInfoOptional.get();
@@ -35,8 +54,26 @@ public interface BorrowActions {
     }
 
     static Long checkBorrowedStatusWithId(Long itemId, Long userId) {
-        Optional<BorrowInfo> borrowInfoOptional = getBorrowingInfoForItemIdFromDatabase(itemId);
-        Optional<ReservedInfo> reservedInfoOptional = getReservedInfoForItemIdFromDatabase(itemId);
+        //Optional<BorrowInfo> borrowInfoOptional = getBorrowingInfoForItemIdFromDatabase(itemId);
+        //Optional<ReservedInfo> reservedInfoOptional = getReservedInfoForItemIdFromDatabase(itemId);
+        GetBorrowinInfoThread borrowingInfoThread = new GetBorrowinInfoThread(itemId);
+        Thread thread = new Thread(borrowingInfoThread);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        GetReservedInfoThread reservedInfoThread = new GetReservedInfoThread(itemId);
+        Thread thread2 = new Thread(reservedInfoThread);
+        thread2.start();
+        try {
+            thread2.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        Optional<BorrowInfo> borrowInfoOptional = borrowingInfoThread.getBorrowInfo();
+        Optional<ReservedInfo> reservedInfoOptional = reservedInfoThread.getReservedInfo();
         //ako je rezervirano vraća -2L
         if (borrowInfoOptional.isPresent()) {
             BorrowInfo borrowInfo = borrowInfoOptional.get();
@@ -94,7 +131,16 @@ public interface BorrowActions {
     }
 
     static BigDecimal returnItem(Long itemId) {
-        Optional<BorrowInfo> borrowInfoOptional = getBorrowingInfoForItemIdFromDatabase(itemId);
+        //Optional<BorrowInfo> borrowInfoOptional = getBorrowingInfoForItemIdFromDatabase(itemId);
+        GetBorrowinInfoThread borrowingInfoThread = new GetBorrowinInfoThread(itemId);
+        Thread thread = new Thread(borrowingInfoThread);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        Optional<BorrowInfo> borrowInfoOptional = borrowingInfoThread.getBorrowInfo();
         BigDecimal lateReturnPenalty = BigDecimal.ZERO;
         if (borrowInfoOptional.isPresent()) {
             long millis=System.currentTimeMillis();

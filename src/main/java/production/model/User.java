@@ -127,5 +127,8 @@ public class User implements Serializable {
         this.libraryName = libraryName;
     }
 
-
+    @Override
+    public String toString() {
+        return "User - " + username + " - ID " + id;
+    }
 }

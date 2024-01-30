@@ -833,65 +833,6 @@ public class DatabaseUtils {
         }
     }
 
-        /*
-    TODO Ubit se
-    public static void saveItem(String itemName,String numberOfCategory,String width, String height,String length, String productionCost, String sellingPrice){
-        ConnectThread connectThread = new ConnectThread();
-        Thread thread = new Thread(connectThread);
-        thread.start();
-        try{
-            thread.join();
-            try (Connection connection = connectThread.getConnection()) {
-                String insertCarSql = "INSERT INTO ITEM(CATEGORY_ID,NAME,WIDTH,HEIGHT,LENGTH,PRODUCTION_COST,SELLING_PRICE) VALUES(?, ?, ?, ?, ?, ?, ?);";
-                PreparedStatement pstmt = connection.prepareStatement(insertCarSql);
-
-                pstmt.setLong(1, Long.parseLong(numberOfCategory));
-                pstmt.setString(2, itemName);
-                pstmt.setDouble(3, Double.parseDouble(width));
-                pstmt.setDouble(4, Double.parseDouble(height));
-                pstmt.setDouble(5, Double.parseDouble(length));
-                pstmt.setDouble(6, Double.parseDouble(productionCost));
-                pstmt.setDouble(7, Double.parseDouble(sellingPrice));
-
-                pstmt.execute();
-            } catch (SQLException ex) {
-                String message = "Dogodila se pogreška kod spremanja podataka u bazu!";
-                //logger.error(message, ex);
-                System.out.println(message);
-            }
-        }catch (Exception e){
-
-        }
-
-    }
-    public static List<Address> getAddress() {
-        List<Address> adds = new ArrayList<>();
-        ConnectThread connectThread = new ConnectThread();
-        Thread thread = new Thread(connectThread);
-        thread.start();
-        try{
-            thread.join();
-            try (Connection connection = connectThread.getConnection()) {
-                String sqlQuery = "SELECT * FROM ADDRESS";
-                Statement stmt = connection.createStatement();
-                stmt.execute(sqlQuery);
-                ResultSet rs = stmt.getResultSet();
-                mapResultSetToAddressList(rs, adds);
-            } catch (SQLException ex) {
-                String message = "Dogodila se pogreška kod dohvaćanja podataka iz baze!";
-                //logger.error(message, ex);
-                System.out.println(ex);
-                System.out.println(message);
-            }
-        }catch (Exception e){
-
-        }
-
-
-        return adds;
-    }
-    */
-
     public synchronized static Connection connectToDatabase() throws SQLException, IOException {
         Properties svojstva = new Properties();
         svojstva.load(new FileReader(DATABASE_FILE));

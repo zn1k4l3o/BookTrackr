@@ -4,24 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="rj database threadovi synchronized">
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/threads/AddBookThread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/threads/AddUserThread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/threads/GetAllLibrariesThread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/threads/GetBooksInLibraryThread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/threads/GetLibraryByNameThread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/threads/GetMoviesInLibraryThread.java" afterDir="false" />
+    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="rj dio threadova">
+      <change afterPath="$PROJECT_DIR$/src/main/java/production/threads/GetBorrowinInfoThread.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/production/threads/GetReservedInfoThread.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/production/utility/DataChange.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/threads/DatabaseThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/threads/DatabaseThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/BorrowInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/BorrowInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/Library.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/Movie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/Movie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/ReservedInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/ReservedInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/Worker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/BorrowActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/BorrowActions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/DatabaseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/DatabaseUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/SessionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookAddViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookAddViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/ReserveActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/ReserveActions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MovieSearchViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MovieSearchViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/RegisterController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -259,7 +257,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706628117711</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="rj dio threadova">
+      <option name="closed" value="true" />
+      <created>1706647114351</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1706647114351</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -297,6 +303,7 @@
     <MESSAGE value="fix" />
     <MESSAGE value="sređena komparacija podataka" />
     <MESSAGE value="rj database threadovi synchronized" />
-    <option name="LAST_COMMIT_MESSAGE" value="rj database threadovi synchronized" />
+    <MESSAGE value="rj dio threadova" />
+    <option name="LAST_COMMIT_MESSAGE" value="rj dio threadova" />
   </component>
 </project>

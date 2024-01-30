@@ -15,10 +15,7 @@ import production.model.Library;
 import production.model.User;
 import production.model.Worker;
 import production.threads.GetAllLibrariesThread;
-import production.utility.DatabaseUtils;
-import production.utility.FileUtils;
-import production.utility.SessionManager;
-import production.utility.UserChecking;
+import production.utility.*;
 import tvz.hr.booktrackr.App;
 
 import java.io.File;
@@ -100,13 +97,12 @@ public class LoginController {
                         if (user instanceof Worker) switchToHeroPageWorker();
                         else switchToHeroPageUser();
                     }
-                    else System.out.println("Kriva lozinka");
+                    else AlertWindow.showNotificationDialog("Kriva lozinka", "Unijeli ste krivu lozinku!");
                 }
             }
         }
         else {
-            ///napisi nes
-            System.out.println("ispraviti");
+            AlertWindow.showNotificationDialog("Nepostojeći korisnik", "Korisnik ne postoji u fileu!");
         }
     }
 

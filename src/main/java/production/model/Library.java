@@ -86,4 +86,7 @@ public class Library implements Serializable {
         this.webAddress = webAddress;
     }
 
+    public String toString() {
+        return name + ", " + webAddress;
+    }
 }

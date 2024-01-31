@@ -280,4 +280,17 @@ public class HeroPageAdminController {
         App.mainStage.setScene(scene);
         App.mainStage.show();
     }
+
+    public void switchToLog() {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("logView.fxml"));
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load(), 800, 500);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        logger.info("Prebačeno na log");
+        App.mainStage.setScene(scene);
+        App.mainStage.show();
+    }
 }

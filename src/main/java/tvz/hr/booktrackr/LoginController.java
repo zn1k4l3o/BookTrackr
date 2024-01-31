@@ -37,6 +37,7 @@ public class LoginController {
     private ComboBox<String> libraryComboBox;
 
     private static final Logger logger = LoggerFactory.getLogger(App.class);
+
     public void initialize() {
         List<String> libraryNames = new ArrayList<>();
         GetAllLibrariesThread librariesThread = new GetAllLibrariesThread();
@@ -53,6 +54,9 @@ public class LoginController {
                 FXCollections.observableArrayList(libraryNames);
         libraryComboBox.setItems(observableLibraryList);
         libraryComboBox.setValue("");
+        DataChangeWrapper dataChangeWrapper = FileUtils.readDataChangeFromFile();
+        DataChange<String,String> dc = new DataChange<>("Aplikacija", "otvoreno login");
+        dataChangeWrapper.addDataChange(dc);
     }
 
     public void switchToRegister() {
@@ -115,6 +119,9 @@ public class LoginController {
             e.printStackTrace();
         }
         logger.info("Prebačeno na hero page user");
+        DataChangeWrapper dataChangeWrapper = FileUtils.readDataChangeFromFile();
+        DataChange<String,String> dc = new DataChange<>("Aplikacija", "otvoreno hero page user");
+        dataChangeWrapper.addDataChange(dc);
         App.mainStage.setScene(scene);
         App.mainStage.show();
     }
@@ -128,6 +135,9 @@ public class LoginController {
             e.printStackTrace();
         }
         logger.info("Prebačeno na hero page worker");
+        DataChangeWrapper dataChangeWrapper = FileUtils.readDataChangeFromFile();
+        DataChange<String,String> dc = new DataChange<>("Aplikacija", "otvoreno hero page worker");
+        dataChangeWrapper.addDataChange(dc);
         App.mainStage.setScene(scene);
         App.mainStage.show();
     }
@@ -140,7 +150,10 @@ public class LoginController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logger.info("Prebačeno na hero page user");
+        logger.info("Prebačeno na hero page admin");
+        DataChangeWrapper dataChangeWrapper = FileUtils.readDataChangeFromFile();
+        DataChange<String,String> dc = new DataChange<>("Aplikacija", "otvoreno hero page admin");
+        dataChangeWrapper.addDataChange(dc);
         App.mainStage.setScene(scene);
         App.mainStage.show();
     }

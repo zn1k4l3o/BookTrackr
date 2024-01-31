@@ -15,6 +15,7 @@ public class FileUtils {
     private static final String USERS_FULL_TEXT_FILE_NAME = "dat/SQLcommands.txt";
     private static final String USERS_TEXT_FILE_NAME = "dat/users.txt";
     private static final String DATA_BIN_FILE_NAME = "dat/data.bin";
+    private static final String DATA_CHANGES_BIN_FILE_NAME = "dat/dataChanges.bin";
 
     //*******************************************
     public static <T extends User> void writeSerializedList(List<T> lista, String location) {
@@ -76,6 +77,46 @@ public class FileUtils {
             throw new RuntimeException(e);
         }
         return dataWrapperOptional;
+    }
+
+    public static void writeDataChangeToFile(DataChangeWrapper dataChangeWrapper) {
+        try
+        {
+            FileOutputStream file = new FileOutputStream(DATA_CHANGES_BIN_FILE_NAME);
+            ObjectOutputStream out = new ObjectOutputStream(file);
+
+            out.writeObject(dataChangeWrapper);
+            out.close();
+            file.close();
+            System.out.println("Serijalizacija uspjela DataChangeWrapper");
+
+        }
+        catch(IOException ex)
+        {
+            System.out.println("IOException is caught");
+        }
+    }
+
+    public static DataChangeWrapper readDataChangeFromFile() {
+        DataChangeWrapper dataChangeWrapper = new DataChangeWrapper(new ArrayList<>());
+        try
+        {
+            FileInputStream file = new FileInputStream(DATA_CHANGES_BIN_FILE_NAME);
+            ObjectInputStream in = new ObjectInputStream(file);
+
+            dataChangeWrapper = (DataChangeWrapper) in.readObject();
+            in.close();
+            file.close();
+            System.out.println("DeSerijalizacija uspjela DataChangeWrapper");
+
+        }
+        catch(IOException ex)
+        {
+            System.out.println("IOException is caught");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return dataChangeWrapper;
     }
 
     public static void writeUserToFile(String username, String hashedPassword, Long id) {

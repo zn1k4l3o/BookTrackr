@@ -1,5 +1,6 @@
 package production.utility;
 
+import production.model.Book;
 import production.model.BorrowInfo;
 import production.model.ReservedInfo;
 import production.threads.GetBorrowinInfoThread;
@@ -32,7 +33,11 @@ public interface ReserveActions {
         else {
             long millis=System.currentTimeMillis();
             Date dateCurrent = new java.sql.Date(millis);
-            addReservedItemToDatabase(new ReservedInfo(-1L, itemId, userId, dateCurrent), Boolean.FALSE);
+            ReservedInfo reservedInfo = new ReservedInfo(-1L, itemId, userId, dateCurrent);
+            addReservedItemToDatabase(reservedInfo, Boolean.FALSE);
+            DataChangeWrapper dataChangeWrapper = FileUtils.readDataChangeFromFile();
+            DataChange<ReservedInfo,String> dc = new DataChange<>(reservedInfo, "rezervirano");
+            dataChangeWrapper.addDataChange(dc);
         }
     }
 
@@ -44,6 +49,9 @@ public interface ReserveActions {
             if (reservedInfo.userId().equals(userId)) {
                 deleteReservedInfoFromDatabase(itemId);
                 addReservedItemToDatabase( reservedInfo, Boolean.TRUE);
+                DataChangeWrapper dataChangeWrapper = FileUtils.readDataChangeFromFile();
+                DataChange<ReservedInfo,String> dc = new DataChange<>(reservedInfo, "maknuta rezervacija");
+                dataChangeWrapper.addDataChange(dc);
             }
 
         }

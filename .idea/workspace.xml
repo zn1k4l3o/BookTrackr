@@ -4,22 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="rj dio threadova">
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/threads/GetBorrowinInfoThread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/threads/GetReservedInfoThread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/utility/DataChange.java" afterDir="false" />
+    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="overridean toString na modelima&#10;dodan DataChange">
+      <change afterPath="$PROJECT_DIR$/src/main/java/production/utility/DataChangeWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LogViewController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/logView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/Book.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/production/model/BorrowInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/BorrowInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/Library.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/Movie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/Movie.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/production/model/ReservedInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/ReservedInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/Worker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/BorrowActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/BorrowActions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/DatabaseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/DatabaseUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/threads/DatabaseThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/threads/DatabaseThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/DataChange.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/DataChange.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/FileUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/ReserveActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/ReserveActions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookReservePageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookReservePageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageAdminController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageAdmin.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageAdmin.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +30,8 @@
       <list>
         <option value="Record" />
         <option value="Interface" />
-        <option value="FxmlFile" />
         <option value="Enum" />
+        <option value="FxmlFile" />
         <option value="Class" />
       </list>
     </option>
@@ -265,7 +264,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706647114351</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="overridean toString na modelima&#10;dodan DataChange">
+      <option name="closed" value="true" />
+      <created>1706654697002</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1706654697002</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -304,6 +311,7 @@
     <MESSAGE value="sređena komparacija podataka" />
     <MESSAGE value="rj database threadovi synchronized" />
     <MESSAGE value="rj dio threadova" />
-    <option name="LAST_COMMIT_MESSAGE" value="rj dio threadova" />
+    <MESSAGE value="overridean toString na modelima&#10;dodan DataChange" />
+    <option name="LAST_COMMIT_MESSAGE" value="overridean toString na modelima&#10;dodan DataChange" />
   </component>
 </project>

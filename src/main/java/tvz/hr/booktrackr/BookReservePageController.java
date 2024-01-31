@@ -8,9 +8,7 @@ import javafx.scene.control.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import production.model.Book;
-import production.utility.DatabaseUtils;
-import production.utility.ItemMemory;
-import production.utility.SessionManager;
+import production.utility.*;
 
 import java.io.IOException;
 import java.util.Optional;

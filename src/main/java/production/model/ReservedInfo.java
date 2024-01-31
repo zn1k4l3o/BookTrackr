@@ -1,8 +1,9 @@
 package production.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public record ReservedInfo(Long id, Long itemId, Long userId, Date reservedDate) {
+public record ReservedInfo(Long id, Long itemId, Long userId, Date reservedDate) implements Serializable {
 
     @Override
     public String toString() {

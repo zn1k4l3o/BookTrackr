@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class DatabaseThread {
 
-    public boolean activeConnectionWithDatabase = false;
+    public static boolean activeConnectionWithDatabase = false;
 
     public synchronized Connection connectToDatabase() throws SQLException, IOException {
         Connection veza;

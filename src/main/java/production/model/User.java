@@ -2,7 +2,7 @@ package production.model;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class User implements Serializable, Comparable<User>{
 
     String username;
     Long id;
@@ -19,6 +19,11 @@ public class User implements Serializable {
     }
 
     String hashedPassword;
+
+    @Override
+    public int compareTo(User o) {
+        return username.compareTo(o.username)*(-1);
+    }
 
     public static class Builder {
 

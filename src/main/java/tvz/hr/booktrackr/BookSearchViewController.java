@@ -13,7 +13,9 @@ import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import production.generics.TableSorter;
 import production.model.Book;
+import production.model.LibraryItem;
 import production.threads.GetBooksInLibraryThread;
 import production.threads.GetBooksThread;
 import production.utility.DatabaseUtils;
@@ -50,6 +52,7 @@ public class BookSearchViewController {
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     public void initialize() {
+
         bookNameColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Book,String>, ObservableValue<String>>() {
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Book, String> param) {
                 return new ReadOnlyStringWrapper(param.getValue().getTitle());
@@ -86,6 +89,10 @@ public class BookSearchViewController {
             throw new RuntimeException(e);
         }
         bookList = booksThread.getBookList();
+        System.out.println(bookList);
+
+        //bookList.sort(new TableSorter<>());
+        System.out.println(bookList);
 
         //bookList = DatabaseUtils.getItemsInChosenLibrary(SessionManager.getCurrentLibrary(), "Book");
 
@@ -99,6 +106,7 @@ public class BookSearchViewController {
                 FXCollections.observableArrayList(filteredBookList);
 
         bookTable.setItems(observableBookList);
+        bookTable.sort();
     }
 
     public void bookReserveInfo() {

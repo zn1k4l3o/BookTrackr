@@ -4,21 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="overridean toString na modelima&#10;dodan DataChange">
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/utility/DataChangeWrapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LogViewController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/logView.fxml" afterDir="false" />
+    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="sređen DataChangeWrapper&lt;TF,TS&gt;">
+      <change afterPath="$PROJECT_DIR$/src/main/java/production/generics/TableSorter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/BorrowInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/BorrowInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/ReservedInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/ReservedInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/threads/DatabaseThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/threads/DatabaseThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/DataChange.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/DataChange.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/FileUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/DataChange.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/generics/DataChange.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/DataChangeWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/DataChangeWrapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/ReserveActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/ReserveActions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookReservePageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookReservePageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookAddViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookAddViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookBorrowPageWorkerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookBorrowPageWorkerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchViewController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageAdmin.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageAdmin.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -272,7 +269,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706654697002</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="sređen DataChangeWrapper&lt;TF,TS&gt;">
+      <option name="closed" value="true" />
+      <created>1706663814555</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1706663814555</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -312,6 +317,7 @@
     <MESSAGE value="rj database threadovi synchronized" />
     <MESSAGE value="rj dio threadova" />
     <MESSAGE value="overridean toString na modelima&#10;dodan DataChange" />
-    <option name="LAST_COMMIT_MESSAGE" value="overridean toString na modelima&#10;dodan DataChange" />
+    <MESSAGE value="sređen DataChangeWrapper&lt;TF,TS&gt;" />
+    <option name="LAST_COMMIT_MESSAGE" value="sređen DataChangeWrapper&lt;TF,TS&gt;" />
   </component>
 </project>

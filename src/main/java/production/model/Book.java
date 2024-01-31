@@ -2,7 +2,7 @@ package production.model;
 
 import java.util.Date;
 
-public non-sealed class Book extends LibraryItem{
+public non-sealed class Book extends LibraryItem {
 
     Integer pageCount;
     String genre;

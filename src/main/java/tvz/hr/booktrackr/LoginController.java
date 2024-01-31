@@ -11,14 +11,13 @@ import javafx.scene.control.TextField;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import production.generics.DataChange;
 import production.model.Library;
 import production.model.User;
 import production.model.Worker;
 import production.threads.GetAllLibrariesThread;
 import production.utility.*;
-import tvz.hr.booktrackr.App;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

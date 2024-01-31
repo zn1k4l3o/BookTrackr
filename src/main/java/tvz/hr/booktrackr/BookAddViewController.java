@@ -11,9 +11,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import production.enums.Genre;
+import production.generics.DataChange;
 import production.model.Book;
+import production.model.ReservedInfo;
+import production.model.User;
+import production.model.Worker;
 import production.threads.AddBookThread;
+import production.utility.DataChangeWrapper;
 import production.utility.DatabaseUtils;
+import production.utility.FileUtils;
 import production.utility.SessionManager;
 
 import java.util.ArrayList;
@@ -105,6 +111,10 @@ public class BookAddViewController {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        Book book = new Book.Builder(bookTitle).withPublisher(bookPublisher).withGenre(bookGenre).withAuthor(bookAuthor).withRating(0f).build();
+        DataChangeWrapper dataChangeWrapper = FileUtils.readDataChangeFromFile();
+        DataChange<Worker, Book> dc = new DataChange<>((Worker)SessionManager.getCurrentUser(), book);
+        dataChangeWrapper.addDataChange(dc);
         System.out.println("khm");
     }
 }

@@ -1,4 +1,4 @@
-package production.utility;
+package production.generics;
 
 import production.model.LibraryItem;
 import production.model.User;
@@ -25,11 +25,20 @@ public class DataChange<TFirst,TSecond> implements Serializable {
         DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String formattedDateTime = time.format(dateTimeFormat);
         if (data2 instanceof String) {
-            return data1.toString() + " " + data2 + " " + formattedDateTime;
+            return data1 + " " + data2 + " " + formattedDateTime;
         }
         else if (data1 instanceof Worker && data2 instanceof LibraryItem) {
-            return data1.toString() + " je dodao " + data2 + " " + formattedDateTime;
+            return data1 + " je dodao " + data2 + " " + formattedDateTime;
         }
-        else return data1.toString() + " - " + data2.toString() + " " + formattedDateTime;
+        else if (data1 instanceof LibraryItem && data2 instanceof Worker) {
+            return data1 + " je obrisao " + data2 + " " + formattedDateTime;
+        }
+        else if (data1 instanceof User && data2 instanceof LibraryItem) {
+            return data1 + " je posudio " + data2 + " " + formattedDateTime;
+        }
+        else if (data1 instanceof LibraryItem && data2 instanceof User) {
+            return data2 + " je vratio " + data1 + " " + formattedDateTime;
+        }
+        else return data1 + " - " + data2 + " " + formattedDateTime;
     }
 }

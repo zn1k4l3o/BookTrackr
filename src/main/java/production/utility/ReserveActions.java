@@ -1,6 +1,6 @@
 package production.utility;
 
-import production.model.Book;
+import production.generics.DataChange;
 import production.model.BorrowInfo;
 import production.model.ReservedInfo;
 import production.threads.GetBorrowinInfoThread;

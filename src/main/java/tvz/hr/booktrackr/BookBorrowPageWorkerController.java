@@ -7,12 +7,13 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Callback;
+import production.generics.DataChange;
+import production.generics.TableSorter;
 import production.model.Book;
+import production.model.ReservedInfo;
 import production.model.User;
 import production.model.Worker;
-import production.utility.AlertWindow;
-import production.utility.DatabaseUtils;
-import production.utility.SessionManager;
+import production.utility.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -111,6 +112,8 @@ public class BookBorrowPageWorkerController {
                 .equals(SessionManager.getCurrentLibrary().getName()))
                 .collect(Collectors.toList());
 
+        TableSorter<User> userSorter = new TableSorter<>();
+        userSorter.sort(userList);
         String userUsernameInput = usernameField.getText();
         List<User> filteredUserList = new ArrayList<>();
         for (User u : userList) {
@@ -147,9 +150,15 @@ public class BookBorrowPageWorkerController {
             BigDecimal returnPenalty = returnItem(book.getId());
             if (returnPenalty.compareTo(BigDecimal.ZERO) > 0) AlertWindow.showNotificationDialog("Zakašnjelo vraćanje","Korisnik duguje " + String.valueOf(returnPenalty) + "eur. ");
             else AlertWindow.showNotificationDialog("Uspješno vraćeno","Knjiga je uspješno vraćena!");
+            DataChangeWrapper dataChangeWrapper = FileUtils.readDataChangeFromFile();
+            DataChange<Book,User> dc = new DataChange<>(book, user);
+            dataChangeWrapper.addDataChange(dc);
         }
         else if (borrowButton.getText().equals("POSUDI")) {
             borrowItem(book.getId(), user.getId());
+            DataChangeWrapper dataChangeWrapper = FileUtils.readDataChangeFromFile();
+            DataChange<User,Book> dc = new DataChange<>(user, book);
+            dataChangeWrapper.addDataChange(dc);
         }
         checkActionButton();
     }

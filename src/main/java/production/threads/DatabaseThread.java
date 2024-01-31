@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class DatabaseThread {
 
-    public static boolean activeConnectionWithDatabase = false;
+    public boolean activeConnectionWithDatabase = false;
 
     public synchronized Connection connectToDatabase() throws SQLException, IOException {
         Connection veza;
@@ -397,6 +397,23 @@ public class DatabaseThread {
 
         activeConnectionWithDatabase = true;
         DatabaseUtils.deleteBorrowedInfoFromDatabase(itemId);
+        System.out.println("obrisana posudba: ");
+        activeConnectionWithDatabase = false;
+
+        notifyAll();
+    }
+
+    public synchronized void deleteUserFromDB(User user) {
+        while(activeConnectionWithDatabase) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        activeConnectionWithDatabase = true;
+        DatabaseUtils.deleteUserFromDatabase(user);
         System.out.println("obrisana posudba: ");
         activeConnectionWithDatabase = false;
 

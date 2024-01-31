@@ -9,6 +9,7 @@ import java.util.List;
 public class DataChangeWrapper implements Serializable {
 
     List<DataChange> dataChangeList;
+    final Integer maxNumOfLogs = 100;
 
     public List<String> getStringifiedChanges() {
         List<String> changeList = new ArrayList<>();
@@ -43,6 +44,7 @@ public class DataChangeWrapper implements Serializable {
     public void addDataChange(DataChange dataChange) {
         //loadPreDefinedPath();
         dataChangeList.add(dataChange);
+        if (dataChangeList.size() > maxNumOfLogs) dataChangeList.removeFirst();
         FileUtils.writeDataChangeToFile(this);
     }
 }

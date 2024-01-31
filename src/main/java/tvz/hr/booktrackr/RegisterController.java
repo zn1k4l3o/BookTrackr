@@ -113,7 +113,7 @@ public class RegisterController {
                         throw new RuntimeException(e);
                     }
                     Long id = getUserIdByUsername(username);
-                    writeUserToFile(username, hashedPassword, id);
+                    writeUserToFile(username, hashedPassword, id, true);
                     logger.info("Registriran novi korisnik - " + username);
                     switchToLogin();
                 }
@@ -136,7 +136,7 @@ public class RegisterController {
                             throw new RuntimeException(e);
                         }
                         Long id = getUserIdByUsername(username);
-                        writeUserToFile(username, hashedPassword, id);
+                        writeUserToFile(username, hashedPassword, id, true);
                         logger.info("Registriran novi radnik - " + username);
                         switchToLogin();
                     }

@@ -119,9 +119,9 @@ public class FileUtils {
         return dataChangeWrapper;
     }
 
-    public static void writeUserToFile(String username, String hashedPassword, Long id) {
+    public static void writeUserToFile(String username, String hashedPassword, Long id, Boolean append) {
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(USERS_TEXT_FILE_NAME, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(USERS_TEXT_FILE_NAME, append))) {
             writer.write(username);
             writer.newLine();
             writer.write(hashedPassword);
@@ -232,6 +232,22 @@ public class FileUtils {
         }
 
         return userList;
+    }
+
+    public static void deleteUserFromFile(User user) {
+        List<User> userList = getUsersFromFile();
+        for (int i = 0; i < userList.size();i++) {
+            if (userList.get(i).getUsername().equals(user.getUsername())) {
+                userList.remove(i);
+                break;
+            }
+        }
+        User u = userList.get(0);
+        writeUserToFile(u.getUsername(), u.getHashedPassword(), u.getId(), false);
+        for (int i = 1; i < userList.size(); i++) {
+            u = userList.get(i);
+            writeUserToFile(u.getUsername(), u.getHashedPassword(), u.getId(), true);
+        }
     }
 
     //*****************OVO TREBA POVLAČIT IZ BAZE**************************

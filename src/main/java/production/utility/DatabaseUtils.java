@@ -716,6 +716,35 @@ public class DatabaseUtils {
         return borrowInfoList;
     }
 
+    public static List<ReservedInfo> getReservedInfoForUserIdFromDatabase(Long userId) {
+        List<ReservedInfo> reservedInfoList = new ArrayList<>();
+        ConnectThread connectThread = new ConnectThread();
+        Thread thread = new Thread(connectThread);
+        thread.start();
+        try {
+            thread.join();
+            try {
+                Connection connection = connectThread.getConnection();
+                Statement sqlStatement = connection.createStatement();
+                ResultSet reservedInfoResultSet = sqlStatement.executeQuery(
+                        "SELECT * FROM RESERVED WHERE USER_ID=" + userId);
+                while (reservedInfoResultSet.next()) {
+                    ReservedInfo newReservedInfo = getReservedInfoFromResultSet(reservedInfoResultSet);
+                    reservedInfoList.add(newReservedInfo);
+                }
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                logger.info(e.getMessage());
+            }
+        }
+        catch (InterruptedException e) {
+            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
+        }
+        return reservedInfoList;
+    }
+
     private static BorrowInfo getBorrowInfoFromResultSet(ResultSet borrowInfoResultSet) throws SQLException {
         Long id = borrowInfoResultSet.getLong("ID");
         Long itemId = borrowInfoResultSet.getLong("ITEM_ID");
@@ -831,6 +860,20 @@ public class DatabaseUtils {
         catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public synchronized static void deleteUserFromDatabase(User user) {
+            String query = "DELETE FROM ALL_USERS WHERE ID = ?";
+            try (Connection connection = connectToDatabase();
+                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+                preparedStatement.setLong(1, user.getId());
+                preparedStatement.executeUpdate();
+                connection.close();
+            } catch (SQLException | IOException e) {
+                logger.info(e.getMessage());
+                System.out.println(e.getMessage());
+            }
     }
 
     public synchronized static Connection connectToDatabase() throws SQLException, IOException {

@@ -1,11 +1,13 @@
 package production.utility;
 
 import production.generics.DataChange;
-import production.model.BorrowInfo;
-import production.model.ReservedInfo;
+import production.model.*;
 import production.threads.GetBorrowinInfoThread;
+import production.threads.GetLibraryByNameThread;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static production.utility.DatabaseUtils.*;
@@ -55,5 +57,32 @@ public interface ReserveActions {
             }
 
         }
+    }
+
+    static List<LibraryItem> getAllReservedItemsByUser(User user) {
+        List<LibraryItem> itemsInCurrentLibrary = new ArrayList<>();
+        System.out.println(user.getLibraryName());
+        //Optional<Library> libraryOptional = getLibraryByNameFromDatabase(user.getLibraryName());
+        GetLibraryByNameThread libraryThread = new GetLibraryByNameThread(user.getLibraryName());
+        Thread thread = new Thread(libraryThread);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        Optional<Library> libraryOptional = libraryThread.getLibrary();
+        if (libraryOptional.isEmpty()) {
+            System.out.println("Problemi s knjiznicom kod usera " + user.getUsername());
+            return itemsInCurrentLibrary;
+        }
+        List<ReservedInfo> reservedInfoList = getReservedInfoForUserIdFromDatabase(user.getId());
+        String category;
+        for (ReservedInfo reservedInfo : reservedInfoList) {
+            category = getItemCategory(reservedInfo.itemId());
+            if (category.equals("Book")) getBookByIdFromDatabase(reservedInfo.itemId()).ifPresent(itemsInCurrentLibrary::add);
+            else if (category.equals("Movie")) getMovieByIdFromDatabase(reservedInfo.itemId()).ifPresent(itemsInCurrentLibrary::add);
+        }
+        return itemsInCurrentLibrary;
     }
 }

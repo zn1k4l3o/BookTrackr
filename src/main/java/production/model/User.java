@@ -21,8 +21,8 @@ public class User implements Serializable, Comparable<User>{
     String hashedPassword;
 
     @Override
-    public int compareTo(User o) {
-        return username.compareTo(o.username)*(-1);
+    public int compareTo(User u) {
+        return username.compareTo(u.username);
     }
 
     public static class Builder {

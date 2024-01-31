@@ -16,8 +16,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="O meni">
             <items>
-                <MenuItem mnemonicParsing="false" text="Stanje" />
-                <MenuItem mnemonicParsing="false" onAction="#switchToStatisticsScreen" text="Statistika" />
+                <MenuItem mnemonicParsing="false" onAction="#deleteUser" text="Izbriši account" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#logOutUser" text="Odjava" />
             </items>

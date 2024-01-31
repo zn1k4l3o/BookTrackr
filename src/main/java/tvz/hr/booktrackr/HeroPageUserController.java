@@ -39,22 +39,25 @@ public class HeroPageUserController {
     public void initialize() {
         libraryNameLabel.setText(SessionManager.getCurrentLibrary().getName());
 
-        List<LibraryItem> itemList = BorrowActions.getAllBorrowedItemsByUser(SessionManager.getCurrentUser());
-        System.out.println(itemList);
-        //Sortiranje po returnDateu
+        if (SessionManager.getCurrentUser() != null) {
+            List<LibraryItem> itemList = BorrowActions.getAllBorrowedItemsByUser(SessionManager.getCurrentUser());
+            System.out.println(itemList);
+            //Sortiranje po returnDateu
 
-        if (itemList.size() > 0) {
-            item1Name.setText(itemList.get(0).getTitle());
-            item1Date.setText(itemList.get(0).getReturnDate());
+            if (itemList.size() > 0) {
+                item1Name.setText(itemList.get(0).getTitle());
+                item1Date.setText(itemList.get(0).getReturnDate());
+            }
+            if (itemList.size() > 1) {
+                item2Name.setText(itemList.get(1).getTitle());
+                item2Date.setText(itemList.get(1).getReturnDate());
+            }
+            if (itemList.size() > 2) {
+                item3Name.setText(itemList.get(2).getTitle());
+                item3Date.setText(itemList.get(2).getReturnDate());
+            }
         }
-        if (itemList.size() > 1) {
-            item2Name.setText(itemList.get(1).getTitle());
-            item2Date.setText(itemList.get(1).getReturnDate());
-        }
-        if (itemList.size() > 2) {
-            item3Name.setText(itemList.get(2).getTitle());
-            item3Date.setText(itemList.get(2).getReturnDate());
-        }
+
 
     }
 

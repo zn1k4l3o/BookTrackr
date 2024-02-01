@@ -7,12 +7,6 @@
 
 <MenuBar maxWidth="1.7976931348623157E308" prefHeight="40.0" GridPane.columnSpan="2" GridPane.valignment="TOP" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tvz.hr.booktrackr.MenuBarWorkerController">
     <menus>
-        <Menu mnemonicParsing="false" text="Pretraga">
-            <items>
-                <MenuItem mnemonicParsing="false" onAction="#switchToBookInventoryScreen" text="Knjige" />
-                <MenuItem mnemonicParsing="false" onAction="#switchToMovieInventoryScreen" text="Filmovi" />
-            </items>
-        </Menu>
         <Menu mnemonicParsing="false" text="Dodaj">
             <items>
                 <MenuItem mnemonicParsing="false" onAction="#addNewBookScreen" text="Knjiga" />
@@ -23,6 +17,11 @@
          <items>
             <MenuItem mnemonicParsing="false" onAction="#borrowBookPage" text="Knjiga" />
             <MenuItem mnemonicParsing="false" onAction="#borrowMoviePage" text="Film" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Upravljanje inventarom">
+         <items>
+            <MenuItem mnemonicParsing="false" onAction="#switchToDeleteItemPage" text="Obriši" />
          </items>
       </Menu>
       <Menu mnemonicParsing="false" text="O meni">

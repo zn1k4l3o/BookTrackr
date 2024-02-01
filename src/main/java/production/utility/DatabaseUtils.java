@@ -389,7 +389,7 @@ public class DatabaseUtils {
         try {
             thread.join();
             try {
-                Connection connection = connectThread.getConnection();
+                Connection connection = connectToDatabase();
                 Statement sqlStatement = connection.createStatement();
                 ResultSet itemResultSet = sqlStatement.executeQuery(
                         "SELECT * FROM ITEM WHERE CATEGORY='Book'");
@@ -404,7 +404,7 @@ public class DatabaseUtils {
                 }
                 connection.close();
             }
-            catch (SQLException e) {
+            catch (SQLException | IOException e) {
                 System.out.println(e.getMessage());
                 logger.info(e.getMessage());
             }
@@ -874,6 +874,60 @@ public class DatabaseUtils {
                 logger.info(e.getMessage());
                 System.out.println(e.getMessage());
             }
+    }
+
+    private static Long getItemByIdFromDatabase(Long itemId) {
+        Long childId = -1L;
+        try {Connection connection = connectToDatabase();
+             Statement sqlStatement = connection.createStatement();
+             ResultSet itemResultSet = sqlStatement.executeQuery(
+                     "SELECT * FROM ITEM WHERE ID = " + itemId);
+             if (itemResultSet.next()) {
+                 childId = getItemChildIdFromResultSet(itemResultSet);
+             }
+             connection.close();
+        } catch (SQLException | IOException e) {
+            logger.info(e.getMessage());
+            System.out.println(e.getMessage());
+        }
+        return childId;
+    }
+    public static void deleteItemFromDatabase(long itemId) {
+        Long childId = getItemByIdFromDatabase(itemId);
+        System.out.println("child " + childId);
+        String genre = getItemCategory(itemId);
+        System.out.println("genre - " + genre);
+        String query = "DELETE FROM BOOK WHERE ID = ?";
+        if (genre.equals("Movie")) query = "DELETE FROM MOVIE WHERE ID = ?";
+        try (Connection connection = connectToDatabase();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, childId);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException | IOException e) {
+            logger.info(e.getMessage());
+            System.out.println(e.getMessage());
+        }
+        query = "DELETE FROM LIBRARY_ITEM WHERE ITEM_ID = ?";
+        try (Connection connection = connectToDatabase();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, itemId);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException | IOException e) {
+            logger.info(e.getMessage());
+            System.out.println(e.getMessage());
+        }
+        query = "DELETE FROM ITEM WHERE ID = ?";
+        try (Connection connection = connectToDatabase();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, itemId);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException | IOException e) {
+            logger.info(e.getMessage());
+            System.out.println(e.getMessage());
+        }
     }
 
     public synchronized static Connection connectToDatabase() throws SQLException, IOException {

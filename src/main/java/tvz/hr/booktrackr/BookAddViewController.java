@@ -101,6 +101,10 @@ public class BookAddViewController {
         String bookAuthor = bookAuthorField.getText();
         String bookGenre = bookGenreCombobox.getValue();
         String bookPublisher = publisherField.getText();
+        bookTitleField.setText("");
+        bookAuthorField.setText("");
+        bookGenreCombobox.setValue("");
+        publisherField.setText("");
 
         //addBookToDatabase(bookTitle, bookGenre, bookPublisher, bookAuthor, 0f);
         AddBookThread moviesThread = new AddBookThread(bookTitle, bookGenre, bookPublisher, bookAuthor, 0f);
@@ -116,5 +120,6 @@ public class BookAddViewController {
         DataChange<Worker, Book> dc = new DataChange<>((Worker)SessionManager.getCurrentUser(), book);
         dataChangeWrapper.addDataChange(dc);
         System.out.println("khm");
+        search();
     }
 }

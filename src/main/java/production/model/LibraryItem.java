@@ -9,7 +9,7 @@ import java.util.Optional;
 import static production.utility.BorrowActions.checkBorrowedStatus;
 import static production.utility.BorrowActions.checkBorrowedStatusWithId;
 
-public abstract sealed class LibraryItem implements Serializable permits Book, Movie  {
+public sealed class LibraryItem implements Serializable permits Book, Movie  {
 
     Long id;
     String title;

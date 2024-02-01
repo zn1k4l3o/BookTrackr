@@ -64,7 +64,7 @@
                   <Insets right="10.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="bookTitleField" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <TextField fx:id="bookTitleField" onKeyTyped="#search" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>

@@ -65,7 +65,6 @@ public class MenuBarUserController {
                     throw new RuntimeException(e);
                 }
 
-                //deleteUserFromDatabase(SessionManager.getCurrentUser());
                 logOutUser();
             }
             else AlertWindow.showNotificationDialog("Nemože se obrisati user", "Molimo prvo maknite sve rezervacije");

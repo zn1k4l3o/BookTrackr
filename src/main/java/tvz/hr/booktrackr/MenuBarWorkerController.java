@@ -8,22 +8,8 @@ import java.io.IOException;
 
 public class MenuBarWorkerController {
 
-    public void switchToBookInventoryScreen() {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("bookSearchWorkerView.fxml"));
-        Scene scene = null;
-        try {
-            scene = new Scene(fxmlLoader.load(), 800, 500);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        App.mainStage.setScene(scene);
-        App.mainStage.show();
-
-    }
-
-    public void switchToMovieInventoryScreen() {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("movieSearchView.fxml"));
+    public void switchToDeleteItemPage() {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("deleteItemView.fxml"));
         Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load(), 800, 500);

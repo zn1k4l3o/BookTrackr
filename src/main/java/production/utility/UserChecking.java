@@ -1,10 +1,12 @@
 package production.utility;
 
-import production.exception.DifferentPasswordException;
+import production.exception.CheckOptional;
+import production.exception.DifferentIdException;
 import production.exception.ExistingUserException;
 import production.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 import static production.utility.FileUtils.getUsersFromFile;
 
@@ -16,9 +18,9 @@ public interface UserChecking {
         }
     }
 
-    static void checkPasswords(String password, String checkPassword) throws DifferentPasswordException {
+    static void checkPasswords(String password, String checkPassword) throws CheckOptional {
         if (!password.equals(checkPassword)) {
-            throw new DifferentPasswordException("Lozinka se ne podudara");
+            throw new CheckOptional("Lozinka se ne podudara");
         }
     }
     
@@ -28,5 +30,15 @@ public interface UserChecking {
             if (user.getUsername().equals(username)) return Boolean.TRUE;
         }
         return Boolean.FALSE;
+    }
+
+    static <T> void checkOptional(Optional<T> optional) throws CheckOptional {
+        if (optional.isEmpty()) {
+            throw new CheckOptional("Optional prazan");
+        }
+    }
+
+    static void checkIds(Long id1, Long id2) {
+        if (id1.compareTo(id2) != 0) throw new DifferentIdException("Nisu isti IDevi");
     }
 }

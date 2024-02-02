@@ -88,8 +88,11 @@ public class MovieSearchViewController {
 
     public void bookReserveInfo() {
         Movie chosenMovie = movieTable.getSelectionModel().getSelectedItem();
-        ItemMemory.setRememberedMovie(chosenMovie);
-        switchToMovieReservePage();
+        if (chosenMovie != null) {
+            ItemMemory.setRememberedMovie(chosenMovie);
+            switchToMovieReservePage();
+        }
+
     }
 
     public void switchToMovieReservePage() {

@@ -2,6 +2,7 @@ package production.threads;
 
 import production.model.Library;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetAllLibrariesThread extends DatabaseThread implements Runnable{
@@ -10,6 +11,7 @@ public class GetAllLibrariesThread extends DatabaseThread implements Runnable{
 
     @Override
     public void run() {
+        libraryList = new ArrayList<>();
         this.libraryList = super.getAllLibrariesFromDB();
     }
 

@@ -86,4 +86,17 @@ public class MenuBarUserController {
         App.mainStage.setScene(scene);
         App.mainStage.show();
     }
+
+    public void editUserInfo() {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("editUserInfoView.fxml"));
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load(), 800, 500);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        App.mainStage.setScene(scene);
+        App.mainStage.show();
+    }
 }

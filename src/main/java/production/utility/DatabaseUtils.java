@@ -3,8 +3,10 @@ package production.utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import production.enums.Genre;
+import production.exception.CheckOptional;
 import production.model.*;
 import production.threads.ConnectThread;
+import production.threads.GetBooksInLibraryThread;
 import tvz.hr.booktrackr.App;
 
 import java.io.FileReader;
@@ -12,6 +14,8 @@ import java.io.IOException;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
+
+import static production.utility.FileUtils.deleteUserFromFile;
 
 public class DatabaseUtils {
 
@@ -38,11 +42,11 @@ public class DatabaseUtils {
                 }
                 connection.close();
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
                 logger.info(e.getMessage());
             }
         } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
             logger.info(e.getMessage());
         }
         return userList;
@@ -66,12 +70,12 @@ public class DatabaseUtils {
                 }
                 connection.close();
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
                 logger.info(e.getMessage());
             }
         }
         catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
             logger.info(e.getMessage());
         }
         return userOptional;
@@ -99,7 +103,7 @@ public class DatabaseUtils {
             }
         } catch (SQLException | InterruptedException e) {
             logger.info(e.getMessage());
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
         }
     }
 
@@ -136,12 +140,12 @@ public class DatabaseUtils {
                 }
                 connection.close();
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
                 logger.info(e.getMessage());
             }
         }
         catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
             logger.info(e.getMessage());
         }
         return libraryOptional;
@@ -165,12 +169,12 @@ public class DatabaseUtils {
                 }
                 connection.close();
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
                 logger.info(e.getMessage());
             }
         }
         catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
             logger.info(e.getMessage());
         }
         return libraryOptional;
@@ -195,11 +199,11 @@ public class DatabaseUtils {
                 }
                 connection.close();
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
                 logger.info(e.getMessage());            }
         }
         catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
             logger.info(e.getMessage());
         }
         return libraryList;
@@ -233,7 +237,7 @@ public class DatabaseUtils {
         }
         catch (SQLException | InterruptedException e) {
             logger.info(e.getMessage());
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
         }
     }
 
@@ -279,7 +283,7 @@ public class DatabaseUtils {
             connection.close();
         }
         catch (IOException | SQLException e) {
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
             logger.info(e.getMessage());
         }
         return itemIdsInLibrary;
@@ -322,7 +326,7 @@ public class DatabaseUtils {
 
         } catch (SQLException | IOException e) {
             logger.info(e.getMessage());
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
         }
     }
 
@@ -349,7 +353,7 @@ public class DatabaseUtils {
 
         } catch (SQLException | IOException e) {
             logger.info(e.getMessage());
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
         }
         return itemId;
     }
@@ -375,7 +379,7 @@ public class DatabaseUtils {
 
         } catch (SQLException | IOException e) {
             logger.info(e.getMessage());
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
         }
         return childId;
     }
@@ -405,12 +409,12 @@ public class DatabaseUtils {
                 connection.close();
             }
             catch (SQLException | IOException e) {
-                System.out.println(e.getMessage());
+                AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
                 logger.info(e.getMessage());
             }
         }
         catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
             logger.info(e.getMessage());
         }
         return bookList;
@@ -431,12 +435,12 @@ public class DatabaseUtils {
                 if (itemResultSet.next()) category = itemResultSet.getString("CATEGORY");
                 connection.close();
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
                 logger.info(e.getMessage());
             }
         }
         catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
             logger.info(e.getMessage());
         }
         return category;
@@ -466,12 +470,12 @@ public class DatabaseUtils {
                 }
                 connection.close();
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
                 logger.info(e.getMessage());
             }
         }
         catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
             logger.info(e.getMessage());
         }
         return book;
@@ -501,12 +505,12 @@ public class DatabaseUtils {
                 }
                 connection.close();
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
                 logger.info(e.getMessage());
             }
         }
         catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
             logger.info(e.getMessage());
         }
         return movie;
@@ -567,7 +571,7 @@ public class DatabaseUtils {
 
         } catch (SQLException | IOException e) {
             logger.info(e.getMessage());
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
         }
         return childId;
     }
@@ -596,12 +600,12 @@ public class DatabaseUtils {
                 }
                 connection.close();
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
                 logger.info(e.getMessage());
             }
         }
         catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
             logger.info(e.getMessage());
         }
         return movieList;
@@ -647,12 +651,12 @@ public class DatabaseUtils {
                 }
                 connection.close();
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
                 logger.info(e.getMessage());
             }
         }
         catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
             logger.info(e.getMessage());
         }
         return borrowInfoOptional;
@@ -676,18 +680,20 @@ public class DatabaseUtils {
                 }
                 connection.close();
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
                 logger.info(e.getMessage());
             }
         }
         catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
             logger.info(e.getMessage());
         }
         return reservedInfoOptional;
     }
 
-    public static List<BorrowInfo> getBorrowingInfoForUserIdFromDatabase(Long userId) {
+    public static List<BorrowInfo> getBorrowingInfoForUserIdFromDatabase(Long userId, Boolean getHistory) {
+        String query = "SELECT * FROM BORROWED WHERE USER_ID=";
+        if (getHistory) query = "SELECT * FROM BORROWED_HISTORY WHERE USER_ID=";
         List<BorrowInfo> borrowInfoList = new ArrayList<>();
         ConnectThread connectThread = new ConnectThread();
         Thread thread = new Thread(connectThread);
@@ -698,25 +704,27 @@ public class DatabaseUtils {
                 Connection connection = connectThread.getConnection();
                 Statement sqlStatement = connection.createStatement();
                 ResultSet borrowInfoResultSet = sqlStatement.executeQuery(
-                        "SELECT * FROM BORROWED WHERE USER_ID=" + userId);
+                        query + userId);
                 while (borrowInfoResultSet.next()) {
                     BorrowInfo newBorrowInfo = getBorrowInfoFromResultSet(borrowInfoResultSet);
                     borrowInfoList.add(newBorrowInfo);
                 }
                 connection.close();
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
                 logger.info(e.getMessage());
             }
         }
         catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
             logger.info(e.getMessage());
         }
         return borrowInfoList;
     }
 
-    public static List<ReservedInfo> getReservedInfoForUserIdFromDatabase(Long userId) {
+    public static List<ReservedInfo> getReservedInfoForUserIdFromDatabase(Long userId, Boolean isHistory) {
+        String query = "SELECT * FROM RESERVED WHERE USER_ID=";
+        if (isHistory) query = "SELECT * FROM RESERVED_HISTORY WHERE USER_ID=";
         List<ReservedInfo> reservedInfoList = new ArrayList<>();
         ConnectThread connectThread = new ConnectThread();
         Thread thread = new Thread(connectThread);
@@ -727,19 +735,19 @@ public class DatabaseUtils {
                 Connection connection = connectThread.getConnection();
                 Statement sqlStatement = connection.createStatement();
                 ResultSet reservedInfoResultSet = sqlStatement.executeQuery(
-                        "SELECT * FROM RESERVED WHERE USER_ID=" + userId);
+                        query + userId);
                 while (reservedInfoResultSet.next()) {
                     ReservedInfo newReservedInfo = getReservedInfoFromResultSet(reservedInfoResultSet);
                     reservedInfoList.add(newReservedInfo);
                 }
                 connection.close();
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
                 logger.info(e.getMessage());
             }
         }
         catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
             logger.info(e.getMessage());
         }
         return reservedInfoList;
@@ -783,7 +791,7 @@ public class DatabaseUtils {
             }
         } catch (SQLException e) {
             logger.info(e.getMessage());
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -809,20 +817,21 @@ public class DatabaseUtils {
             }
         } catch (SQLException e) {
             logger.info(e.getMessage());
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void deleteBorrowedInfoFromDatabase(Long itemId)
+    public static void deleteBorrowedInfoFromDatabase(Long itemId, Boolean isHistory)
     {
+        String query = "DELETE FROM BORROWED WHERE ITEM_ID = ?";
+        if (isHistory) query = "DELETE FROM BORROWED_HISTORY WHERE ITEM_ID = ?";
         ConnectThread connectThread = new ConnectThread();
         Thread thread = new Thread(connectThread);
         thread.start();
         try {
             thread.join();
-            String query = "DELETE FROM BORROWED WHERE ITEM_ID = ?";
             try (Connection connection = connectThread.getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -833,18 +842,19 @@ public class DatabaseUtils {
         }
         catch (SQLException | InterruptedException e) {
             logger.info(e.getMessage());
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
         }
     }
 
-    public static void deleteReservedInfoFromDatabase(Long itemId)
+    public static void deleteReservedInfoFromDatabase(Long itemId, Boolean isHistory)
     {
+        String query = "DELETE FROM RESERVED WHERE ITEM_ID = ?";
+        if (isHistory) query = "DELETE FROM RESERVED_HISTORY WHERE ITEM_ID = ?";
         ConnectThread connectThread = new ConnectThread();
         Thread thread = new Thread(connectThread);
         thread.start();
         try {
             thread.join();
-            String query = "DELETE FROM RESERVED WHERE ITEM_ID = ?";
             try (Connection connection = connectThread.getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -855,24 +865,24 @@ public class DatabaseUtils {
         }
         catch (SQLException e) {
         logger.info(e.getMessage());
-        System.out.println(e.getMessage());
+        AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
         }
         catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public synchronized static void deleteUserFromDatabase(User user) {
+    public synchronized static void deleteUserFromDatabase(Long userId) {
             String query = "DELETE FROM ALL_USERS WHERE ID = ?";
             try (Connection connection = connectToDatabase();
                  PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-                preparedStatement.setLong(1, user.getId());
+                preparedStatement.setLong(1, userId);
                 preparedStatement.executeUpdate();
                 connection.close();
             } catch (SQLException | IOException e) {
                 logger.info(e.getMessage());
-                System.out.println(e.getMessage());
+                AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
             }
     }
 
@@ -888,7 +898,7 @@ public class DatabaseUtils {
              connection.close();
         } catch (SQLException | IOException e) {
             logger.info(e.getMessage());
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
         }
         return childId;
     }
@@ -906,7 +916,7 @@ public class DatabaseUtils {
         }
         catch (SQLException | IOException e) {
             logger.info(e.getMessage());
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
         }
         query = "DELETE FROM LIBRARY_ITEM WHERE ITEM_ID = ?";
         try (Connection connection = connectToDatabase();
@@ -916,7 +926,7 @@ public class DatabaseUtils {
         }
         catch (SQLException | IOException e) {
             logger.info(e.getMessage());
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
         }
         query = "DELETE FROM ITEM WHERE ID = ?";
         try (Connection connection = connectToDatabase();
@@ -926,9 +936,76 @@ public class DatabaseUtils {
         }
         catch (SQLException | IOException e) {
             logger.info(e.getMessage());
-            System.out.println(e.getMessage());
+            AlertWindow.showNotificationDialog("Problemi s bazom", e.getMessage());
         }
     }
+
+    public static void updateUserInDatabase(User newUser) {
+        List<ReservedInfo> currentlyReserved = getReservedInfoForUserIdFromDatabase(SessionManager.getCurrentUser().getId(), Boolean.FALSE);
+        List<ReservedInfo> reservedHistory = getReservedInfoForUserIdFromDatabase(SessionManager.getCurrentUser().getId(), Boolean.TRUE);
+        List<BorrowInfo> currentlyBorrowed = getBorrowingInfoForUserIdFromDatabase(SessionManager.getCurrentUser().getId(), Boolean.FALSE);
+        List<BorrowInfo> borrowedHistory = getBorrowingInfoForUserIdFromDatabase(SessionManager.getCurrentUser().getId(), Boolean.TRUE);
+        Library library = SessionManager.getCurrentLibrary();
+
+        for (BorrowInfo borrowInfo : currentlyBorrowed) deleteBorrowedInfoFromDatabase(borrowInfo.itemId(), Boolean.FALSE);
+        for (BorrowInfo borrowInfo : borrowedHistory) deleteBorrowedInfoFromDatabase(borrowInfo.itemId(), Boolean.TRUE);
+        for (ReservedInfo reservedInfo : currentlyReserved) deleteReservedInfoFromDatabase(reservedInfo.itemId(), Boolean.FALSE);
+        for (ReservedInfo reservedInfo : reservedHistory) deleteReservedInfoFromDatabase(reservedInfo.itemId(), Boolean.TRUE);
+
+        deleteUserFromFile(SessionManager.getCurrentUser());
+        deleteUserFromDatabase(newUser.getId());
+        if (newUser instanceof Worker) addUserToDatabase(newUser.getUsername(), newUser.getHashedPassword(), newUser.getName(), newUser.getLastName(), library.getId(), Boolean.TRUE);
+        else addUserToDatabase(newUser.getUsername(), newUser.getHashedPassword(), newUser.getName(), newUser.getLastName(), library.getId(), Boolean.FALSE);
+        Long id = getUserIdByUsername(newUser.getUsername());
+        newUser.setId(id);
+        FileUtils.writeUserToFile(newUser.getUsername(), newUser.getHashedPassword(), id, Boolean.TRUE);
+        System.out.println(newUser.getId());
+        System.out.println(newUser.getUsername());
+        System.out.println(currentlyReserved);
+
+        Optional<User> userOptional = FileUtils.getUserByUsernameFromFile(newUser.getUsername());
+        try {
+            UserChecking.checkOptional(userOptional);
+            for (BorrowInfo borrowInfo : currentlyBorrowed) {
+                BorrowInfo newBorrowInfo = new BorrowInfo(-1L, borrowInfo.itemId(), id, borrowInfo.borrowDate(), borrowInfo.returnDate());
+                addBorrowedItemToDatabase(newBorrowInfo, Boolean.FALSE);
+            }
+            for (BorrowInfo borrowInfo : borrowedHistory) {
+                BorrowInfo newBorrowInfo = new BorrowInfo(-1L, borrowInfo.itemId(), id, borrowInfo.borrowDate(), borrowInfo.returnDate());
+                addBorrowedItemToDatabase(newBorrowInfo, Boolean.TRUE);
+            }
+            for (ReservedInfo reservedInfo : currentlyReserved) {
+                ReservedInfo newReservedInfo = new ReservedInfo(-1L, reservedInfo.itemId(), id, reservedInfo.reservedDate());
+                addReservedItemToDatabase(newReservedInfo, Boolean.FALSE);
+            }
+            for (ReservedInfo reservedInfo : reservedHistory) {
+                ReservedInfo newReservedInfo = new ReservedInfo(-1L, reservedInfo.itemId(), id, reservedInfo.reservedDate());
+                addReservedItemToDatabase(newReservedInfo, Boolean.TRUE);
+            }
+            SessionManager.setCurrentUser(newUser);
+            System.out.println("----------------");
+            System.out.println(newUser.getId());
+            System.out.println(newUser.getUsername());
+            System.out.println(currentlyReserved);
+
+        }
+        catch (CheckOptional e) {
+            logger.info(e.getMessage());
+        }
+
+    }
+
+    private static Long getUserIdByUsername(String username) {
+        Long id = -1L;
+        List<User> userList = getAllUsersFromDatabase();
+        id = userList.stream()
+                .filter(user -> user.getUsername().equals(username))
+                .findFirst()
+                .map(User::getId)
+                .orElse(-1L);
+        return id;
+    }
+
 
     public synchronized static Connection connectToDatabase() throws SQLException, IOException {
         Properties svojstva = new Properties();

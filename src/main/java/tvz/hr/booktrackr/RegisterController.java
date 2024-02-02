@@ -11,17 +11,13 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import production.exception.DifferentPasswordException;
+import production.exception.CheckOptional;
 import production.exception.ExistingUserException;
 import production.model.Library;
 import production.model.User;
 import production.threads.AddUserThread;
 import production.threads.GetAllLibrariesThread;
-import production.threads.GetMoviesInLibraryThread;
-import production.utility.DatabaseUtils;
-import production.utility.SessionManager;
 import production.utility.UserChecking;
-import tvz.hr.booktrackr.App;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -95,39 +91,18 @@ public class RegisterController {
         String libraryName = libraryComboBox.getValue();
         Boolean isWorker = isWorkerCheckbox.isSelected();
         String libraryPassword = libraryPasswordField.getText();
-        Library library = findLibraryByName(libraryName).get();
+        Optional<Library> libraryOptional = findLibraryByName(libraryName);
+        if (libraryOptional.isPresent()) {
+            Library library = libraryOptional.get();
 
-        if (!name.isBlank() && !lastName.isBlank() && !username.isBlank() && !password.isBlank() && !repeatPassword.isBlank() && !libraryName.isBlank()) {
-            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-            if (!isWorker) {
-                try {
-                    UserChecking.checkPasswords(password, repeatPassword);
-                    UserChecking.checkExistingUser(username);
-                    //addUserToDatabase(username, hashedPassword, name, lastName, library.getId(), Boolean.FALSE);
-                    AddUserThread addUserThread = new AddUserThread(username, hashedPassword, name, lastName, library.getId(), Boolean.FALSE);
-                    Thread thread = new Thread(addUserThread);
-                    thread.start();
+            if (!name.isBlank() && !lastName.isBlank() && !username.isBlank() && !password.isBlank() && !repeatPassword.isBlank() && !libraryName.isBlank()) {
+                String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+                if (!isWorker) {
                     try {
-                        thread.join();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    Long id = getUserIdByUsername(username);
-                    writeUserToFile(username, hashedPassword, id, true);
-                    logger.info("Registriran novi korisnik - " + username);
-                    switchToLogin();
-                }
-                catch (DifferentPasswordException | ExistingUserException e) {
-                    System.out.println(e.getMessage());
-                    logger.info(e.getMessage());
-                }
-            }
-            else if (!libraryPassword.isBlank()) {
-                try {
-                    if (BCrypt.checkpw(libraryPassword, library.getHashedPassword())) {
                         UserChecking.checkPasswords(password, repeatPassword);
                         UserChecking.checkExistingUser(username);
-                        AddUserThread addUserThread = new AddUserThread(username, hashedPassword, name, lastName, library.getId(), Boolean.TRUE);
+                        //addUserToDatabase(username, hashedPassword, name, lastName, library.getId(), Boolean.FALSE);
+                        AddUserThread addUserThread = new AddUserThread(username, hashedPassword, name, lastName, library.getId(), Boolean.FALSE);
                         Thread thread = new Thread(addUserThread);
                         thread.start();
                         try {
@@ -137,22 +112,47 @@ public class RegisterController {
                         }
                         Long id = getUserIdByUsername(username);
                         writeUserToFile(username, hashedPassword, id, true);
-                        logger.info("Registriran novi radnik - " + username);
+                        logger.info("Registriran novi korisnik - " + username);
                         switchToLogin();
                     }
-                    else System.out.println("Unesi ispravnu šifru knjižnice!");
+                    catch (CheckOptional | ExistingUserException e) {
+                        System.out.println(e.getMessage());
+                        logger.info(e.getMessage());
+                    }
                 }
-                catch (DifferentPasswordException | ExistingUserException e) {
-                    logger.info(e.getMessage());
-                    System.out.println(e.getMessage());
+                else if (!libraryPassword.isBlank()) {
+                    try {
+                        if (BCrypt.checkpw(libraryPassword, library.getHashedPassword())) {
+                            UserChecking.checkPasswords(password, repeatPassword);
+                            UserChecking.checkExistingUser(username);
+                            AddUserThread addUserThread = new AddUserThread(username, hashedPassword, name, lastName, library.getId(), Boolean.TRUE);
+                            Thread thread = new Thread(addUserThread);
+                            thread.start();
+                            try {
+                                thread.join();
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            Long id = getUserIdByUsername(username);
+                            writeUserToFile(username, hashedPassword, id, true);
+                            logger.info("Registriran novi radnik - " + username);
+                            switchToLogin();
+                        }
+                        else System.out.println("Unesi ispravnu šifru knjižnice!");
+                    }
+                    catch (CheckOptional | ExistingUserException e) {
+                        logger.info(e.getMessage());
+                        System.out.println(e.getMessage());
+                    }
+                }
+                else {
+                    System.out.println("Unesi šifru knjiznice");
                 }
             }
             else {
-                System.out.println("Unesi šifru knjiznice");
+                System.out.println("Nije sve ispunjeno");
             }
-        }
-        else {
-            System.out.println("Nije sve ispunjeno");
+
         }
 
     }

@@ -104,7 +104,7 @@ public interface BorrowActions {
             System.out.println("Problemi s knjiznicom kod usera " + user.getUsername());
             return itemsInCurrentLibrary;
         }
-        List<BorrowInfo> borrowInfoList = getBorrowingInfoForUserIdFromDatabase(user.getId());
+        List<BorrowInfo> borrowInfoList = getBorrowingInfoForUserIdFromDatabase(user.getId(), Boolean.FALSE);
         String category;
         for (BorrowInfo borrowInfo : borrowInfoList) {
             category = getItemCategory(borrowInfo.itemId());
@@ -148,7 +148,7 @@ public interface BorrowActions {
             BorrowInfo b = borrowInfoOptional.get();
             lateReturnPenalty = getBorrowDifference(b);
             addBorrowedItemToDatabase(new BorrowInfo(-1L, b.itemId(), b.userId(), b.borrowDate(), dateCurrent), Boolean.TRUE);
-            deleteBorrowedInfoFromDatabase(itemId);
+            deleteBorrowedInfoFromDatabase(itemId, Boolean.FALSE);
         }
         return lateReturnPenalty;
     }

@@ -12,15 +12,12 @@ import javafx.util.Callback;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import production.exception.DifferentPasswordException;
+import production.exception.CheckOptional;
 import production.model.*;
 import production.threads.GetAllLibrariesThread;
 import production.threads.GetLibraryByNameThread;
-import production.threads.GetMoviesInLibraryThread;
 import production.utility.DataCompare;
 import production.utility.DataWrapper;
-import production.utility.DatabaseUtils;
-import production.utility.SessionManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -205,7 +202,7 @@ public class HeroPageAdminController {
                 String hashedPassword = BCrypt.hashpw(newLibraryPassword, BCrypt.gensalt());
                 addLibraryToDatabase(newLibraryName, newLibraryWebAddress,hashedPassword);
             }
-        } catch (DifferentPasswordException e) {
+        } catch (CheckOptional e) {
             logger.info(e.getMessage());
             System.out.println(e.getMessage());
         }

@@ -1,9 +1,14 @@
 package production.utility;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import production.exception.CheckOptional;
+import production.exception.DifferentIdException;
 import production.generics.DataChange;
 import production.model.*;
 import production.threads.GetBorrowinInfoThread;
 import production.threads.GetLibraryByNameThread;
+import tvz.hr.booktrackr.App;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -11,9 +16,12 @@ import java.util.List;
 import java.util.Optional;
 
 import static production.utility.DatabaseUtils.*;
+import static production.utility.UserChecking.checkIds;
+import static production.utility.UserChecking.checkOptional;
 
 public interface ReserveActions {
 
+    static final Logger logger = LoggerFactory.getLogger(App.class);
     static void reserveItem(Long itemId, Long userId) {
         GetBorrowinInfoThread borrowingInfoThread = new GetBorrowinInfoThread(itemId);
         Thread thread = new Thread(borrowingInfoThread);
@@ -45,24 +53,29 @@ public interface ReserveActions {
 
     static void cancelReservationForItem(Long itemId, Long userId) {
         Optional<ReservedInfo> reservedInfoOptional = getReservedInfoForItemIdFromDatabase(itemId);
-        if (reservedInfoOptional.isPresent()) {
+        try {
+            checkOptional(reservedInfoOptional);
             System.out.println("Bilo je rezervirano");
             ReservedInfo reservedInfo = reservedInfoOptional.get();
-            if (reservedInfo.userId().equals(userId)) {
-                deleteReservedInfoFromDatabase(itemId);
+            try {
+                //reservedInfo.userId().equals(userId)
+                checkIds(reservedInfo.userId(), userId);
+                deleteReservedInfoFromDatabase(itemId, Boolean.FALSE);
                 addReservedItemToDatabase( reservedInfo, Boolean.TRUE);
                 DataChangeWrapper dataChangeWrapper = FileUtils.readDataChangeFromFile();
                 DataChange<ReservedInfo,String> dc = new DataChange<>(reservedInfo, "maknuta rezervacija");
                 dataChangeWrapper.addDataChange(dc);
+            } catch (DifferentIdException e) {
+                logger.info(e.getMessage());
             }
 
+        } catch (CheckOptional e) {
+            logger.info(e.getMessage());
         }
     }
 
     static List<LibraryItem> getAllReservedItemsByUser(User user) {
         List<LibraryItem> itemsInCurrentLibrary = new ArrayList<>();
-        System.out.println(user.getLibraryName());
-        //Optional<Library> libraryOptional = getLibraryByNameFromDatabase(user.getLibraryName());
         GetLibraryByNameThread libraryThread = new GetLibraryByNameThread(user.getLibraryName());
         Thread thread = new Thread(libraryThread);
         thread.start();
@@ -76,7 +89,7 @@ public interface ReserveActions {
             System.out.println("Problemi s knjiznicom kod usera " + user.getUsername());
             return itemsInCurrentLibrary;
         }
-        List<ReservedInfo> reservedInfoList = getReservedInfoForUserIdFromDatabase(user.getId());
+        List<ReservedInfo> reservedInfoList = getReservedInfoForUserIdFromDatabase(user.getId(), Boolean.FALSE);
         String category;
         for (ReservedInfo reservedInfo : reservedInfoList) {
             category = getItemCategory(reservedInfo.itemId());

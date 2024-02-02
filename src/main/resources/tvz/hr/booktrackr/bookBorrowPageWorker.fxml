@@ -59,12 +59,12 @@
                </GridPane.margin>
             </Label>
             <Label fx:id="statusLabel" text="DOSTUPNO" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <TextField fx:id="usernameField" onKeyReleased="#searchUsers" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <TextField fx:id="usernameField" onKeyTyped="#searchUsers" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField fx:id="titleField" onKeyReleased="#searchBooks" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <TextField fx:id="titleField" onKeyTyped="#searchBooks" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>

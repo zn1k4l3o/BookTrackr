@@ -22,7 +22,7 @@
         </rowConstraints>
          <children>
              <fx:include fx:id="menuBarWorker" prefHeight="40.0" source="menuBarWorker.fxml" GridPane.columnSpan="2" />
-             <Label text="Label" GridPane.rowIndex="1" />
+             <Label GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>

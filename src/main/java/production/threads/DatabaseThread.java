@@ -344,7 +344,7 @@ public class DatabaseThread {
         }
 
         activeConnectionWithDatabase = true;
-        List<BorrowInfo> borrowInfoList = DatabaseUtils.getBorrowingInfoForUserIdFromDatabase(userId);
+        List<BorrowInfo> borrowInfoList = DatabaseUtils.getBorrowingInfoForUserIdFromDatabase(userId, Boolean.FALSE);
         System.out.println("all borrowedInfo: " + borrowInfoList);
         activeConnectionWithDatabase = false;
 
@@ -396,7 +396,7 @@ public class DatabaseThread {
         }
 
         activeConnectionWithDatabase = true;
-        DatabaseUtils.deleteBorrowedInfoFromDatabase(itemId);
+        DatabaseUtils.deleteBorrowedInfoFromDatabase(itemId, Boolean.FALSE);
         System.out.println("obrisana posudba: ");
         activeConnectionWithDatabase = false;
 
@@ -413,7 +413,7 @@ public class DatabaseThread {
         }
 
         activeConnectionWithDatabase = true;
-        DatabaseUtils.deleteUserFromDatabase(user);
+        DatabaseUtils.deleteUserFromDatabase(user.getId());
         System.out.println("obrisana posudba: ");
         activeConnectionWithDatabase = false;
 
@@ -430,7 +430,7 @@ public class DatabaseThread {
         }
 
         activeConnectionWithDatabase = true;
-        DatabaseUtils.deleteReservedInfoFromDatabase(itemId);
+        DatabaseUtils.deleteReservedInfoFromDatabase(itemId, Boolean.FALSE);
         System.out.println("obrisana REZERVACIJA: ");
         activeConnectionWithDatabase = false;
 

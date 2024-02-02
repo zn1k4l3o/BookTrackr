@@ -16,6 +16,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="O meni">
             <items>
+            <MenuItem mnemonicParsing="false" onAction="#editUserInfo" text="Uredi info" />
                 <MenuItem mnemonicParsing="false" onAction="#deleteUser" text="Izbriši account" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#logOutUser" text="Odjava" />

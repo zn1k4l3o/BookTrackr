@@ -48,14 +48,18 @@ public class LoginController {
             throw new RuntimeException(e);
         }
         List<Library> libraryList = librariesThread.getLibraryList();
-        libraryNames = libraryList.stream().map(Library::getName).collect(Collectors.toList());
-        ObservableList observableLibraryList =
-                FXCollections.observableArrayList(libraryNames);
-        libraryComboBox.setItems(observableLibraryList);
-        libraryComboBox.setValue("");
-        DataChangeWrapper dataChangeWrapper = FileUtils.readDataChangeFromFile();
-        DataChange<String,String> dc = new DataChange<>("Aplikacija", "otvoreno login");
-        dataChangeWrapper.addDataChange(dc);
+        if (libraryList.isEmpty()) AlertWindow.showNotificationDialog("Problemi s bazom", "Nismo u mogućnosti doći do podataka");
+        else {
+            libraryNames = libraryList.stream().map(Library::getName).collect(Collectors.toList());
+            ObservableList observableLibraryList =
+                    FXCollections.observableArrayList(libraryNames);
+            libraryComboBox.setItems(observableLibraryList);
+            libraryComboBox.setValue("");
+            DataChangeWrapper dataChangeWrapper = FileUtils.readDataChangeFromFile();
+            DataChange<String,String> dc = new DataChange<>("Aplikacija", "otvoreno login");
+            dataChangeWrapper.addDataChange(dc);
+        }
+
     }
 
     public void switchToRegister() {
@@ -81,7 +85,6 @@ public class LoginController {
                 user = userOptional.get();
                 if (BCrypt.checkpw(password, user.getHashedPassword())) {
                     SessionManager.setCurrentUser(user);
-                    //SessionManager.setCurrentLibrary(libraryName);
                     switchToHeroPageAdmin();
                 }
             }

@@ -111,8 +111,11 @@ public class BookSearchViewController {
 
     public void bookReserveInfo() {
         Book chosenBook = bookTable.getSelectionModel().getSelectedItem();
-        ItemMemory.setRememberedBook(chosenBook);
-        switchToBookReservePage();
+        if (chosenBook != null) {
+            ItemMemory.setRememberedBook(chosenBook);
+            switchToBookReservePage();
+        }
+
     }
 
     public void switchToBookReservePage() {

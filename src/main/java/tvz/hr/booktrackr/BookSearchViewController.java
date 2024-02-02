@@ -89,17 +89,16 @@ public class BookSearchViewController {
             throw new RuntimeException(e);
         }
         bookList = booksThread.getBookList();
-        System.out.println(bookList);
-
-        //bookList.sort(new TableSorter<>());
-        System.out.println(bookList);
-
-        //bookList = DatabaseUtils.getItemsInChosenLibrary(SessionManager.getCurrentLibrary(), "Book");
 
         String bookNameInput = bookNameField.getText();
+        String bookGenreInput = bookGenreField.getText();
+        String bookAuthorInput = bookAuthorField.getText();
+
         List<Book> filteredBookList;
         filteredBookList = bookList.stream()
                 .filter(c -> c.getTitle().toLowerCase().contains(bookNameInput.toLowerCase()))
+                .filter(c -> c.getGenre().toLowerCase().contains(bookGenreInput.toLowerCase()))
+                .filter(c -> c.getAuthor().toLowerCase().contains(bookAuthorInput.toLowerCase()))
                 .collect(Collectors.toList());
 
         ObservableList observableBookList =

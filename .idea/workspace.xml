@@ -4,31 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="brisanje LibraryItema">
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/exception/DifferentIdException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/production/exception/ItemBorrowed.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/EditUserInfoViewController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/editUserInfoView.fxml" afterDir="false" />
+    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="rj mijenjanje user stvari">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/enums/LibraryEnum.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/exception/DatabaseNotStarted.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/exception/DifferentPasswordException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/exception/CheckOptional.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/threads/DatabaseThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/threads/DatabaseThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/threads/GetAllLibrariesThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/threads/GetAllLibrariesThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/BorrowActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/BorrowActions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/DatabaseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/DatabaseUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/ReserveActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/ReserveActions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/UserChecking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/UserChecking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookInfoViewController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchViewController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageAdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MenuBarUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MenuBarUserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/RegisterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/bookBorrowPageWorker.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/bookBorrowPageWorker.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/bookInfoView.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageWorker.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageWorker.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/menuBarUser.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/menuBarUser.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/bookSearchView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/bookSearchView.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -314,7 +294,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706818561223</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="rj mijenjanje user stvari">
+      <option name="closed" value="true" />
+      <created>1706838964852</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1706838964852</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -332,7 +320,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="sreden login fxml, dodan Book class" />
     <MESSAGE value="sreden registerView.fxml, povezano s loginom" />
     <MESSAGE value="dodan Movie.java class" />
     <MESSAGE value="dodan User class i SessionManager&#10;Dodan menu bar i hero page za usera" />
@@ -357,6 +344,7 @@
     <MESSAGE value="gotovi sa generičkim kalsama!!!!" />
     <MESSAGE value="brisanje user accounta" />
     <MESSAGE value="brisanje LibraryItema" />
-    <option name="LAST_COMMIT_MESSAGE" value="brisanje LibraryItema" />
+    <MESSAGE value="rj mijenjanje user stvari" />
+    <option name="LAST_COMMIT_MESSAGE" value="rj mijenjanje user stvari" />
   </component>
 </project>

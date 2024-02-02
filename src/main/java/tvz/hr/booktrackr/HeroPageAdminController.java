@@ -81,8 +81,6 @@ public class HeroPageAdminController {
     TableColumn<Movie, String> compareMovieTitleColumn;
     @FXML
     TableColumn<Movie, String> compareMovieDirectorColumn;
-    @FXML
-    Label changeHistory;
 
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 

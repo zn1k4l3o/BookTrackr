@@ -83,11 +83,13 @@ public class DeleteItemViewController {
 
     public void deleteItem() {
         LibraryItem item = itemTable.getSelectionModel().getSelectedItem();
-        if (item.getStatus().equals("DOSTUPNO")) {
-            DatabaseUtils.deleteItemFromDatabase(item.getId());
-            search();
+        if (item != null) {
+            if (item.getStatus().equals("DOSTUPNO")) {
+                DatabaseUtils.deleteItemFromDatabase(item.getId());
+                search();
+            }
+            else AlertWindow.showNotificationDialog("Nemože se obrisati", "Molimo prvo vratite sve i maknite sve rezervacije");
         }
-        else AlertWindow.showNotificationDialog("Nemože se obrisati", "Molimo prvo vratite sve i maknite sve rezervacije");
-
+        else AlertWindow.showNotificationDialog("Prazna tablica", "Nema Itema za izbrisati!:-(");
     }
 }

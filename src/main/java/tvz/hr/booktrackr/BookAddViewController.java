@@ -10,6 +10,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import production.enums.Genre;
 import production.generics.DataChange;
 import production.model.Book;
@@ -17,10 +19,7 @@ import production.model.ReservedInfo;
 import production.model.User;
 import production.model.Worker;
 import production.threads.AddBookThread;
-import production.utility.DataChangeWrapper;
-import production.utility.DatabaseUtils;
-import production.utility.FileUtils;
-import production.utility.SessionManager;
+import production.utility.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,6 +47,7 @@ public class BookAddViewController {
     @FXML
     private TableColumn<Book,String> bookGenreColumn;
 
+    private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     public void initialize() {
         bookIdColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Book,String>, ObservableValue<String>>() {
@@ -101,25 +101,27 @@ public class BookAddViewController {
         String bookAuthor = bookAuthorField.getText();
         String bookGenre = bookGenreCombobox.getValue();
         String bookPublisher = publisherField.getText();
-        bookTitleField.setText("");
-        bookAuthorField.setText("");
-        bookGenreCombobox.setValue("");
-        publisherField.setText("");
 
-        //addBookToDatabase(bookTitle, bookGenre, bookPublisher, bookAuthor, 0f);
-        AddBookThread moviesThread = new AddBookThread(bookTitle, bookGenre, bookPublisher, bookAuthor, 0f);
-        Thread thread = new Thread(moviesThread);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        if (!bookTitle.isBlank() && !bookAuthor.isBlank() && !bookGenre.isBlank() && !bookPublisher.isBlank()) {
+            bookTitleField.setText("");
+            bookAuthorField.setText("");
+            bookGenreCombobox.setValue("");
+            publisherField.setText("");
+            AddBookThread bookThread = new AddBookThread(bookTitle, bookGenre, bookPublisher, bookAuthor, 0f);
+            Thread thread = new Thread(bookThread);
+            thread.start();
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            Book book = new Book.Builder(bookTitle).withPublisher(bookPublisher).withGenre(bookGenre).withAuthor(bookAuthor).withRating(0f).build();
+            DataChangeWrapper dataChangeWrapper = FileUtils.readDataChangeFromFile();
+            DataChange<Worker, Book> dc = new DataChange<>((Worker)SessionManager.getCurrentUser(), book);
+            dataChangeWrapper.addDataChange(dc);
+            System.out.println("Knjiga dodana");
         }
-        Book book = new Book.Builder(bookTitle).withPublisher(bookPublisher).withGenre(bookGenre).withAuthor(bookAuthor).withRating(0f).build();
-        DataChangeWrapper dataChangeWrapper = FileUtils.readDataChangeFromFile();
-        DataChange<Worker, Book> dc = new DataChange<>((Worker)SessionManager.getCurrentUser(), book);
-        dataChangeWrapper.addDataChange(dc);
-        System.out.println("khm");
+        else AlertWindow.showNotificationDialog("Nepotpun unos", "Molimo unesite sav info za knjigu");
         search();
     }
 }

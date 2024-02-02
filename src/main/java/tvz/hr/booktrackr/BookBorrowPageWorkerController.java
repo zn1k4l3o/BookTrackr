@@ -103,6 +103,7 @@ public class BookBorrowPageWorkerController {
                 FXCollections.observableArrayList(filteredBookList);
 
         bookTable.setItems(observableBookList);
+        updateChoice();
     }
 
     public void searchUsers() {
@@ -127,6 +128,7 @@ public class BookBorrowPageWorkerController {
                 FXCollections.observableArrayList(filteredUserList);
 
         userTable.setItems(observableUserList);
+        updateChoice();
     }
 
 
@@ -143,9 +145,10 @@ public class BookBorrowPageWorkerController {
     }
 
     public void borrowBook() {
-        updateChoice();
         user = userTable.getSelectionModel().getSelectedItem();
         book = bookTable.getSelectionModel().getSelectedItem();
+        updateChoice();
+
         if (borrowButton.getText().equals("VRATI")) {
             BigDecimal returnPenalty = returnItem(book.getId());
             if (returnPenalty.compareTo(BigDecimal.ZERO) > 0) AlertWindow.showNotificationDialog("Zakašnjelo vraćanje","Korisnik duguje " + String.valueOf(returnPenalty) + "eur. ");
@@ -197,6 +200,10 @@ public class BookBorrowPageWorkerController {
         book = bookTable.getSelectionModel().getSelectedItem();
         if (book != null && user != null) {
             checkActionButton();
+        }
+        else {
+            reserveButton.setDisable(true);
+            borrowButton.setDisable(true);
         }
     }
 

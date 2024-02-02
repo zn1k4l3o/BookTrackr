@@ -268,6 +268,7 @@ public class HeroPageAdminController {
         Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load(), 800, 500);
+            scene.getStylesheets().add("styles.css");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -281,6 +282,7 @@ public class HeroPageAdminController {
         Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load(), 800, 500);
+            scene.getStylesheets().add("styles.css");
         } catch (IOException e) {
             e.printStackTrace();
         }

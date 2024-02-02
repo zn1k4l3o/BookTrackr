@@ -1,0 +1,99 @@
+.root {
+    /*-fx-background-color: #ffffff; /* Set background color to white or any desired color */
+}
+
+/* Styling Labels */
+.label {
+    /*-fx-text-fill: #ffcc00; /* Yellow text color for labels */
+    -fx-font-size: 14px; /* Adjust font size as needed */
+}
+
+/* Styling TextFields and PasswordFields */
+.text-field,
+.password-field {
+    /*-fx-background-color: #ffeb3b; /* Yellow background color for text fields */
+    /*-fx-text-fill: #333333; /* Text color for text fields */
+    -fx-font-size: 14px; /* Adjust font size as needed */
+}
+
+/* Styling ComboBoxes */
+.combo-box {
+    /*-fx-background-color: #ffa726; /* Orange background color for combo boxes */
+    /*-fx-text-fill: #333333; /* Text color for combo boxes */
+    -fx-font-size: 14px; /* Adjust font size as needed */
+}
+
+/* Styling ComboBox Arrow Button */
+.combo-box .arrow-button {
+    -fx-background-color: #ffa726; /* Orange background color for the combo box arrow button */
+    -fx-background-insets: 0, 0, 1, 2;
+    -fx-background-radius: 0 5 5 0, 0 4 4 0, 0 3 3 0, 0 2 2 0;
+}
+
+/* Styling ComboBox List */
+.combo-box-popup .list-view {
+    -fx-background-color: #ffa726; /* Orange background color for the combo box list */
+    /*-fx-text-fill: #333333; /* Text color for the combo box list */
+    -fx-font-size: 14px; /* Adjust font size as needed */
+}
+
+/* Hover and Pressed Effects for Buttons and Combo Boxes */
+.button:hover,
+.combo-box:hover,
+.button:pressed,
+.combo-box:pressed {
+    -fx-background-color: derive(-fx-base, 20%);
+}
+
+/* Styling MenuBar */
+.menu-bar {
+    -fx-background-color: #ffcc00; /* Yellow background color for the MenuBar */
+}
+
+/* Styling Menu */
+.menu {
+    -fx-background-color: #ffcc00; /* Yellow background color for menus */
+    /*-fx-text-fill: #333333; /* Text color for menus */
+}
+
+/* Styling MenuItem */
+.menu-item {
+    /*-fx-text-fill: #333333; /* Text color for menu items */
+}
+
+/* Hover and Pressed Effects for MenuItems */
+.menu-item:hover,
+.menu-item:pressed {
+    -fx-background-color: #ffa726; /* Orange background color for hover and pressed effects */
+}
+
+/* Styling Separator in Menu */
+.menu-item:separator {
+    -fx-background-color: #333333; /* Color for separators between menu items */
+}
+
+/* Styling Checked MenuItem */
+.menu-item:check-mark {
+    -fx-background-color: #ffa726; /* Orange color for the check mark in checked menu items */
+}
+
+/* Styling RadioMenuItem */
+.radio-menu-item .radio {
+    -fx-border-color: #333333; /* Border color for radio button in RadioMenuItem */
+}
+
+/* Styling ContextMenu */
+.context-menu {
+    -fx-background-color: #ffcc00; /* Yellow background color for context menu */
+}
+
+/* Styling ContextMenu Items */
+.context-menu .menu-item {
+    /*-fx-text-fill: #333333; /* Text color for context menu items */
+}
+
+/* Hover and Pressed Effects for ContextMenu Items */
+.context-menu .menu-item:hover,
+.context-menu .menu-item:pressed {
+    -fx-background-color: #ffa726; /* Orange background color for hover and pressed effects */
+}

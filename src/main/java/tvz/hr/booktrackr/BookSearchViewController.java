@@ -13,21 +13,14 @@ import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import production.generics.TableSorter;
 import production.model.Book;
-import production.model.LibraryItem;
 import production.threads.GetBooksInLibraryThread;
-import production.threads.GetBooksThread;
-import production.utility.DatabaseUtils;
 import production.utility.ItemMemory;
 import production.utility.SessionManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class BookSearchViewController {
@@ -122,6 +115,7 @@ public class BookSearchViewController {
         Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load(), 800, 500);
+            scene.getStylesheets().add("styles.css");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -24,6 +24,7 @@ public class App extends Application {
         mainStage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("loginView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 500);
+        scene.getStylesheets().add("styles.css");
         mainStage.setTitle("BookTrackr");
         mainStage.setScene(scene);
         mainStage.show();

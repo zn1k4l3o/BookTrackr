@@ -66,6 +66,7 @@ public class HeroPageUserController {
         Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load(), 800, 500);
+            scene.getStylesheets().add("styles.css");
         } catch (IOException e) {
             e.printStackTrace();
         }

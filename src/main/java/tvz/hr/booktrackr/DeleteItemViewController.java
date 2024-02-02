@@ -59,7 +59,6 @@ public class DeleteItemViewController {
         List<LibraryItem> itemList = new ArrayList<>();
         System.out.println(itemList);
 
-        //itemList.sort(new TableSorter<>());
         System.out.println(itemList);
 
         List<Book> bookList = DatabaseUtils.getItemsInChosenLibrary(SessionManager.getCurrentLibrary(), "Book");

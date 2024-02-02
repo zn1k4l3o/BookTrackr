@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.util.Callback;
 import org.mindrot.jbcrypt.BCrypt;
@@ -20,9 +21,7 @@ import production.utility.DataCompare;
 import production.utility.DataWrapper;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static production.utility.DatabaseUtils.*;
@@ -81,6 +80,8 @@ public class HeroPageAdminController {
     TableColumn<Movie, String> compareMovieTitleColumn;
     @FXML
     TableColumn<Movie, String> compareMovieDirectorColumn;
+    @FXML
+    PieChart pieChartItems;
 
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
@@ -171,6 +172,25 @@ public class HeroPageAdminController {
 
         //ObservableList<String> observableLibraryNames = FXCollections.observableArrayList(getAllLibrariesFromDatabase().stream().map(Library::getName).collect(Collectors.toList()));
         compareLibrary.setItems(observableLibraryList);
+
+        Map<String, Integer> dataMap = new HashMap<>();
+        List<Library> libraries = getAllLibrariesFromDatabase();
+        for (Library library : libraries) {
+            List<LibraryItem> allLibraryItems = new ArrayList<>();
+            List<Book> allBooks = getItemsInChosenLibrary(library, "Book");
+            List<Movie> allMovies = getItemsInChosenLibrary(library, "Movie");
+            allLibraryItems.addAll(allBooks);
+            allLibraryItems.addAll(allMovies);
+            dataMap.put(library.getName() + ": "+ allLibraryItems.size(), allLibraryItems.size());
+        }
+        System.out.println(dataMap);
+
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        dataMap.forEach((library, amount) -> pieChartData.add(new PieChart.Data(library, amount)));
+
+        pieChartItems.setData(pieChartData);
+        pieChartItems.setTitle("Stvari po knjižnici");
+        pieChartItems.setLegendVisible(true);
     }
 
     public void refreshLibraryTable() {

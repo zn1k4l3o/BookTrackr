@@ -4,21 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="minor fix">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/styles.css" afterDir="false" />
+    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="dodajemo css">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookReservePageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookReservePageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/enums/Genre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/enums/Genre.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/DeleteItemViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/DeleteItemViewController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageAdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageUserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LogViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LogViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MenuBarUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MenuBarUserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MenuBarWorkerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MenuBarWorkerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MovieReservePageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MovieReservePageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MovieSearchViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MovieSearchViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/RegisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageAdmin.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tvz/hr/booktrackr/heroPageAdmin.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -320,7 +311,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706882021603</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="dodajemo css">
+      <option name="closed" value="true" />
+      <created>1706887893898</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1706887893898</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -338,7 +337,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="dodan Movie.java class" />
     <MESSAGE value="dodan User class i SessionManager&#10;Dodan menu bar i hero page za usera" />
     <MESSAGE value="dodan bookSearchView" />
     <MESSAGE value="rjesen login i register&#10;rjeseno spremanje usernamea i hashanih passworda u txt file&#10;dodana dva exceptiona&#10;dodana apstraktna klasa koja provjerava user info i baca exceptione" />
@@ -363,6 +361,7 @@
     <MESSAGE value="brisanje LibraryItema" />
     <MESSAGE value="rj mijenjanje user stvari" />
     <MESSAGE value="minor fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor fix" />
+    <MESSAGE value="dodajemo css" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodajemo css" />
   </component>
 </project>

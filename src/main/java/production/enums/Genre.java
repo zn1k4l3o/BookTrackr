@@ -7,6 +7,10 @@ public enum Genre {
     YOUNG_ADULT,
     HISTORY,
     POLITICAL,
-    SF
+    SF,
+    DRAMA,
+    TRILER,
+    HORROR,
+    COMEDY
 
 }

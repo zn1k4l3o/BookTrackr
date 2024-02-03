@@ -76,10 +76,8 @@ public class BookSearchViewController {
 
         executorService = Executors.newSingleThreadScheduledExecutor();
 
-        // Schedule the task to run every 5 seconds (adjust as needed)
         executorService.scheduleAtFixedRate(this::updateBookList, 0, 5, TimeUnit.SECONDS);
 
-        //search();
     }
 
     private void updateBookList() {

@@ -154,7 +154,6 @@ public class HeroPageAdminController {
 
         refreshLibraryTable();
 
-        //List<Library> libraryList = DatabaseUtils.getAllLibrariesFromDatabase();
         GetAllLibrariesThread librariesThread = new GetAllLibrariesThread();
         Thread thread = new Thread(librariesThread);
         thread.start();
@@ -190,7 +189,6 @@ public class HeroPageAdminController {
     }
 
     public void refreshLibraryTable() {
-        //List<Library> libraryList = getAllLibrariesFromDatabase();
         GetAllLibrariesThread librariesThread = new GetAllLibrariesThread();
         Thread thread = new Thread(librariesThread);
         thread.start();
@@ -236,7 +234,6 @@ public class HeroPageAdminController {
             throw new RuntimeException(e);
         }
         Optional<Library> libraryOptional = libraryThread.getLibrary();
-        //Optional<Library> libraryOptional = getLibraryByNameFromDatabase(libraryName);
         if (libraryOptional.isPresent()) {
             Library library = libraryOptional.get();
             DataWrapper dataWrapper = new DataWrapper(library);

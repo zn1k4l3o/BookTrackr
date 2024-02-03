@@ -30,7 +30,6 @@ public abstract class SessionManager {
     }
 
     public static void setCurrentLibraryByName(String libraryName) {
-        //List<Library> libraryList = getAllLibrariesFromDatabase();
         GetAllLibrariesThread librariesThread = new GetAllLibrariesThread();
         Thread thread = new Thread(librariesThread);
         thread.start();

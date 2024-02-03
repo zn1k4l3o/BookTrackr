@@ -102,7 +102,6 @@ public class RegisterController {
                     try {
                         UserChecking.checkPasswords(password, repeatPassword);
                         UserChecking.checkExistingUser(username);
-                        //addUserToDatabase(username, hashedPassword, name, lastName, library.getId(), Boolean.FALSE);
                         AddUserThread addUserThread = new AddUserThread(username, hashedPassword, name, lastName, library.getId(), Boolean.FALSE);
                         Thread thread = new Thread(addUserThread);
                         thread.start();

@@ -76,7 +76,6 @@ public class MenuBarUserController {
 
     public void logOutUser() {
         SessionManager.setCurrentUser(null);
-        //SessionManager.setCurrentLibrary(null);
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("loginView.fxml"));
         Scene scene = null;
         try {

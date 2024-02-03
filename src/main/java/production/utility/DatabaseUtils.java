@@ -3,10 +3,9 @@ package production.utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import production.enums.Genre;
-import production.exception.CheckOptional;
+import production.exception.CheckOptionalException;
 import production.model.*;
 import production.threads.ConnectThread;
-import production.threads.GetBooksInLibraryThread;
 import tvz.hr.booktrackr.App;
 
 import java.io.FileReader;
@@ -981,7 +980,7 @@ public class DatabaseUtils {
 
 
         }
-        catch (CheckOptional e) {
+        catch (CheckOptionalException e) {
             logger.info(e.getMessage());
         }
 

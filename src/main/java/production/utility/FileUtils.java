@@ -250,7 +250,6 @@ public class FileUtils {
         }
     }
 
-    //*****************OVO TREBA POVLAČIT IZ BAZE**************************
     public static Optional<User> getUserByUsernameFromFile(String username) {
         List<User> usersShort = getUsersFromFile();
         for (User user : usersShort) {

@@ -4,13 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="fixes">
+    <list default="true" id="b9a0411d-6812-4c09-9e89-0c6df56727cc" name="Changes" comment="last minute">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/generics/TableSorter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/generics/TableSorter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/SessionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/BookSearchViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/exception/CheckOptional.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/exception/CheckOptionalException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/exception/ItemBorrowed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/exception/ItemBorrowedException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/DatabaseUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/DatabaseUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/FileUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/ReserveActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/ReserveActions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/production/utility/UserChecking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/production/utility/UserChecking.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/HeroPageAdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MenuBarUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/MenuBarUserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tvz/hr/booktrackr/RegisterController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -337,7 +339,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706946205184</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="last minute">
+      <option name="closed" value="true" />
+      <created>1706951503060</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1706951503060</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -355,7 +365,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="rjesen login i register&#10;rjeseno spremanje usernamea i hashanih passworda u txt file&#10;dodana dva exceptiona&#10;dodana apstraktna klasa koja provjerava user info i baca exceptione" />
     <MESSAGE value="pripreme za bazu&#10;promijenjen LibraryItem Book Movie" />
     <MESSAGE value="dodan admin page&#10;moze se dodavati Library&#10;napravljen DatabaseUtils" />
     <MESSAGE value="radi login i register&#10;uspjesno dodaje u bazu i file ljude i library" />
@@ -380,6 +389,7 @@
     <MESSAGE value="dodajemo css" />
     <MESSAGE value="dodan pieChart" />
     <MESSAGE value="fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixes" />
+    <MESSAGE value="last minute" />
+    <option name="LAST_COMMIT_MESSAGE" value="last minute" />
   </component>
 </project>

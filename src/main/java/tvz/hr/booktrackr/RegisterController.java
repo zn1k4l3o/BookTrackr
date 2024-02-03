@@ -11,7 +11,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import production.exception.CheckOptional;
+import production.exception.CheckOptionalException;
 import production.exception.ExistingUserException;
 import production.model.Library;
 import production.model.User;
@@ -115,7 +115,7 @@ public class RegisterController {
                         logger.info("Registriran novi korisnik - " + username);
                         switchToLogin();
                     }
-                    catch (CheckOptional | ExistingUserException e) {
+                    catch (CheckOptionalException | ExistingUserException e) {
                         System.out.println(e.getMessage());
                         logger.info(e.getMessage());
                     }
@@ -140,7 +140,7 @@ public class RegisterController {
                         }
                         else System.out.println("Unesi ispravnu šifru knjižnice!");
                     }
-                    catch (CheckOptional | ExistingUserException e) {
+                    catch (CheckOptionalException | ExistingUserException e) {
                         logger.info(e.getMessage());
                         System.out.println(e.getMessage());
                     }
@@ -158,7 +158,7 @@ public class RegisterController {
     }
 
     private Long getUserIdByUsername(String username) {
-        Long id = -1L;
+        Long id;
         List<User> userList = getAllUsersFromDatabase();
         id = userList.stream()
                 .filter(user -> user.getUsername().equals(username))
@@ -170,7 +170,6 @@ public class RegisterController {
 
     private Optional<Library> findLibraryByName(String libraryName) {
         Optional<Library> optionalLibrary = Optional.empty();
-        //List<Library> libraryList = DatabaseUtils.getAllLibrariesFromDatabase();
         GetAllLibrariesThread librariesThread = new GetAllLibrariesThread();
         Thread thread = new Thread(librariesThread);
         thread.start();

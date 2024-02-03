@@ -1,5 +1,6 @@
 package tvz.hr.booktrackr;
 
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -21,6 +22,9 @@ import production.utility.SessionManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class BookSearchViewController {
@@ -42,6 +46,9 @@ public class BookSearchViewController {
     @FXML
     TableColumn<Book, String> bookStatusColumn;
 
+    List<Book> bookList = new ArrayList<>();
+
+    private ScheduledExecutorService executorService;
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     public void initialize() {
@@ -67,12 +74,15 @@ public class BookSearchViewController {
             }
         });
 
-        search();
+        executorService = Executors.newSingleThreadScheduledExecutor();
+
+        // Schedule the task to run every 5 seconds (adjust as needed)
+        executorService.scheduleAtFixedRate(this::updateBookList, 0, 5, TimeUnit.SECONDS);
+
+        //search();
     }
 
-    public void search() {
-        List<Book> bookList = new ArrayList<>();
-
+    private void updateBookList() {
         GetBooksInLibraryThread booksThread = new GetBooksInLibraryThread(SessionManager.getCurrentLibrary());
         Thread thread = new Thread(booksThread);
         thread.start();
@@ -82,6 +92,11 @@ public class BookSearchViewController {
             throw new RuntimeException(e);
         }
         bookList = booksThread.getBookList();
+
+        this.search();
+    }
+
+    public void search() {
 
         String bookNameInput = bookNameField.getText();
         String bookGenreInput = bookGenreField.getText();

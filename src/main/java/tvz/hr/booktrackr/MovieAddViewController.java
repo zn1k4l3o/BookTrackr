@@ -83,7 +83,7 @@ public class MovieAddViewController {
 
     public void search() {
         List<Movie> movieList = new ArrayList<>();
-        movieList = getAllMoviesFromDatabase();
+        movieList = getItemsInChosenLibrary(SessionManager.getCurrentLibrary(), "Movie");
         String movieNameInput = movieNameField.getText();
         List<Movie> filteredMovieList;
         filteredMovieList = movieList.stream()

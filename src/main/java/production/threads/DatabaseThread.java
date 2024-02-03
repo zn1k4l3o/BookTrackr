@@ -167,7 +167,6 @@ public class DatabaseThread {
 
         activeConnectionWithDatabase = true;
         List<T> itemList = DatabaseUtils.getItemsInChosenLibrary(library, category);
-        System.out.println("povuceni itemi, valjda");
         activeConnectionWithDatabase = false;
 
         notifyAll();
@@ -185,7 +184,6 @@ public class DatabaseThread {
 
         activeConnectionWithDatabase = true;
         DatabaseUtils.addBookToDatabase(title, genre, publisher, author, rating);
-        System.out.println("Dodan book, valjda");
         activeConnectionWithDatabase = false;
 
         notifyAll();
@@ -309,7 +307,6 @@ public class DatabaseThread {
 
         activeConnectionWithDatabase = true;
         Optional<BorrowInfo> borrowInfoOptional = DatabaseUtils.getBorrowingInfoForItemIdFromDatabase(itemId);
-        System.out.println("borrow info: " + borrowInfoOptional);
         activeConnectionWithDatabase = false;
 
         notifyAll();
@@ -327,7 +324,6 @@ public class DatabaseThread {
 
         activeConnectionWithDatabase = true;
         Optional<ReservedInfo> reservedInfoOptional = DatabaseUtils.getReservedInfoForItemIdFromDatabase(itemId);
-        System.out.println("reserved info: " + reservedInfoOptional);
         activeConnectionWithDatabase = false;
 
         notifyAll();

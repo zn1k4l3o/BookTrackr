@@ -904,9 +904,7 @@ public class DatabaseUtils {
     }
     public static void deleteItemFromDatabase(long itemId) {
         Long childId = getItemByIdFromDatabase(itemId);
-        System.out.println("child " + childId);
         String genre = getItemCategory(itemId);
-        System.out.println("genre - " + genre);
         String query = "DELETE FROM BOOK WHERE ID = ?";
         if (genre.equals("Movie")) query = "DELETE FROM MOVIE WHERE ID = ?";
         try (Connection connection = connectToDatabase();
@@ -959,9 +957,6 @@ public class DatabaseUtils {
         Long id = getUserIdByUsername(newUser.getUsername());
         newUser.setId(id);
         FileUtils.writeUserToFile(newUser.getUsername(), newUser.getHashedPassword(), id, Boolean.TRUE);
-        System.out.println(newUser.getId());
-        System.out.println(newUser.getUsername());
-        System.out.println(currentlyReserved);
 
         Optional<User> userOptional = FileUtils.getUserByUsernameFromFile(newUser.getUsername());
         try {
@@ -983,10 +978,7 @@ public class DatabaseUtils {
                 addReservedItemToDatabase(newReservedInfo, Boolean.TRUE);
             }
             SessionManager.setCurrentUser(newUser);
-            System.out.println("----------------");
-            System.out.println(newUser.getId());
-            System.out.println(newUser.getUsername());
-            System.out.println(currentlyReserved);
+
 
         }
         catch (CheckOptional e) {

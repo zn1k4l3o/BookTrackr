@@ -57,8 +57,6 @@ public class HeroPageAdminController {
     CheckBox includeLibraryItems;
     //Usporedba bin data
     @FXML
-    ComboBox<String> compareLibrary;
-    @FXML
     TableView<User> compareUserTable;
     @FXML
     TableColumn<User,String> compareUserIdColumn;
@@ -170,8 +168,6 @@ public class HeroPageAdminController {
         libraryComboBox.setItems(observableLibraryList);
         libraryComboBox.setValue(libraryList.get(0).getName());
 
-        //ObservableList<String> observableLibraryNames = FXCollections.observableArrayList(getAllLibrariesFromDatabase().stream().map(Library::getName).collect(Collectors.toList()));
-        compareLibrary.setItems(observableLibraryList);
 
         Map<String, Integer> dataMap = new HashMap<>();
         List<Library> libraries = getAllLibrariesFromDatabase();
@@ -209,7 +205,6 @@ public class HeroPageAdminController {
     }
 
     public void addLibrary() {
-        System.out.println("sad dodajemo library");
         String newLibraryName = newLibraryNameField.getText();
         String newLibraryWebAddress = newLibraryWebAddressField.getText();
         String newLibraryPassword = newLibraryPasswordField.getText();
@@ -219,6 +214,7 @@ public class HeroPageAdminController {
             if (!newLibraryName.isBlank() && !newLibraryPassword.isBlank() && !newLibraryWebAddress.isBlank()) {
                 String hashedPassword = BCrypt.hashpw(newLibraryPassword, BCrypt.gensalt());
                 addLibraryToDatabase(newLibraryName, newLibraryWebAddress,hashedPassword);
+                System.out.println("sad dodajemo library");
             }
         } catch (CheckOptional e) {
             logger.info(e.getMessage());

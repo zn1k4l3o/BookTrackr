@@ -89,7 +89,6 @@ public interface BorrowActions {
 
     static List<LibraryItem> getAllBorrowedItemsByUser(User user) {
         List<LibraryItem> itemsInCurrentLibrary = new ArrayList<>();
-        System.out.println(user.getLibraryName());
         //Optional<Library> libraryOptional = getLibraryByNameFromDatabase(user.getLibraryName());
         GetLibraryByNameThread libraryThread = new GetLibraryByNameThread(user.getLibraryName());
         Thread thread = new Thread(libraryThread);

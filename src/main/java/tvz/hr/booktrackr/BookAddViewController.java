@@ -19,11 +19,15 @@ import production.model.ReservedInfo;
 import production.model.User;
 import production.model.Worker;
 import production.threads.AddBookThread;
+import production.threads.GetBooksInLibraryThread;
 import production.utility.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class BookAddViewController {
@@ -46,6 +50,8 @@ public class BookAddViewController {
     private TableColumn<Book,String> bookAuthorColumn;
     @FXML
     private TableColumn<Book,String> bookGenreColumn;
+
+    List<Book> bookList = new ArrayList<>();
 
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
@@ -78,11 +84,15 @@ public class BookAddViewController {
         bookGenreCombobox.setItems(observableGenreList);
         bookGenreCombobox.setValue("");
 
-        search();
+        ScheduledExecutorService executorService;
+
+        executorService = Executors.newSingleThreadScheduledExecutor();
+
+        executorService.scheduleAtFixedRate(this::updateBookList, 0, 5, TimeUnit.SECONDS);
+
     }
 
     public void search() {
-        List<Book> bookList;
         bookList = DatabaseUtils.getItemsInChosenLibrary(SessionManager.getCurrentLibrary(), "Book");
         String bookNameInput = bookTitleField.getText();
         List<Book> filteredBookList;
@@ -123,5 +133,19 @@ public class BookAddViewController {
         }
         else AlertWindow.showNotificationDialog("Nepotpun unos", "Molimo unesite sav info za knjigu");
         search();
+    }
+
+    private void updateBookList() {
+        GetBooksInLibraryThread booksThread = new GetBooksInLibraryThread(SessionManager.getCurrentLibrary());
+        Thread thread = new Thread(booksThread);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        bookList = booksThread.getBookList();
+
+        this.search();
     }
 }

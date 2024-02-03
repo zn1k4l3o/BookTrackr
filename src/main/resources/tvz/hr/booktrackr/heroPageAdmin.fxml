@@ -164,16 +164,6 @@
                                  <children>
                                     <Button mnemonicParsing="false" onAction="#compareData" text="Uvezi podatke" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                                     <Label text="Usporedba podataka" GridPane.columnSpan="2" GridPane.halignment="CENTER" />
-                                    <Label text="Knjižnica" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
-                                       <GridPane.margin>
-                                          <Insets right="10.0" />
-                                       </GridPane.margin>
-                                    </Label>
-                                    <ComboBox fx:id="compareLibrary" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                       <GridPane.margin>
-                                          <Insets />
-                                       </GridPane.margin>
-                                    </ComboBox>
                                     <TableView fx:id="compareUserTable" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.rowSpan="3">
                                       <columns>
                                         <TableColumn fx:id="compareUserIdColumn" prefWidth="69.0" text="ID" />

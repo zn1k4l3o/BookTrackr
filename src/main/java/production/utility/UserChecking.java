@@ -1,6 +1,6 @@
 package production.utility;
 
-import production.exception.CheckOptionalException;
+import production.exception.CheckPasswordException;
 import production.exception.DifferentIdException;
 import production.exception.ExistingUserException;
 import production.model.User;
@@ -18,9 +18,9 @@ public interface UserChecking {
         }
     }
 
-    static void checkPasswords(String password, String checkPassword) throws CheckOptionalException {
+    static void checkPasswords(String password, String checkPassword) throws CheckPasswordException {
         if (!password.equals(checkPassword)) {
-            throw new CheckOptionalException("Lozinka se ne podudara");
+            throw new CheckPasswordException("Lozinka se ne podudara");
         }
     }
     
@@ -32,9 +32,9 @@ public interface UserChecking {
         return Boolean.FALSE;
     }
 
-    static <T> void checkOptional(Optional<T> optional) throws CheckOptionalException {
+    static <T> void checkOptional(Optional<T> optional) throws CheckPasswordException {
         if (optional.isEmpty()) {
-            throw new CheckOptionalException("Optional prazan");
+            throw new CheckPasswordException("Optional prazan");
         }
     }
 

@@ -1,6 +1,8 @@
 package production.exception;
 
-public class CheckOptionalException extends Exception {
+public class CheckOptionalException extends RuntimeException{
+    public CheckOptionalException() {
+    }
 
     public CheckOptionalException(String message) {
         super(message);

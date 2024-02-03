@@ -2,7 +2,7 @@ package production.utility;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import production.exception.CheckOptionalException;
+import production.exception.CheckPasswordException;
 import production.exception.DifferentIdException;
 import production.generics.DataChange;
 import production.model.*;
@@ -69,7 +69,7 @@ public interface ReserveActions {
                 logger.info(e.getMessage());
             }
 
-        } catch (CheckOptionalException e) {
+        } catch (CheckPasswordException e) {
             logger.info(e.getMessage());
         }
     }

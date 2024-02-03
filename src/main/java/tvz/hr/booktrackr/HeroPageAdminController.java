@@ -13,7 +13,7 @@ import javafx.util.Callback;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import production.exception.CheckOptionalException;
+import production.exception.CheckPasswordException;
 import production.model.*;
 import production.threads.GetAllLibrariesThread;
 import production.threads.GetLibraryByNameThread;
@@ -214,7 +214,7 @@ public class HeroPageAdminController {
                 addLibraryToDatabase(newLibraryName, newLibraryWebAddress,hashedPassword);
                 System.out.println("sad dodajemo library");
             }
-        } catch (CheckOptionalException e) {
+        } catch (CheckPasswordException e) {
             logger.info(e.getMessage());
             System.out.println(e.getMessage());
         }

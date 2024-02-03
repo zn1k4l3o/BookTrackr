@@ -11,7 +11,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import production.exception.CheckOptionalException;
+import production.exception.CheckPasswordException;
 import production.exception.ExistingUserException;
 import production.model.Library;
 import production.model.User;
@@ -115,7 +115,7 @@ public class RegisterController {
                         logger.info("Registriran novi korisnik - " + username);
                         switchToLogin();
                     }
-                    catch (CheckOptionalException | ExistingUserException e) {
+                    catch (CheckPasswordException | ExistingUserException e) {
                         System.out.println(e.getMessage());
                         logger.info(e.getMessage());
                     }
@@ -140,7 +140,7 @@ public class RegisterController {
                         }
                         else System.out.println("Unesi ispravnu šifru knjižnice!");
                     }
-                    catch (CheckOptionalException | ExistingUserException e) {
+                    catch (CheckPasswordException | ExistingUserException e) {
                         logger.info(e.getMessage());
                         System.out.println(e.getMessage());
                     }

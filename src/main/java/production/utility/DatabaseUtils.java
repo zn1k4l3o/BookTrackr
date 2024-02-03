@@ -3,7 +3,7 @@ package production.utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import production.enums.Genre;
-import production.exception.CheckOptionalException;
+import production.exception.CheckPasswordException;
 import production.model.*;
 import production.threads.ConnectThread;
 import tvz.hr.booktrackr.App;
@@ -980,7 +980,7 @@ public class DatabaseUtils {
 
 
         }
-        catch (CheckOptionalException e) {
+        catch (CheckPasswordException e) {
             logger.info(e.getMessage());
         }
 
